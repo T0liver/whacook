@@ -4,9 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Ingredient (
-    val name: String,
-    val unit: String,
-    val amount: Double,
+    var name: String,
+    var unit: String,
+    var amount: Double,
 ) {
     init {
         if (amount <= 0.0) {

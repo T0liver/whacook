@@ -4,17 +4,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Recepie (
-    val id: String,
+    var id: String,
     var name: String,
-    val ingredients: List<Ingredient>,
-    val steps: List<String>,
-    val tools: List<String>,
-    val serving: String,
-    val favorite: Boolean = false,
-    val category: String = "",
+    var ingredients: List<Ingredient>,
+    var steps: List<String>,
+    var tools: List<String>,
+    var serving: String,
+    var favorite: Boolean = false,
+    var category: String = "",
     var timeToMake: Duration,
-    val generationTime: String = "",
-    val rating: Int,
+    var generationTime: String = "",
+    var rating: Int,
 ) {
     init {
         if (rating !in 0..5) {

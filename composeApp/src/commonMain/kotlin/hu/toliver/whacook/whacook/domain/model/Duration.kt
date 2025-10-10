@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Duration (
-    val length: Double,
-    val unit: String,
+    var length: Double,
+    var unit: String,
 ) {
     override fun toString() = "$length $unit"
 }
