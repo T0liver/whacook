@@ -3,11 +3,11 @@ package hu.toliver.whacook.whacook.domain.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Recepie (
+data class Recipe (
     var id: String,
     var name: String,
     var ingredients: List<Ingredient>,
-    var steps: List<String>,
+    var steps: MutableList<String>,
     var tools: List<String>,
     var serving: String,
     var favorite: Boolean = false,
