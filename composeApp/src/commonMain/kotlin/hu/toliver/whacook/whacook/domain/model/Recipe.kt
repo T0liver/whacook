@@ -10,7 +10,7 @@ data class Recipe (
     var steps: MutableList<String>,
     var tools: MutableList<String>,
     var serving: String,
-    var favorite: Boolean = false,
+    var favourite: Boolean = false,
     var category: String = "",
     var timeToMake: Duration,
     var generationTime: String = "",
