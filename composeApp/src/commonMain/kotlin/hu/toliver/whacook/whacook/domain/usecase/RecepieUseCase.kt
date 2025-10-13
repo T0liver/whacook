@@ -12,6 +12,18 @@ class AddIngredientUseCase {
     }
 }
 
+/***
+ * Replaces an existing ingredient at a specified position with a new one.
+ */
+class EditIngredientUseCase {
+    operator fun invoke(recipe: Recipe, ord: Int, newIngredient: Ingredient) {
+        if (ord < 0 || ord > recipe.ingredients.size) {
+            throw IndexOutOfBoundsException("Invalid position: $ord for steps list of size ${recipe.ingredients.size}")
+        }
+        recipe.ingredients[ord] = newIngredient
+    }
+}
+
 /**
  * Removes ingredient (Ingredient) from the ingredients List.
  */
@@ -32,6 +44,18 @@ class AddStepUseCase {
             )
         }
         recipe.steps.add(ord, step)
+    }
+}
+
+/***
+ * Replaces an existing step at a specified position with a new one.
+ */
+class EditStepUseCase {
+    operator fun invoke(recipe: Recipe, ord: Int, newStep: String) {
+        if (ord < 0 || ord > recipe.steps.size) {
+            throw IndexOutOfBoundsException("Invalid position: $ord for steps list of size ${recipe.steps.size}")
+        }
+        recipe.steps[ord] = newStep
     }
 }
 
@@ -71,6 +95,18 @@ class ReorderStepUseCase {
 class AddToolUseCase {
     operator fun invoke(recipe: Recipe, tool: String) {
         recipe.tools += tool
+    }
+}
+
+/***
+ * Replaces an existing tool at a specified position with a new one.
+ */
+class EditToolUseCase {
+    operator fun invoke(recipe: Recipe, ord: Int, newTool: String) {
+        if (ord < 0 || ord > recipe.tools.size) {
+            throw IndexOutOfBoundsException("Invalid position: $ord for steps list of size ${recipe.tools.size}")
+        }
+        recipe.tools[ord] = newTool
     }
 }
 

@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 data class Recipe (
     var id: String,
     var name: String,
-    var ingredients: List<Ingredient>,
+    var ingredients: MutableList<Ingredient>,
     var steps: MutableList<String>,
-    var tools: List<String>,
+    var tools: MutableList<String>,
     var serving: String,
     var favorite: Boolean = false,
     var category: String = "",
