@@ -3,6 +3,10 @@ package hu.toliver.whacook.whacook.domain.usecase
 import hu.toliver.whacook.whacook.domain.model.Recipe
 import hu.toliver.whacook.whacook.domain.model.Ingredient
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.encodeToString
+
 /**
  * Adds ingredient (Ingredient) from the ingredients List.
  */
@@ -122,11 +126,31 @@ class RemoveToolUseCase {
 /***
  * Rates the recepie in scale 0-5.
  */
-class RateRecepieUseCase {
+class RateRecipeUseCase {
     operator fun invoke(recipe: Recipe, rating: Int) {
         if (rating !in 0..5) {
             throw IllegalArgumentException("Rating must be between 0 and 5")
         }
         recipe.rating = rating
+    }
+}
+
+/***
+ * Saves the recepie into a json formatted string
+ */
+class SaveRecipeUseCase {
+    operator fun invoke(recipe: Recipe): String {
+        val json = Json.encodeToString(recipe)
+        println(json)
+        return json
+    }
+}
+
+/***
+ * Loads recipe from a json formatted string to a recipe object
+ */
+class LoadRecipeUseCase {
+    operator fun invoke(json: String): Recipe {
+        return  Json.decodeFromString<Recipe>(json)
     }
 }
