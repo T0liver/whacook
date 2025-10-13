@@ -118,3 +118,15 @@ class RemoveToolUseCase {
         recipe.tools -= tool
     }
 }
+
+/***
+ * Rates the recepie in scale 0-5.
+ */
+class RateRecepieUseCase {
+    operator fun invoke(recipe: Recipe, rating: Int) {
+        if (rating !in 0..5) {
+            throw IllegalArgumentException("Rating must be between 0 and 5")
+        }
+        recipe.rating = rating
+    }
+}
