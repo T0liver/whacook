@@ -1,156 +1,145 @@
 package hu.toliver.whacook.whacook.domain.usecase
 
+import hu.toliver.whacook.whacook.domain.model.Duration
 import hu.toliver.whacook.whacook.domain.model.Recipe
-import hu.toliver.whacook.whacook.domain.model.Ingredient
 
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.encodeToString
 
 /**
- * Adds ingredient (Ingredient) from the ingredients List.
+ * A use case class that encapsulates operations related to creating and managing recipes.
+ *
+ * This class provides core functionality for handling recipe creation, editing metadata
+ * (such as name, category, and rating), and serialization to and from JSON.
+ *
+ * Typical usage:
+ * ```
+ * val recipeUseCase = RecipeUseCase()
+ * val recipe = recipeUseCase() // Creates an empty recipe
+ * recipeUseCase.rename(recipe, "Chocolate Cake")
+ * recipeUseCase.rate(recipe, 5)
+ * val json = recipeUseCase.save(recipe)
+ * val restoredRecipe = recipeUseCase.load(json)
+ * ```
  */
-class AddIngredientUseCase {
-    operator fun invoke(recipe: Recipe, ingredient: Ingredient) {
-        recipe.ingredients += ingredient
+class RecepieUseCase {
+    /**
+     * Creates a new empty recipe instance.
+     *
+     * This is the default invoke operation for the class, allowing it to be called
+     * like a function, e.g. `recipeUseCase()`.
+     *
+     * @return A new empty [Recipe] object.
+     */
+    operator fun invoke(): Recipe {
+        return create()
     }
-}
 
-/***
- * Replaces an existing ingredient at a specified position with a new one.
- */
-class EditIngredientUseCase {
-    operator fun invoke(recipe: Recipe, ord: Int, newIngredient: Ingredient) {
-        if (ord < 0 || ord > recipe.ingredients.size) {
-            throw IndexOutOfBoundsException("Invalid position: $ord for steps list of size ${recipe.ingredients.size}")
-        }
-        recipe.ingredients[ord] = newIngredient
+    /**
+     * Creates and returns a new empty recipe.
+     *
+     * @return A [Recipe] initialized with default values.
+     */
+    fun create(): Recipe {
+        return Recipe(
+            id = "",
+            name = "",
+            ingredients = mutableListOf(),
+            steps = mutableListOf(),
+            tools = mutableListOf(),
+            serving = "",
+            favourite = false,
+            category = "",
+            timeToMake = Duration(0.0, ""),
+            generationTime = "",
+            rating = 0
+        )
     }
-}
 
-/**
- * Removes ingredient (Ingredient) from the ingredients List.
- */
-class RemoveIngredientUseCase {
-    operator fun invoke(recipe: Recipe, ingredient: Ingredient) {
-        recipe.ingredients -= ingredient
+    /**
+     * Updates the favourite status of the given recipe.
+     *
+     * @param recipe The recipe to modify.
+     * @param favourite The new favourite status (true or false).
+     */
+    fun refavour(recipe: Recipe, favourite: Boolean) {
+        recipe.favourite = favourite
     }
-}
 
-/**
- * Adds a step (String) at the specified position in the recipe's steps list.
- */
-class AddStepUseCase {
-    operator fun invoke(recipe: Recipe, step: String, ord: Int) {
-        if (ord < 0 || ord > recipe.steps.size) {
-            throw IndexOutOfBoundsException(
-                "Invalid position: $ord for steps list of size ${recipe.steps.size}"
-            )
-        }
-        recipe.steps.add(ord, step)
+    /**
+     * Updates the name of the given recipe.
+     *
+     * @param recipe The recipe to rename.
+     * @param name The new name for the recipe.
+     */
+    fun rename(recipe: Recipe, name: String) {
+        recipe.name = name
     }
-}
 
-/***
- * Replaces an existing step at a specified position with a new one.
- */
-class EditStepUseCase {
-    operator fun invoke(recipe: Recipe, ord: Int, newStep: String) {
-        if (ord < 0 || ord > recipe.steps.size) {
-            throw IndexOutOfBoundsException("Invalid position: $ord for steps list of size ${recipe.steps.size}")
-        }
-        recipe.steps[ord] = newStep
+    /**
+     * Changes the category of the given recipe.
+     *
+     * @param recipe The recipe to modify.
+     * @param category The new category to assign.
+     */
+    fun recategorize(recipe: Recipe, category: String) {
+        recipe.category = category
     }
-}
 
-/***
- * Removes a step (String) from the specified position in the recipe's steps list.
- */
-class RemoveStepUseCase {
-    operator fun invoke(recipe: Recipe, ord: Int) {
-        if (ord < 0 || ord >= recipe.steps.size) {
-            throw IndexOutOfBoundsException("Invalid position: $ord for steps list of size ${recipe.steps.size}")
-        }
-        recipe.steps.removeAt(ord)
+    /**
+     * Updates the preparation time for the recipe.
+     *
+     * @param recipe The recipe to modify.
+     * @param length The duration value.
+     * @param unit The time unit (e.g., "minutes", "hours").
+     */
+    fun retime(recipe: Recipe, length: Double, unit: String) {
+        recipe.timeToMake = Duration(length, unit)
     }
-}
 
-/**
- * Reorders the steps in the recipe by moving a step from ordFrom to ordTo.
- */
-class ReorderStepUseCase {
-    operator fun invoke(recipe: Recipe, ordFrom: Int, ordTo: Int) {
-        if (ordTo !in 0 until recipe.steps.size) {
-            throw IndexOutOfBoundsException("Invalid position: $ordTo")
-        }
-        if (ordFrom !in 0 until recipe.steps.size) {
-            throw IndexOutOfBoundsException("Invalid position: $ordTo")
-        }
-        val step = recipe.steps[ordFrom]
-        recipe.steps.removeAt(ordFrom)
-        val adjOrdTo = if (ordTo > ordFrom) ordTo else ordFrom
-        recipe.steps.add(adjOrdTo, step)
-    }
-}
-
-/**
- * This function adds a tool (String) to the recipe's tools list.
- */
-class AddToolUseCase {
-    operator fun invoke(recipe: Recipe, tool: String) {
-        recipe.tools += tool
-    }
-}
-
-/***
- * Replaces an existing tool at a specified position with a new one.
- */
-class EditToolUseCase {
-    operator fun invoke(recipe: Recipe, ord: Int, newTool: String) {
-        if (ord < 0 || ord > recipe.tools.size) {
-            throw IndexOutOfBoundsException("Invalid position: $ord for steps list of size ${recipe.tools.size}")
-        }
-        recipe.tools[ord] = newTool
-    }
-}
-
-/**
- * This function removes a tool (String) to the recipe's tools list.
- */
-class RemoveToolUseCase {
-    operator fun invoke(recipe: Recipe, tool: String) {
-        recipe.tools -= tool
-    }
-}
-
-/***
- * Rates the recepie in scale 0-5.
- */
-class RateRecipeUseCase {
-    operator fun invoke(recipe: Recipe, rating: Int) {
+    /**
+     * Assigns a rating to the recipe on a scale from 0 to 5.
+     *
+     * @param recipe The recipe to rate.
+     * @param rating The rating value, must be within the range 0–5.
+     *
+     * @throws IllegalArgumentException If the rating is outside the valid range.
+     */
+    fun rate(recipe: Recipe, rating: Int) {
         if (rating !in 0..5) {
             throw IllegalArgumentException("Rating must be between 0 and 5")
         }
         recipe.rating = rating
     }
-}
 
-/***
- * Saves the recepie into a json formatted string
- */
-class SaveRecipeUseCase {
-    operator fun invoke(recipe: Recipe): String {
+    /**
+     * Updates the serving information for the recipe.
+     *
+     * @param recipe The recipe to modify.
+     * @param serving The serving description (e.g., "2 people", "4 portions").
+     */
+    fun reserve(recipe: Recipe, serving: String) {
+        recipe.serving = serving
+    }
+
+    /**
+     * Serializes the given recipe into a JSON-formatted string.
+     *
+     * @param recipe The recipe to serialize.
+     * @return A JSON string representing the recipe.
+     */
+    fun save(recipe: Recipe): String {
         val json = Json.encodeToString(recipe)
         println(json)
         return json
     }
-}
 
-/***
- * Loads recipe from a json formatted string to a recipe object
- */
-class LoadRecipeUseCase {
-    operator fun invoke(json: String): Recipe {
+    /**
+     * Deserializes a JSON-formatted string into a [Recipe] object.
+     *
+     * @param json The JSON string to decode.
+     * @return A [Recipe] reconstructed from the JSON data.
+     */
+    fun load(json: String): Recipe {
         return  Json.decodeFromString<Recipe>(json)
     }
 }
