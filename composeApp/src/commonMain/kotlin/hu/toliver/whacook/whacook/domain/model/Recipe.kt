@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Recipe (
-    var id: String,
+    val id: String,
     var name: String,
     var ingredients: MutableList<Ingredient>,
     var steps: MutableList<String>,
@@ -13,7 +13,7 @@ data class Recipe (
     var favourite: Boolean = false,
     var category: String = "",
     var timeToMake: Duration,
-    var generationTime: String = "",
+    val generationTime: String = "",
     var rating: Int,
 ) {
     init {
