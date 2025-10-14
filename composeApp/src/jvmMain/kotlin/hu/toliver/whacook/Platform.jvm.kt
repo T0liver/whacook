@@ -1,4 +1,4 @@
-package hu.toliver.whacook.whacook
+package hu.toliver.whacook
 
 class JVMPlatform : Platform {
     override val name: String = "Java ${System.getProperty("java.version")}"

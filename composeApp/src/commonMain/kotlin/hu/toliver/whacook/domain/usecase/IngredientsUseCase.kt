@@ -1,7 +1,7 @@
-package hu.toliver.whacook.whacook.domain.usecase
+package hu.toliver.whacook.domain.usecase
 
-import hu.toliver.whacook.whacook.domain.model.Ingredient
-import hu.toliver.whacook.whacook.domain.model.Recipe
+import hu.toliver.whacook.domain.model.Ingredient
+import hu.toliver.whacook.domain.model.Recipe
 
 /**
  * A use case class responsible for managing ingredients within a [Recipe].

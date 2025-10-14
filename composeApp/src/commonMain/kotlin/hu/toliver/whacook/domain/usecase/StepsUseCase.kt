@@ -1,6 +1,6 @@
-package hu.toliver.whacook.whacook.domain.usecase
+package hu.toliver.whacook.domain.usecase
 
-import hu.toliver.whacook.whacook.domain.model.Recipe
+import hu.toliver.whacook.domain.model.Recipe
 
 /**
  * Use case class responsible for managing the ordered list of steps within a [Recipe].

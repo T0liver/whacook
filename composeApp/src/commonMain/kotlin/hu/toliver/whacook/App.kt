@@ -1,4 +1,4 @@
-package hu.toliver.whacook.whacook
+package hu.toliver.whacook
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image

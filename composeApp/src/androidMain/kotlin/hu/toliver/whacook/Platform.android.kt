@@ -1,4 +1,4 @@
-package hu.toliver.whacook.whacook
+package hu.toliver.whacook
 
 import android.os.Build
 

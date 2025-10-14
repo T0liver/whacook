@@ -1,4 +1,4 @@
-package hu.toliver.whacook.whacook.domain.model
+package hu.toliver.whacook.domain.model
 
 import kotlinx.serialization.Serializable
 

@@ -1,4 +1,4 @@
-package hu.toliver.whacook.whacook
+package hu.toliver.whacook
 
 interface Platform {
     val name: String

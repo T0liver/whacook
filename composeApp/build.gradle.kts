@@ -68,11 +68,11 @@ kotlin {
 }
 
 android {
-    namespace = "hu.toliver.whacook.whacook"
+    namespace = "hu.toliver.whacook"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "hu.toliver.whacook.whacook"
+        applicationId = "hu.toliver.whacook"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -100,11 +100,11 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "hu.toliver.whacook.whacook.MainKt"
+        mainClass = "hu.toliver.whacook.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "hu.toliver.whacook.whacook"
+            packageName = "hu.toliver.whacook"
             packageVersion = "1.0.0"
         }
     }

@@ -1,4 +1,4 @@
-package hu.toliver.whacook.whacook
+package hu.toliver.whacook
 
 class WasmPlatform : Platform {
     override val name: String = "Web with Kotlin/Wasm"
