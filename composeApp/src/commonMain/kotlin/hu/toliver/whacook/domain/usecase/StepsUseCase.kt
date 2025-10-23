@@ -15,17 +15,25 @@ import hu.toliver.whacook.domain.model.Recipe
  */
 class StepsUseCase {
     /**
-     * Adds a new step to the given [recipe] at the specified position [ord].
+     * Adds a new step to the given [recipe] at the end of the steps' list.
      *
      * This is the default invocation of the use case and delegates to [add].
      *
      * @param recipe The recipe to which the step will be added.
      * @param step The text content of the step.
-     * @param ord The index at which the step should be inserted.
-     * @throws IndexOutOfBoundsException If [ord] is outside the valid range.
      */
-    operator fun invoke(recipe: Recipe, step: String, ord: Int) {
-        add(recipe, step, ord)
+    operator fun invoke(recipe: Recipe, step: String) {
+        add(recipe, step)
+    }
+
+    /**
+     * Inserts a step into the recipe's steps list at the end of the list.
+     *
+     * @param recipe The recipe being modified.
+     * @param step The text content of the step to insert.
+     */
+    fun add(recipe: Recipe, step: String) {
+        recipe.steps.add(step)
     }
 
     /**
