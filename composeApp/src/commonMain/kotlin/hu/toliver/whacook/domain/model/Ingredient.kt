@@ -9,9 +9,7 @@ data class Ingredient (
     var amount: Double,
 ) {
     init {
-        if (amount <= 0.0) {
-            throw IllegalArgumentException("Amount must be greater than zero.")
-        }
+        require (amount > 0.0) { "Amount must be greater than zero." }
     }
 
     override fun toString() = "$name: $amount $unit"

@@ -37,7 +37,7 @@ class StepsUseCase {
      * @throws IndexOutOfBoundsException If [ord] is not within `0..steps.size`.
      */
     fun add(recipe: Recipe, step: String, ord: Int) {
-        if (ord < 0 || ord > recipe.steps.size) {
+        if (ord !in 0..recipe.steps.size) {
             throw IndexOutOfBoundsException(
                 "Invalid position: $ord for steps list of size ${recipe.steps.size}"
             )
@@ -54,7 +54,7 @@ class StepsUseCase {
      * @throws IndexOutOfBoundsException If [ord] is not a valid index in the steps list.
      */
     fun edit(recipe: Recipe, ord: Int, newStep: String) {
-        if (ord < 0 || ord > recipe.steps.size) {
+        if (ord !in 0..recipe.steps.size) {
             throw IndexOutOfBoundsException("Invalid position: $ord for steps list of size ${recipe.steps.size}")
         }
         recipe.steps[ord] = newStep
@@ -68,7 +68,7 @@ class StepsUseCase {
      * @throws IndexOutOfBoundsException If [ord] is not within the steps list range.
      */
     fun remove(recipe: Recipe, ord: Int) {
-        if (ord < 0 || ord >= recipe.steps.size) {
+        if (ord !in 0..recipe.steps.size) {
             throw IndexOutOfBoundsException("Invalid position: $ord for steps list of size ${recipe.steps.size}")
         }
         recipe.steps.removeAt(ord)
@@ -83,10 +83,10 @@ class StepsUseCase {
      * @throws IndexOutOfBoundsException If either [ordFrom] or [ordTo] are out of bounds.
      */
     fun reorder(recipe: Recipe, ordFrom: Int, ordTo: Int) {
-        if (ordTo !in 0 until recipe.steps.size) {
+        if (ordTo !in 0..recipe.steps.size) {
             throw IndexOutOfBoundsException("Invalid position: $ordTo")
         }
-        if (ordFrom !in 0 until recipe.steps.size) {
+        if (ordFrom !in 0..recipe.steps.size) {
             throw IndexOutOfBoundsException("Invalid position: $ordTo")
         }
         val step = recipe.steps[ordFrom]

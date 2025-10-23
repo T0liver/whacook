@@ -44,7 +44,7 @@ class IngredientsUseCase {
      * @throws IndexOutOfBoundsException if [ord] is outside the valid range.
      */
     fun edit(recipe: Recipe, ord: Int, newIngredient: Ingredient) {
-        if (ord < 0 || ord > recipe.ingredients.size) {
+        if (ord !in 0..recipe.ingredients.size) {
             throw IndexOutOfBoundsException("Invalid position: $ord for steps list of size ${recipe.ingredients.size}")
         }
         recipe.ingredients[ord] = newIngredient

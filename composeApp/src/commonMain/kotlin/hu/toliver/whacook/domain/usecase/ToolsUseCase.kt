@@ -43,7 +43,7 @@ class ToolsUseCase {
      * @throws IndexOutOfBoundsException If the provided index is outside the valid range.
      */
     fun edit(recipe: Recipe, ord: Int, newTool: String) {
-        if (ord < 0 || ord > recipe.tools.size) {
+        if (ord !in 0..recipe.tools.size) {
             throw IndexOutOfBoundsException("Invalid position: $ord for steps list of size ${recipe.tools.size}")
         }
         recipe.tools[ord] = newTool

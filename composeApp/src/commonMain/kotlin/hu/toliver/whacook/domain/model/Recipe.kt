@@ -17,9 +17,7 @@ data class Recipe (
     var rating: Int,
 ) {
     init {
-        if (rating !in 0..5) {
-            throw IllegalArgumentException("Rating must be between 0 and 5")
-        }
+        require (rating in 0..5) { "Rating must be between 0 and 5" }
     }
 
     override fun toString() = name
