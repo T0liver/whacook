@@ -22,6 +22,21 @@ This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM
 
 ### Build and Run Android Application
 
+Before building the application you have to enter your Gemini API key to the following file in the following way:
+
+1. Create a new file in `composeApp/src/commonMain/kotlin/hu/toliver/whacook/` named `APIKey.kt`
+2. Paste the following code here:
+
+```kotlin
+p ackage hu.toliver.whacook
+
+class APIKey {
+    operator fun invoke(): String {
+        return "YOUR_API_KEY_HERE"
+    }
+}
+```
+
 To build and run the development version of the Android app, use the run configuration from the run widget
 in your IDE’s toolbar or build it directly from the terminal:
 
