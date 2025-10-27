@@ -6,7 +6,7 @@ import hu.toliver.whacook.domain.repository.IRecipeGenerationRepository
 class GeminiRecipeGenerationRepository (
     private val remoteDataSource: GeminiRemoteDataSource
 ): IRecipeGenerationRepository {
-    override suspend fun generateResource(userInput: String, context: Map<String, Any>): String {
-        return remoteDataSource.generate(userInput, context)
+    override suspend fun generateResource(userInput: String): String {
+        return remoteDataSource.generate(userInput)
     }
 }

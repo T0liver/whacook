@@ -48,7 +48,7 @@ class GeminiRemoteDataSource (
      * @return generated text from the model or the raw response if parsing/extraction fails
      * @throws Exception propagated from the underlying [HttpClient] on network errors
      */
-    suspend fun generate(prompt: String, context: Map<String, Any>): String {
+    suspend fun generate(prompt: String): String {
         val requestBody = buildJsonObject {
             putJsonArray("contents") {
                 add(buildJsonObject {
@@ -112,7 +112,7 @@ class GeminiRemoteDataSource (
         when (element) {
             is JsonObject -> {
                 element["text"]?.let { if (it is JsonPrimitive && it.isString) return it.content }
-                element["candidates"]?.let {
+                element["candidates"]?.let { it ->
                     if (it is JsonArray && it.isNotEmpty()) {
                         extractFirstText(it[0])?.let { return it }
                     }
