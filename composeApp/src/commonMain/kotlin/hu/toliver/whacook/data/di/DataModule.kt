@@ -5,13 +5,25 @@ import hu.toliver.whacook.data.remote.GeminiRemoteDataSource
 import hu.toliver.whacook.data.repository.GeminiRecipeGenerationRepository
 import hu.toliver.whacook.domain.usecase.RecepieGenerationUseCase
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 
 /**
  * Manual composition helpers to create the data-layer objects without using a DI framework.
  * Use these from your platform entry points or view models to obtain instances.
  */
 
-fun createHttpClient(): HttpClient = HttpClient()
+fun createHttpClient(): HttpClient = HttpClient() {
+    // Install ContentNegotiation so setBody(...) with Kotlin objects/Maps will be serialized to JSON
+    install(ContentNegotiation) {
+        json(Json {
+            prettyPrint = false
+            isLenient = true
+            ignoreUnknownKeys = true
+        })
+    }
+}
 
 fun createGeminiRemoteDataSource(client: HttpClient = createHttpClient()): GeminiRemoteDataSource {
     return GeminiRemoteDataSource(client, apiKey = APIKey().invoke())
