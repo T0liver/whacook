@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,7 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import hu.toliver.whacook.data.di.createRecepieGenerationUseCase
+import hu.toliver.whacook.data.di.createRecipeGenerationUseCase
 
 import whacook.composeapp.generated.resources.Res
 import whacook.composeapp.generated.resources.compose_multiplatform
@@ -27,12 +29,12 @@ fun App() {
         var showContent by remember { mutableStateOf(false) }
         var generatedText by remember { mutableStateOf<String?>(null) }
 
-        val recipeUseCase = remember { createRecepieGenerationUseCase() }
+        val recipeUseCase = remember { createRecipeGenerationUseCase() }
 
         LaunchedEffect(showContent) {
             if (showContent) {
                 generatedText = try {
-                    recipeUseCase.invoke("Generate a short friendly greeting for the app user. The output should be only one sentence but this should be a little longer than plain 'Hi!'")
+                    recipeUseCase.generateRecipe(listOf("cheese", "tomato", "basil", "olive oil", "pasta")).trimIndent()
                 } catch (t: Throwable) {
                     "Error generating text: ${t.message}"
                 }
@@ -42,7 +44,8 @@ fun App() {
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.primaryContainer)
                 .safeContentPadding()
-                .fillMaxSize(),
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Button(onClick = { showContent = !showContent }) {
