@@ -10,12 +10,22 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 /**
- * Manual composition helpers to create the data-layer objects without using a DI framework.
- * Use these from your platform entry points or view models to obtain instances.
+ * Data module providing simple, manual composition helpers for the data layer.
+ *
+ * These factory functions create HTTP client, remote data source, repository and
+ * use-case instances without requiring a DI framework. They're intended to be
+ * called from platform entry points (for example Android/iOS launch code) or
+ * from view models in tests and simple apps.
  */
 
-fun createHttpClient(): HttpClient = HttpClient() {
-    // Install ContentNegotiation so setBody(...) with Kotlin objects/Maps will be serialized to JSON
+/**
+ * Create a preconfigured [HttpClient] for network calls.
+ *
+ * The client has [ContentNegotiation] installed with JSON serialization that
+ * is lenient and ignores unknown keys to permit forward-compatible parsing of
+ * responses from external services.
+ */
+fun createHttpClient(): HttpClient = HttpClient {
     install(ContentNegotiation) {
         json(Json {
             prettyPrint = false
@@ -25,15 +35,42 @@ fun createHttpClient(): HttpClient = HttpClient() {
     }
 }
 
+/**
+ * Create a [GeminiRemoteDataSource] using the provided [client].
+ *
+ * By default, this function will create a new HTTP client and obtain the API key
+ * from [APIKey]. Supply a different [client] for tests or to share a client
+ * across other callers.
+ *
+ * @param client HTTP client to use for network requests
+ * @return configured [GeminiRemoteDataSource]
+ */
 fun createGeminiRemoteDataSource(client: HttpClient = createHttpClient()): GeminiRemoteDataSource {
     return GeminiRemoteDataSource(client, apiKey = APIKey().invoke())
 }
 
+/**
+ * Create a [GeminiRecipeGenerationRepository] backed by the given remote data source.
+ *
+ * @param remote remote data source used by the repository
+ * @return a [GeminiRecipeGenerationRepository] instance
+ */
 fun createGeminiRecipeGenerationRepository(
     remote: GeminiRemoteDataSource = createGeminiRemoteDataSource()
 ): GeminiRecipeGenerationRepository = GeminiRecipeGenerationRepository(remote)
 
-fun createRecepieGenerationUseCase(
+/**
+ * Create the recipe generation use case.
+ *
+ * The function name is kept as `createRecGenerationUseCase` to match the
+ * existing public API in the module. The created [RecepieGenerationUseCase]
+ * depends on an [hu.toliver.whacook.domain.repository.IRecipeGenerationRepository], which by default is provided by
+ * [createGeminiRecipeGenerationRepository].
+ *
+ * @param repository repository used by the use case
+ * @return a configured [RecepieGenerationUseCase]
+ */
+fun createRecipeGenerationUseCase(
     repository: hu.toliver.whacook.domain.repository.IRecipeGenerationRepository =
         createGeminiRecipeGenerationRepository()
 ): RecepieGenerationUseCase = RecepieGenerationUseCase(repository)
