@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import hu.toliver.whacook.ui.components.EditableList
+import hu.toliver.whacook.ui.components.Header
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -18,6 +19,7 @@ fun App() {
         Column (
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Header()
             EditableList(ingredients)
             Button(onClick = {
                 print(ingredients.joinToString(", "))
