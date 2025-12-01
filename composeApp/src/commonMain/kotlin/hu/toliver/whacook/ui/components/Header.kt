@@ -10,5 +10,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun Header(
     text: String = "WhaCOOK?",
 ) {
-    Text(text, style = MaterialTheme.typography.headlineSmall)
+    Text(text,
+        style = MaterialTheme.typography.headlineLarge
+    )
 }
