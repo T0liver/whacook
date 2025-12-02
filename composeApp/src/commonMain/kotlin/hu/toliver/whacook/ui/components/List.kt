@@ -32,7 +32,6 @@ fun EditableList(
 ) {
     val focusRequesters = remember { mutableStateListOf<FocusRequester>() }
 
-    // Ensure there's at least one focus requester to start with
     if (focusRequesters.isEmpty() && items.isNotEmpty()) {
         items.forEach { _ -> focusRequesters.add(FocusRequester()) }
     } else if (focusRequesters.isEmpty() && items.isEmpty()) {
