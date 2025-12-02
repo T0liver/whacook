@@ -1,0 +1,56 @@
+package hu.toliver.whacook.ui.components
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import hu.toliver.whacook.domain.model.Recipe
+import hu.toliver.whacook.ui.components.typography.BodyText
+import hu.toliver.whacook.ui.components.typography.BodyTextSmall
+import hu.toliver.whacook.ui.components.typography.Header
+
+@Composable
+fun RecipeScreen(
+    recipe: Recipe,
+) {
+    MaterialTheme {
+        Column {
+            BackButton()
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Header(recipe.name)
+
+                Subheader("Time to make")
+                BodyText(recipe.timeToMake.toString())
+
+                Subheader("Ingredients")
+                for (ingredient in recipe.ingredients) {
+                    BodyText("- $ingredient")
+                }
+
+                Subheader("Steps")
+                for ((index, step) in recipe.steps.withIndex()) {
+                    BodyText("${index + 1}. $step")
+                }
+
+                Subheader("Tools")
+                for (tool in recipe.tools) {
+                    BodyText("- $tool")
+                }
+
+                Subheader("Serving")
+                BodyText(recipe.serving)
+
+                Spacer(Modifier.height(20.dp))
+                BodyTextSmall(recipe.generationTime)
+            }
+        }
+    }
+}
