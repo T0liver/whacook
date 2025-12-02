@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Divider(
+fun Separator(
     color: Long = 0xFF6C0000,
     width: Dp = 90.dp,
     thickness: Dp = 2.dp,
