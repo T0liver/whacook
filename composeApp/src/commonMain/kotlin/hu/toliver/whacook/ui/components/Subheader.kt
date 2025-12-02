@@ -10,6 +10,6 @@ fun Subheader(
 ) {
     Text(
         text = text,
-        style = MaterialTheme.typography.headlineLarge,
+        style = MaterialTheme.typography.headlineMedium,
     )
 }
