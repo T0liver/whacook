@@ -138,6 +138,7 @@ class RecepieUseCase {
      * @return A [Recipe] reconstructed from the JSON data.
      */
     fun load(json: String): Recipe {
-        return  Json.decodeFromString<Recipe>(json)
+        val realJson = json.substringBeforeLast("}").substringAfter("{")
+        return  Json.decodeFromString<Recipe>("{\n$realJson\n}")
     }
 }
