@@ -64,6 +64,8 @@ kotlin {
             implementation(libs.ktor.client.cio)
 
             implementation(libs.voyager.navigator)
+            implementation(libs.voyager.screenmodel)
+            implementation(libs.voyager.transitions)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
