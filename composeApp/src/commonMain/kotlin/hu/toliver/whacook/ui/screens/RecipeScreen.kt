@@ -11,20 +11,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.screen.Screen
 import hu.toliver.whacook.domain.model.Recipe
 import hu.toliver.whacook.ui.components.BackButton
 import hu.toliver.whacook.ui.components.Subheader
 import hu.toliver.whacook.ui.components.typography.BodyText
 import hu.toliver.whacook.ui.components.typography.BodyTextSmall
 import hu.toliver.whacook.ui.components.typography.Header
-
-data class RecipeScreenHolder(val recipe: Recipe) : Screen {
-    @Composable
-    override fun Content() {
-        RecipeScreen(recipe)
-    }
-}
 
 @Composable
 fun RecipeScreen(
