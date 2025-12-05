@@ -4,7 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.model.ScreenModel
-import hu.toliver.whacook.data.di.createRecipeGenerationUseCase
 import hu.toliver.whacook.domain.usecase.RecepieGenerationUseCase
 import hu.toliver.whacook.domain.usecase.RecepieUseCase
 
