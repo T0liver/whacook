@@ -1,6 +1,6 @@
 package hu.toliver.whacook.data.di
 
-import hu.toliver.whacook.APIKey
+import hu.toliver.whacook.BuildKonfig
 import hu.toliver.whacook.data.remote.GeminiRemoteDataSource
 import hu.toliver.whacook.data.repository.GeminiRecipeGenerationRepository
 import hu.toliver.whacook.domain.usecase.RecepieGenerationUseCase
@@ -46,7 +46,7 @@ fun createHttpClient(): HttpClient = HttpClient {
  * @return configured [GeminiRemoteDataSource]
  */
 fun createGeminiRemoteDataSource(client: HttpClient = createHttpClient()): GeminiRemoteDataSource {
-    return GeminiRemoteDataSource(client, apiKey = APIKey().invoke())
+    return GeminiRemoteDataSource(client, apiKey = BuildKonfig.GEMINI_API_KEY)
 }
 
 /**
