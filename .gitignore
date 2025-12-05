@@ -50,6 +50,3 @@ captures
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 node_modules/
-
-# this is the worst thing to add api key but I didn't find a workaround and for now it's okay
-composeApp/src/commonMain/kotlin/hu/toliver/whacook/APIKey.kt
