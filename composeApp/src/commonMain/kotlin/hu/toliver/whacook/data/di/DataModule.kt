@@ -39,7 +39,7 @@ fun createHttpClient(): HttpClient = HttpClient {
  * Create a [GeminiRemoteDataSource] using the provided [client].
  *
  * By default, this function will create a new HTTP client and obtain the API key
- * from [APIKey]. Supply a different [client] for tests or to share a client
+ * from [BuildKonfig]. Supply a different [client] for tests or to share a client
  * across other callers.
  *
  * @param client HTTP client to use for network requests
