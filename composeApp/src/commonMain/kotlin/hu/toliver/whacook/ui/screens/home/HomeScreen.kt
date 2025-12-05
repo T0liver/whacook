@@ -14,34 +14,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import hu.toliver.whacook.data.di.createRecipeGenerationUseCase
 import hu.toliver.whacook.domain.model.Duration
 import hu.toliver.whacook.domain.model.Ingredient
 import hu.toliver.whacook.domain.model.Recipe
-import hu.toliver.whacook.domain.usecase.RecepieUseCase
 import hu.toliver.whacook.ui.components.EditableList
 import hu.toliver.whacook.ui.components.typography.Header
-import hu.toliver.whacook.ui.screens.RecipeScreenHolder
+import hu.toliver.whacook.ui.screens.recipe.RecipeScreen
 import kotlinx.coroutines.launch
 
-class HomeScreen : Screen {
+class HomeScreen() : Screen {
     @Composable
     override fun Content() {
+        val viewModel = koinScreenModel<HomeScreenViewModel>()
         HomeScreenContent(
-            //state = viewModel.state.collectAsState().value
+            state = viewModel.state
         )
     }
 }
 
 @Composable
 private fun HomeScreenContent(
-    //state: HomeState
+    state: HomeState
 ) {
     val navigator = LocalNavigator.currentOrThrow
-    val recipeUseCase = remember { RecepieUseCase() }
-    val recepieGenerationUseCase = remember { createRecipeGenerationUseCase() }
     val coroutineScope = rememberCoroutineScope()
     val ingredients = remember { mutableStateListOf<String>() }
 
@@ -77,7 +75,7 @@ private fun HomeScreenContent(
                 // Manually diabling the code generation for testing purposes
                 /*val generatedText = recepieGenerationUseCase.generateRecipe(ingredients)
                 val recipe = recipeUseCase.load(generatedText)*/
-                navigator.push(RecipeScreenHolder(samleRecipe))
+                navigator.push(RecipeScreen(samleRecipe))
             }
         }) {
             Text("Generate recipe")
