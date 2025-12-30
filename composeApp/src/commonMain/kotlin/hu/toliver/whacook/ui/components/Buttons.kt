@@ -1,4 +1,4 @@
-package hu.toliver.whacook.ui.components.buttons
+package hu.toliver.whacook.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.RoundedCornerShape
