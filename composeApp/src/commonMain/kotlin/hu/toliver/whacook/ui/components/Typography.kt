@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -60,7 +61,8 @@ fun Header(
     text: String = "WhaCOOK?",
 ) {
     Text(text,
-        style = MaterialTheme.typography.headlineLarge
+        style = MaterialTheme.typography.headlineLarge,
+        fontWeight = FontWeight.Bold,
     )
 }
 
@@ -72,6 +74,7 @@ fun Subheader(
         Text(
             text = text,
             style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.SemiBold,
             modifier = Modifier
                 .padding(top = 16.dp, bottom = 4.dp)
         )
