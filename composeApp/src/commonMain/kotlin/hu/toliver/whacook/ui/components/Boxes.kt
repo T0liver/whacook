@@ -20,7 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.DrawableResource
@@ -119,6 +122,55 @@ fun SearchCard(
             BodyTextUnderline(
                 text = "...or just describe your food!",
                 onClick = onDescribeClick
+            )
+        }
+    }
+}
+
+@Composable
+fun RecipeCard(
+    title: String = "Chocolate Lava Cake",
+    time: String = "30m",
+    ingredientsCount: Int = 6,
+    date: String = "2025.11.12. 12:50",
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    val color = LightColors
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .border(1.dp, color.secondaryStroke, RoundedCornerShape(16.dp))
+            .clickable { onClick() },
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = color.surface
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 0.dp
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            BodyTextHeader(
+                title,
+                color = color.primaryText,
+            )
+            BodyText(
+                "Time to make: $time",
+                color = color.primaryText
+            )
+            BodyText(
+                "Num of ingredients: $ingredientsCount things",
+                color = color.primaryText
+            )
+            BodyTextSmall(
+                date,
+                color = color.secondaryText
             )
         }
     }
