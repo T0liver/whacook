@@ -14,9 +14,9 @@ import cafe.adriel.voyager.core.screen.Screen
 import hu.toliver.whacook.domain.model.Recipe
 import hu.toliver.whacook.ui.components.BackButton
 import hu.toliver.whacook.ui.components.Subheader
-import hu.toliver.whacook.ui.components.typography.BodyText
-import hu.toliver.whacook.ui.components.typography.BodyTextSmall
-import hu.toliver.whacook.ui.components.typography.Header
+import hu.toliver.whacook.ui.components.BodyText
+import hu.toliver.whacook.ui.components.BodyTextSmall
+import hu.toliver.whacook.ui.components.Header
 
 class RecipeScreen(
     val recipe: Recipe
