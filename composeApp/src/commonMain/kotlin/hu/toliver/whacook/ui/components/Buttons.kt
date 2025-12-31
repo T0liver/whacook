@@ -29,10 +29,10 @@ fun PButton(
         enabled = enabled,
         modifier = Modifier,
         colors = ButtonDefaults.buttonColors(
-            containerColor = LightColors.primaryButton,
+            containerColor = colors.primaryButton,
             contentColor = colors.onPrimaryButton,
         ),
-        border = BorderStroke(2.dp, colors.primary),
+        border = BorderStroke(2.dp, colors.stroke),
         shape = RoundedCornerShape(20.dp)
     ) {
         Text(text)
