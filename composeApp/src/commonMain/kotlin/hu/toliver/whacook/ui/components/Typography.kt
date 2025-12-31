@@ -37,7 +37,7 @@ fun BodyTextSmall(
 @Composable
 fun BodyTextUnderline(
     text: String,
-    style: TextStyle = MaterialTheme.typography.bodySmall,
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
     onClick: () -> Unit = {},
 ){
     Text(
