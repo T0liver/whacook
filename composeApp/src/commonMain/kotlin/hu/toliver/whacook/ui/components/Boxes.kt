@@ -4,23 +4,30 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import whacook.composeapp.generated.resources.Res
 import whacook.composeapp.generated.resources.fryingpan
+import hu.toliver.whacook.ui.theme.LightColors
 
 @Composable
 fun TypeBar(
@@ -41,12 +48,78 @@ fun TypeBar(
         Text(
             text = text,
             fontSize = 18.sp,
-            color = Color.Black
+            color = LightColors.primaryText
         )
         Image(
             painter = painterResource(icon),
             contentDescription = null,
             modifier = Modifier.size(24.dp)
         )
+    }
+}
+
+@Composable
+fun SearchCard(
+    modifier: Modifier = Modifier,
+    onSearchClick: () -> Unit = {},
+    onDescribeClick: () -> Unit = {}
+) {
+    val color = LightColors
+    Card(
+        modifier = modifier
+            .layout { measurable, constraints ->
+                val maxPx = 800.dp.roundToPx()
+                val fractionPx = if (constraints.hasBoundedWidth) (constraints.maxWidth * 0.85f).toInt() else maxPx
+                val targetWidth = fractionPx.coerceAtMost(maxPx)
+                val finalWidth = targetWidth.coerceIn(constraints.minWidth, constraints.maxWidth)
+
+                val placeable = measurable.measure(
+                    constraints.copy(
+                        minWidth = finalWidth,
+                        maxWidth = finalWidth
+                    )
+                )
+                layout(placeable.width, placeable.height) {
+                    placeable.placeRelative(0, 0)
+                }
+            }
+            .shadow(
+                elevation = 10.dp,
+                shape = RoundedCornerShape(24.dp),
+                spotColor = color.primary,
+                ambientColor = color.primary
+            ),
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = color.surface
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 0.dp
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(vertical = 24.dp, horizontal = 16.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(24.dp)
+        ) {
+            Text(
+                text = "What are we cooking today?",
+                fontSize = 22.sp,
+                color = color.primaryText,
+                modifier = Modifier.fillMaxWidth(0.85f)
+            )
+
+            TypeBar(
+                text = "Type in your ingredients!",
+                onClick = onSearchClick
+            )
+
+            BodyTextUnderline(
+                text = "...or just describe your food!",
+                onClick = onDescribeClick
+            )
+        }
     }
 }
