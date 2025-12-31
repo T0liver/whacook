@@ -11,32 +11,53 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun BodyText(
     text: String,
-    style: TextStyle = MaterialTheme.typography.bodyMedium,
+    fontSize: TextUnit = 16.sp,
+    color: Color = Color.Black
 ) {
     Text(
         text = text,
-        style = style
+        fontSize = fontSize,
+        color = color
+    )
+}
+
+@Composable
+fun BodyTextHeader(
+    text: String,
+    fontSize: TextUnit = 24.sp,
+    fontWeight: FontWeight = FontWeight.Bold,
+    color: Color = Color.Black
+) {
+    Text(
+        text = text,
+        fontSize = fontSize,
+        fontWeight = fontWeight,
+        color = color
     )
 }
 
 @Composable
 fun BodyTextSmall(
     text: String,
-    style: TextStyle = MaterialTheme.typography.bodySmall,
-    color : Long = 0xFF999999
+    fontSize: TextUnit = 14.sp,
+    color : Color = Color(0xFF999999)
 ) {
     Text(
         text = text,
-        style = style,
-        color = Color(color)
+        fontSize = fontSize,
+        fontStyle = FontStyle.Italic,
+        color = color
     )
 }
 
