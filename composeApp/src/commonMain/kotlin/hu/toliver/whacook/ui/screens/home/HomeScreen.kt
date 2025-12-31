@@ -10,15 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
-import hu.toliver.whacook.ui.components.BodyTextUnderline
-import hu.toliver.whacook.ui.components.PButton
-import hu.toliver.whacook.ui.components.TypeBar
 import hu.toliver.whacook.ui.components.Header
 import hu.toliver.whacook.ui.components.RecipeCard
 import hu.toliver.whacook.ui.components.SearchCard
 import hu.toliver.whacook.ui.components.Subheader
 
-class HomeScreen() : Screen {
+class HomeScreen : Screen {
     @Composable
     override fun Content() {
         val viewModel = koinScreenModel<HomeScreenViewModel>()
@@ -31,7 +28,9 @@ class HomeScreen() : Screen {
 
 @Composable
 private fun HomeScreenContent(
+    @Suppress("UNUSED_PARAMETER")
     state: HomeState,
+    @Suppress("UNUSED_PARAMETER")
     viewModel: HomeScreenViewModel
 ) {
     Column(
