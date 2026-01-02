@@ -121,10 +121,10 @@ fun SearchCard(
 
 @Composable
 fun RecipeCard(
-    title: String = "Chocolate Lava Cake",
-    time: String = "30m",
-    ingredientsCount: Int = 6,
-    date: String = "2025.11.12. 12:50",
+    title: String,
+    time: String,
+    ingredientsCount: Int,
+    date: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {

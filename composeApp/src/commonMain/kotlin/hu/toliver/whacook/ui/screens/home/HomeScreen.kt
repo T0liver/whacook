@@ -44,7 +44,12 @@ private fun HomeScreenContent(
         Subheader("Recent recipes")
         Spacer(Modifier.height(8.dp))
         Column(Modifier.fillMaxWidth(0.85f)) {
-            RecipeCard()
+            RecipeCard(
+                title = "Chocolate Lava Cake",
+                time = "30m",
+                ingredientsCount = 6,
+                date = "2025.11.12. 12:50",
+            )
         }
     }
 }
