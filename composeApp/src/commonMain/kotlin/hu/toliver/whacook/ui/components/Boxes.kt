@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import hu.toliver.whacook.ui.theme.LightColors
@@ -23,6 +24,26 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import whacook.composeapp.generated.resources.Res
 import whacook.composeapp.generated.resources.fryingpan
+
+fun Modifier.responsiveWidth(maxWidth: Dp): Modifier = this
+    .fillMaxWidth()
+    .wrapContentWidth(Alignment.CenterHorizontally)
+    .layout { measurable, constraints ->
+    val maxPx = maxWidth.roundToPx()
+    val fractionPx = if (constraints.hasBoundedWidth) (constraints.maxWidth * 0.85f).toInt() else maxPx
+    val targetWidth = fractionPx.coerceAtMost(maxPx)
+    val finalWidth = targetWidth.coerceIn(constraints.minWidth, constraints.maxWidth)
+
+    val placeable = measurable.measure(
+        constraints.copy(
+            minWidth = finalWidth,
+            maxWidth = finalWidth
+        )
+    )
+    layout(placeable.width, placeable.height) {
+        placeable.placeRelative(0, 0)
+    }
+}
 
 @Composable
 fun TypeBar(
@@ -62,22 +83,7 @@ fun SearchCard(
     val color = LightColors
     Card(
         modifier = modifier
-            .layout { measurable, constraints ->
-                val maxPx = 800.dp.roundToPx()
-                val fractionPx = if (constraints.hasBoundedWidth) (constraints.maxWidth * 0.85f).toInt() else maxPx
-                val targetWidth = fractionPx.coerceAtMost(maxPx)
-                val finalWidth = targetWidth.coerceIn(constraints.minWidth, constraints.maxWidth)
-
-                val placeable = measurable.measure(
-                    constraints.copy(
-                        minWidth = finalWidth,
-                        maxWidth = finalWidth
-                    )
-                )
-                layout(placeable.width, placeable.height) {
-                    placeable.placeRelative(0, 0)
-                }
-            }
+            .responsiveWidth(800.dp)
             .shadow(
                 elevation = 10.dp,
                 shape = RoundedCornerShape(24.dp),
@@ -131,7 +137,7 @@ fun RecipeCard(
     val color = LightColors
     Card(
         modifier = modifier
-            .fillMaxWidth()
+            .responsiveWidth(800.dp)
             .border(1.dp, color.secondaryStroke, RoundedCornerShape(16.dp))
             .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
