@@ -173,3 +173,49 @@ fun RecipeCard(
         }
     }
 }
+
+@Composable
+fun PopUp(
+    headerText: String,
+    bodyText: String,
+    buttonText: String,
+    onConfirm: () -> Unit = {}
+) {
+    val color = LightColors
+    Card(
+        modifier = Modifier
+            .responsiveWidth(400.dp)
+            .border(3.dp, color.stroke, RoundedCornerShape(24.dp)),
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = color.surface
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 0.dp
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(24.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Header(headerText)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            BodyText(
+                text = bodyText,
+                fontSize = 18.sp,
+                color = color.primaryText
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            PButton(
+                text = buttonText,
+                onClick = onConfirm
+            )
+        }
+    }
+}

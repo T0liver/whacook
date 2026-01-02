@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import hu.toliver.whacook.ui.components.Header
+import hu.toliver.whacook.ui.components.PopUp
 import hu.toliver.whacook.ui.components.RecipeCard
 import hu.toliver.whacook.ui.components.SearchCard
 import hu.toliver.whacook.ui.components.Subheader
@@ -51,5 +52,10 @@ private fun HomeScreenContent(
                 date = "2025.11.12. 12:50",
             )
         }
+        PopUp(
+            headerText = "Welcome to WhaCook!",
+            bodyText ="I’m happy that you are here!\n\nIn order to use this application you have to get an API key as this app relies on a LLM and I don’t have enough money to provide if for free!",
+            buttonText = "Take me there!",
+        )
     }
 }
