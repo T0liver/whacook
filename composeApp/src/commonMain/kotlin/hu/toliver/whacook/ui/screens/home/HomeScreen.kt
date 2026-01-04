@@ -40,7 +40,7 @@ private fun HomeScreenContent(
     @Suppress("UNUSED_PARAMETER")
     viewModel: HomeScreenViewModel
 ) {
-    var showPopup by remember { mutableStateOf(true) }
+    var showPopup by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -49,7 +49,7 @@ private fun HomeScreenContent(
         ) {
             Header()
             Spacer(Modifier.height(8.dp))
-            SearchCard()
+            SearchCard(onSearchClick = {showPopup = true})
             Spacer(Modifier.height(16.dp))
             Subheader("Recent recipes")
             Spacer(Modifier.height(8.dp))
