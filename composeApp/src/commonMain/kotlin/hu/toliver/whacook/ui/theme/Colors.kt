@@ -9,6 +9,7 @@ data class AppColors(
     val onPrimaryButton: Color,
     val primaryText: Color,
     val secondaryText: Color,
+    val secondaryButton: Color,
 
     val surface: Color,
     val onSurface: Color,
@@ -33,6 +34,7 @@ val LightColors = AppColors(
     onPrimaryButton = Color(0xFFFFFFFF),
     primaryText = Color(0xFF000000),
     secondaryText = Color(0xFF999999),
+    secondaryButton = Color(0xFF9BE084),
 
     surface = Color(0xFFFFFBFF),
     onSurface = Color(0xFF1C1B1F),
