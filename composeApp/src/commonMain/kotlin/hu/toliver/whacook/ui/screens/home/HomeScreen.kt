@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import hu.toliver.whacook.ui.components.Header
+import hu.toliver.whacook.ui.components.NavBar
 import hu.toliver.whacook.ui.components.PopUpOverlay
 import hu.toliver.whacook.ui.components.RecipeCard
 import hu.toliver.whacook.ui.components.SearchCard
@@ -61,6 +62,7 @@ private fun HomeScreenContent(
                     date = "2025.11.12. 12:50",
                 )
             }
+            NavBar()
         }
 
         if (showPopup) {
