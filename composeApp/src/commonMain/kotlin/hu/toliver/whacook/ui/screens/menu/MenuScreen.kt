@@ -30,7 +30,9 @@ fun MenuScreenContent(
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
         ) {
             Header("Settings")
             Spacer(Modifier.height(20.dp))
