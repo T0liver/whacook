@@ -35,7 +35,7 @@ private fun HomeScreenContent(
             modifier = Modifier.fillMaxWidth()
         ) {
             Header()
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(20.dp))
             SearchCard(onSearchClick = {showPopup = true})
             Spacer(Modifier.height(16.dp))
             Subheader("Recent recipes")
