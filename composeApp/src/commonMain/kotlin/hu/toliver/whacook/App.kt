@@ -11,6 +11,7 @@ import cafe.adriel.voyager.navigator.Navigator
 import hu.toliver.whacook.data.di.initKoin
 import hu.toliver.whacook.ui.components.NavBar
 import hu.toliver.whacook.ui.screens.home.HomeScreen
+import hu.toliver.whacook.ui.screens.menu.MenuScreen
 import hu.toliver.whacook.ui.screens.newrecipe.NewRecipeScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -31,7 +32,7 @@ fun App() {
                         .padding(bottom = 30.dp)
                 ) {
                     NavBar(
-                        onMenuClick = { /* TODO: Navigate to Menu */ },
+                        onMenuClick = { navigator.replaceAll(MenuScreen()) },
                         onHomeClick = { navigator.replaceAll(HomeScreen()) },
                         onEditClick = { navigator.replaceAll(NewRecipeScreen()) },
                     )
