@@ -21,13 +21,14 @@ import whacook.composeapp.generated.resources.back
 fun PButton(
     text: String,
     enabled: Boolean = true,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
     val colors = LightColors
     Button(
         onClick = onClick,
         enabled = enabled,
-        modifier = Modifier,
+        modifier = modifier,
         colors = ButtonDefaults.buttonColors(
             containerColor = colors.primaryButton,
             contentColor = colors.onPrimaryButton,
