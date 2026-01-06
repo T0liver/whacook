@@ -49,6 +49,7 @@ class FeedbackScreen : Screen {
             BodyTextHeader("whacook@toliver.hu")
             Spacer(modifier = Modifier.height(16.dp))
             BodyText("or open an issue/pull request on Github!")
+            Spacer(Modifier.height(120.dp))
         }
     }
 }
