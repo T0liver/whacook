@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +30,25 @@ fun BodyText(
         text = text,
         fontSize = fontSize,
         color = color
+    )
+}
+
+@Composable
+fun BodyTextHyperlink(
+    text: String,
+    url: String,
+    fontSize: TextUnit = 16.sp,
+    color: Color = Color.Blue
+) {
+    val uriHandler = LocalUriHandler.current
+    Text(
+        text = text,
+        fontSize = fontSize,
+        color = color,
+        textDecoration = TextDecoration.Underline,
+        modifier = Modifier.clickable {
+            uriHandler.openUri(url)
+        }
     )
 }
 
