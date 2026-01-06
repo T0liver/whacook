@@ -57,7 +57,9 @@ fun BodyTextSmall(
         text = text,
         fontSize = fontSize,
         fontStyle = FontStyle.Italic,
-        color = color
+        color = color,
+        modifier = Modifier
+            .padding(horizontal = 32.dp)
     )
 }
 
