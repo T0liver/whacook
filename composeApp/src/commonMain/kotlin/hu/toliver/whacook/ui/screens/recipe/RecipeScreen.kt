@@ -68,6 +68,8 @@ fun RecipeScreenContent(
 
             Spacer(Modifier.height(20.dp))
             BodyTextSmall(recipe.generationTime)
+            
+            Spacer(Modifier.height(100.dp))
         }
     }
 }
