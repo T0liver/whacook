@@ -9,9 +9,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import hu.toliver.whacook.ui.components.BodyTextSmall
 import hu.toliver.whacook.ui.components.Header
 import hu.toliver.whacook.ui.components.MenuElement
+import hu.toliver.whacook.ui.screens.feedback.FeedbackScreen
 import whacook.composeapp.generated.resources.Res
 import whacook.composeapp.generated.resources.about
 import whacook.composeapp.generated.resources.feedback
@@ -29,6 +32,7 @@ class MenuScreen : Screen {
 fun MenuScreenContent(
     state: MenuState
 ) {
+    val navigator = LocalNavigator.currentOrThrow
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val screenHeight = maxHeight
         Column(
@@ -52,7 +56,9 @@ fun MenuScreenContent(
                     Spacer(Modifier.height(20.dp))
                     MenuElement("API Key", Res.drawable.key)
                     Spacer(Modifier.height(16.dp))
-                    MenuElement("Feedback", Res.drawable.feedback)
+                    MenuElement("Feedback", Res.drawable.feedback) {
+                        navigator.push(FeedbackScreen())
+                    }
                     Spacer(Modifier.height(16.dp))
                     MenuElement("About", Res.drawable.about)
                 }
