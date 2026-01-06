@@ -9,8 +9,12 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,7 +26,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,6 +63,53 @@ fun Modifier.responsiveWidth(maxWidth: Dp): Modifier = this
     layout(placeable.width, placeable.height) {
         placeable.placeRelative(0, 0)
     }
+}
+
+@Composable
+@Suppress("UNUSED_PARAMETER") // for now
+fun TextBox(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+    onDone: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    val color = LightColors
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        placeholder = {
+            Text(
+                text = placeholder,
+                color = color.secondaryText
+            )
+        },
+        modifier = modifier
+            .fillMaxWidth()
+            .height(150.dp)
+            .onPreviewKeyEvent {
+                if (it.key == Key.Enter && it.type == KeyEventType.KeyDown) {
+                    onDone()
+                    true
+                } else {
+                    false
+                }
+            },
+        shape = RoundedCornerShape(16.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = color.surface,
+            unfocusedContainerColor = color.surface,
+            focusedBorderColor = color.primaryText,
+            unfocusedBorderColor = color.secondaryStroke,
+            cursorColor = color.primaryText,
+            focusedTextColor = color.primaryText,
+            unfocusedTextColor = color.primaryText,
+        ),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
+        keyboardActions = KeyboardActions(
+            onGo = { onDone() }
+        )
+    )
 }
 
 @Composable
