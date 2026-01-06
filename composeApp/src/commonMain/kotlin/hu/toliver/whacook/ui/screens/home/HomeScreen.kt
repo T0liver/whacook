@@ -38,6 +38,7 @@ private fun HomeScreenContent(
             Spacer(Modifier.height(8.dp))
             SearchCard(onSearchClick = {showPopup = true})
             Spacer(Modifier.height(16.dp))
+            MenuElement("Recommended for you")
             Subheader("Recent recipes")
             Spacer(Modifier.height(8.dp))
             Column(Modifier.fillMaxWidth(0.85f)) {

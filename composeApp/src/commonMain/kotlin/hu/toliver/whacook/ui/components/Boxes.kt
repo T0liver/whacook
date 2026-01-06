@@ -43,6 +43,7 @@ import whacook.composeapp.generated.resources.Res
 import whacook.composeapp.generated.resources.edit
 import whacook.composeapp.generated.resources.fryingpan
 import whacook.composeapp.generated.resources.home
+import whacook.composeapp.generated.resources.more
 import whacook.composeapp.generated.resources.squaredmenu
 
 fun Modifier.responsiveWidth(maxWidth: Dp): Modifier = this
@@ -62,6 +63,48 @@ fun Modifier.responsiveWidth(maxWidth: Dp): Modifier = this
     )
     layout(placeable.width, placeable.height) {
         placeable.placeRelative(0, 0)
+    }
+}
+
+@Composable
+fun MenuElement(
+    text: String,
+    icon: DrawableResource = Res.drawable.squaredmenu,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    val color = LightColors
+    Row(
+        modifier = modifier
+            .responsiveWidth(600.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(color.surface)
+            .border(1.dp, color.secondaryStroke, RoundedCornerShape(16.dp))
+            .clickable { onClick() }
+            .padding(horizontal = 24.dp, vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Image(
+                painter = painterResource(icon),
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
+            )
+            Text(
+                text = text,
+                fontSize = 18.sp,
+                color = color.primaryText
+            )
+        }
+        Image(
+            painter = painterResource(Res.drawable.more),
+            contentDescription = null,
+            modifier = Modifier.size(24.dp)
+        )
     }
 }
 
