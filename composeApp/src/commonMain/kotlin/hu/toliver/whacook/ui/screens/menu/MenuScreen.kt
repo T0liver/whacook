@@ -31,6 +31,7 @@ class MenuScreen : Screen {
 
 @Composable
 fun MenuScreenContent(
+    @Suppress("UNUSED_PARAMETER")
     state: MenuState
 ) {
     val navigator = LocalNavigator.currentOrThrow
