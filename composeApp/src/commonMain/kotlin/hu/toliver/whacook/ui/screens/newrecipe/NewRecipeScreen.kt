@@ -1,10 +1,14 @@
 package hu.toliver.whacook.ui.screens.newrecipe
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -19,6 +23,7 @@ import cafe.adriel.voyager.koin.koinScreenModel
 import hu.toliver.whacook.ui.components.BodyTextSmall
 import hu.toliver.whacook.ui.components.EditableList
 import hu.toliver.whacook.ui.components.Header
+import hu.toliver.whacook.ui.components.PButton
 
 class NewRecipeScreen : Screen {
     @Composable
@@ -39,22 +44,39 @@ private fun NewRecipeScreenContent(
     viewModel: NewRecipeScreenViewModel
 ) {
     val ingredients = remember { mutableStateListOf<String>() }
-    Box(
+    BoxWithConstraints(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopCenter
     ) {
+        val screenHeight = maxHeight
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState())
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
         ) {
-            Header("New Recipe")
-            Spacer(modifier = Modifier.height(16.dp))
-
-            EditableList(ingredients)
-
-            BodyTextSmall("Type in one by one what ingredients you have at home and then a LLM will give you a recipe advice based on the list you give what to cook with units and preparation steps.")
-            
-            Spacer(modifier = Modifier.height(100.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = screenHeight),
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Header("New Recipe")
+                    Spacer(Modifier.height(16.dp))
+                    EditableList(ingredients)
+                    PButton("Generate Recipe")
+                }
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    BodyTextSmall("Type in one by one what ingredients you have at home and then a LLM will give you a recipe advice based on the list you give what to cook with units and preparation steps.")
+                    Spacer(Modifier.height(120.dp))
+                }
+            }
         }
     }
 }

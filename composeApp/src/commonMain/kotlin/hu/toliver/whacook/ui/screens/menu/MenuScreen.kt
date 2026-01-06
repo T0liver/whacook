@@ -1,6 +1,8 @@
 package hu.toliver.whacook.ui.screens.menu
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,23 +29,40 @@ class MenuScreen : Screen {
 fun MenuScreenContent(
     state: MenuState
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        val screenHeight = maxHeight
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Header("Settings")
-            Spacer(Modifier.height(20.dp))
-            MenuElement("API Key", Res.drawable.key)
-            Spacer(Modifier.height(16.dp))
-            MenuElement("Feedback", Res.drawable.feedback)
-            Spacer(Modifier.height(16.dp))
-            MenuElement("About", Res.drawable.about)
-            Spacer(Modifier.height(16.dp))
-            BodyTextSmall("In the design the icons are provided by icons8.com. Icons by Icons8.")
-            Spacer(Modifier.height(100.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = screenHeight),
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Header("Settings")
+                    Spacer(Modifier.height(20.dp))
+                    MenuElement("API Key", Res.drawable.key)
+                    Spacer(Modifier.height(16.dp))
+                    MenuElement("Feedback", Res.drawable.feedback)
+                    Spacer(Modifier.height(16.dp))
+                    MenuElement("About", Res.drawable.about)
+                }
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    BodyTextSmall("In the design the icons are provided by icons8.com. Icons by Icons8.")
+                    Spacer(Modifier.height(120.dp))
+                }
+            }
         }
     }
 }
