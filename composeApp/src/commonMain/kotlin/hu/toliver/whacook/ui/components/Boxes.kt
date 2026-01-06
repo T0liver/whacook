@@ -66,177 +66,98 @@ fun Modifier.responsiveWidth(maxWidth: Dp): Modifier = this
 }
 
 @Composable
-@Suppress("UNUSED_PARAMETER") // for now
-fun TextBox(
-    value: String,
-    onValueChange: (String) -> Unit,
-    placeholder: String,
-    onDone: () -> Unit = {},
-    modifier: Modifier = Modifier
+fun NavBar(
+    onMenuClick: () -> Unit = {},
+    onHomeClick: () -> Unit = {},
+    onEditClick: () -> Unit = {}
 ) {
     val color = LightColors
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        placeholder = {
-            Text(
-                text = placeholder,
-                color = color.secondaryText
-            )
-        },
-        modifier = modifier
-            .fillMaxWidth()
-            .height(150.dp)
-            .onPreviewKeyEvent {
-                if (it.key == Key.Enter && it.type == KeyEventType.KeyDown) {
-                    onDone()
-                    true
-                } else {
-                    false
-                }
-            },
-        shape = RoundedCornerShape(16.dp),
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = color.surface,
-            unfocusedContainerColor = color.surface,
-            focusedBorderColor = color.primaryText,
-            unfocusedBorderColor = color.secondaryStroke,
-            cursorColor = color.primaryText,
-            focusedTextColor = color.primaryText,
-            unfocusedTextColor = color.primaryText,
-        ),
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
-        keyboardActions = KeyboardActions(
-            onGo = { onDone() }
-        )
-    )
-}
-
-@Composable
-fun TypeBar(
-    text: String,
-    icon: DrawableResource = Res.drawable.fryingpan,
-    onClick: () -> Unit = {},
-) {
-    Row(
+    Box(
         modifier = Modifier
-            .fillMaxWidth(0.85f)
-            .clip(CircleShape)
-            .border(1.dp, Color.LightGray, CircleShape)
-            .clickable { onClick() }
-            .padding(horizontal = 24.dp, vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+            .responsiveWidth(350.dp)
+            .height(80.dp)
+            .border(1.dp, Color.Black, RoundedCornerShape(50.dp))
+            .clip(RoundedCornerShape(50.dp))
+            .background(color.surface)
     ) {
-        Text(
-            text = text,
-            fontSize = 18.sp,
-            color = LightColors.primaryText
-        )
-        Image(
-            painter = painterResource(icon),
-            contentDescription = null,
-            modifier = Modifier.size(24.dp)
-        )
-    }
-}
-
-@Composable
-fun SearchCard(
-    modifier: Modifier = Modifier,
-    onSearchClick: () -> Unit = {},
-    onDescribeClick: () -> Unit = {}
-) {
-    val color = LightColors
-    Card(
-        modifier = modifier
-            .responsiveWidth(800.dp)
-            .shadow(
-                elevation = 10.dp,
-                shape = RoundedCornerShape(24.dp),
-                spotColor = color.primary,
-                ambientColor = color.primary
-            ),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = color.surface
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 0.dp
-        )
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(vertical = 24.dp, horizontal = 16.dp)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+        BoxWithConstraints(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Text(
-                text = "What are we cooking today?",
-                fontSize = 22.sp,
-                color = color.primaryText,
-                modifier = Modifier.fillMaxWidth(0.85f)
+            var selectedTab by remember { mutableStateOf(1) }
+
+            val width = maxWidth
+            val itemWidth = width / 3
+            val indicatorOffset by animateDpAsState(
+                targetValue = when (selectedTab) {
+                    0 -> 0.dp
+                    1 -> itemWidth
+                    2 -> itemWidth * 2
+                    else -> itemWidth
+                }
             )
 
-            TypeBar(
-                text = "Type in your ingredients!",
-                onClick = onSearchClick
+            Box(
+                modifier = Modifier
+                    .offset(x = indicatorOffset)
+                    .width(itemWidth)
+                    .fillMaxHeight()
+                    .padding(12.dp)
+                    .background(color.secondaryButton, CircleShape)
             )
 
-            BodyTextUnderline(
-                text = "...or just describe your food!",
-                onClick = onDescribeClick
-            )
-        }
-    }
-}
-
-@Composable
-fun RecipeCard(
-    title: String,
-    time: String,
-    ingredientsCount: Int,
-    date: String,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
-) {
-    val color = LightColors
-    Card(
-        modifier = modifier
-            .responsiveWidth(800.dp)
-            .border(1.dp, color.secondaryStroke, RoundedCornerShape(16.dp))
-            .clickable { onClick() },
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = color.surface
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 0.dp
-        )
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            BodyTextHeader(
-                title,
-                color = color.primaryText,
-            )
-            BodyText(
-                "Time to make: $time",
-                color = color.primaryText
-            )
-            BodyText(
-                "Num of ingredients: $ingredientsCount things",
-                color = color.primaryText
-            )
-            BodyTextSmall(
-                date,
-                color = color.secondaryText
-            )
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) { selectedTab = 0; onMenuClick() },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(Res.drawable.squaredmenu),
+                        contentDescription = "Menu",
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) { selectedTab = 1; onHomeClick() },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(Res.drawable.home),
+                        contentDescription = "Home",
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) { selectedTab = 2; onEditClick() },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(Res.drawable.edit),
+                        contentDescription = "Edit",
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+            }
         }
     }
 }
@@ -325,98 +246,177 @@ fun PopUpOverlay(
 }
 
 @Composable
-fun NavBar(
-    onMenuClick: () -> Unit = {},
-    onHomeClick: () -> Unit = {},
-    onEditClick: () -> Unit = {}
+fun RecipeCard(
+    title: String,
+    time: String,
+    ingredientsCount: Int,
+    date: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
 ) {
     val color = LightColors
-    Box(
-        modifier = Modifier
-            .responsiveWidth(350.dp)
-            .height(80.dp)
-            .border(1.dp, Color.Black, RoundedCornerShape(50.dp))
-            .clip(RoundedCornerShape(50.dp))
-            .background(color.surface)
+    Card(
+        modifier = modifier
+            .responsiveWidth(800.dp)
+            .border(1.dp, color.secondaryStroke, RoundedCornerShape(16.dp))
+            .clickable { onClick() },
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = color.surface
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 0.dp
+        )
     ) {
-        BoxWithConstraints(
-            modifier = Modifier.fillMaxSize()
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            var selectedTab by remember { mutableStateOf(1) }
-            
-            val width = maxWidth
-            val itemWidth = width / 3
-            val indicatorOffset by animateDpAsState(
-                targetValue = when (selectedTab) {
-                    0 -> 0.dp
-                    1 -> itemWidth
-                    2 -> itemWidth * 2
-                    else -> itemWidth
-                }
+            BodyTextHeader(
+                title,
+                color = color.primaryText,
             )
-
-            Box(
-                modifier = Modifier
-                    .offset(x = indicatorOffset)
-                    .width(itemWidth)
-                    .fillMaxHeight()
-                    .padding(12.dp)
-                    .background(color.secondaryButton, CircleShape)
+            BodyText(
+                "Time to make: $time",
+                color = color.primaryText
             )
-
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = null
-                        ) { selectedTab = 0; onMenuClick() },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(Res.drawable.squaredmenu),
-                        contentDescription = "Menu",
-                        modifier = Modifier.size(28.dp)
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = null
-                        ) { selectedTab = 1; onHomeClick() },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(Res.drawable.home),
-                        contentDescription = "Home",
-                        modifier = Modifier.size(28.dp)
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = null
-                        ) { selectedTab = 2; onEditClick() },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(Res.drawable.edit),
-                        contentDescription = "Edit",
-                        modifier = Modifier.size(28.dp)
-                    )
-                }
-            }
+            BodyText(
+                "Num of ingredients: $ingredientsCount things",
+                color = color.primaryText
+            )
+            BodyTextSmall(
+                date,
+                color = color.secondaryText
+            )
         }
+    }
+}
+
+@Composable
+fun SearchCard(
+    modifier: Modifier = Modifier,
+    onSearchClick: () -> Unit = {},
+    onDescribeClick: () -> Unit = {}
+) {
+    val color = LightColors
+    Card(
+        modifier = modifier
+            .responsiveWidth(800.dp)
+            .shadow(
+                elevation = 10.dp,
+                shape = RoundedCornerShape(24.dp),
+                spotColor = color.primary,
+                ambientColor = color.primary
+            ),
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = color.surface
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 0.dp
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(vertical = 24.dp, horizontal = 16.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(24.dp)
+        ) {
+            Text(
+                text = "What are we cooking today?",
+                fontSize = 22.sp,
+                color = color.primaryText,
+                modifier = Modifier.fillMaxWidth(0.85f)
+            )
+
+            TypeBar(
+                text = "Type in your ingredients!",
+                onClick = onSearchClick
+            )
+
+            BodyTextUnderline(
+                text = "...or just describe your food!",
+                onClick = onDescribeClick
+            )
+        }
+    }
+}
+
+@Composable
+@Suppress("UNUSED_PARAMETER") // for now
+fun TextBox(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+    onDone: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    val color = LightColors
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        placeholder = {
+            Text(
+                text = placeholder,
+                color = color.secondaryText
+            )
+        },
+        modifier = modifier
+            .fillMaxWidth()
+            .height(150.dp)
+            .onPreviewKeyEvent {
+                if (it.key == Key.Enter && it.type == KeyEventType.KeyDown) {
+                    onDone()
+                    true
+                } else {
+                    false
+                }
+            },
+        shape = RoundedCornerShape(16.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = color.surface,
+            unfocusedContainerColor = color.surface,
+            focusedBorderColor = color.primaryText,
+            unfocusedBorderColor = color.secondaryStroke,
+            cursorColor = color.primaryText,
+            focusedTextColor = color.primaryText,
+            unfocusedTextColor = color.primaryText,
+        ),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
+        keyboardActions = KeyboardActions(
+            onGo = { onDone() }
+        )
+    )
+}
+
+@Composable
+fun TypeBar(
+    text: String,
+    icon: DrawableResource = Res.drawable.fryingpan,
+    onClick: () -> Unit = {},
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(0.85f)
+            .clip(CircleShape)
+            .border(1.dp, Color.LightGray, CircleShape)
+            .clickable { onClick() }
+            .padding(horizontal = 24.dp, vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = text,
+            fontSize = 18.sp,
+            color = LightColors.primaryText
+        )
+        Image(
+            painter = painterResource(icon),
+            contentDescription = null,
+            modifier = Modifier.size(24.dp)
+        )
     }
 }
