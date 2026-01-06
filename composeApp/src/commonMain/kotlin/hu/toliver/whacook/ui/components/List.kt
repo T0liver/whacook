@@ -1,11 +1,9 @@
 package hu.toliver.whacook.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -51,11 +50,11 @@ fun EditableList(
         }
     }
 
-    LazyColumn(
+    Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        itemsIndexed(items) { index, item ->
+        items.forEachIndexed { index, item ->
             OutlinedTextField(
                 value = item,
                 onValueChange = { items[index] = it },
@@ -76,18 +75,15 @@ fun EditableList(
             )
         }
 
-        item {
-            Button(
-                onClick = {
-                    items.add("")
-                    focusRequesters.add(FocusRequester())
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                Text(buttonText)
-            }
+        PButton(
+            buttonText,
+            modifier = Modifier
+                .fillMaxWidth(0.5f)
+                .padding(horizontal = 16.dp)
+                .align(Alignment.CenterHorizontally),
+        ) {
+            items.add("")
+            focusRequesters.add(FocusRequester())
         }
     }
 }
