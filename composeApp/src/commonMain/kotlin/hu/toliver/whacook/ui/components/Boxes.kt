@@ -285,12 +285,12 @@ fun NavBar(
         BoxWithConstraints(
             modifier = Modifier.fillMaxSize()
         ) {
-            var seletedTab by remember { mutableStateOf(1) }
+            var selectedTab by remember { mutableStateOf(1) }
             
             val width = maxWidth
             val itemWidth = width / 3
             val indicatorOffset by animateDpAsState(
-                targetValue = when (seletedTab) {
+                targetValue = when (selectedTab) {
                     0 -> 0.dp
                     1 -> itemWidth
                     2 -> itemWidth * 2
@@ -318,7 +318,7 @@ fun NavBar(
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null
-                        ) { seletedTab = 0; onMenuClick() },
+                        ) { selectedTab = 0; onMenuClick() },
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
@@ -334,7 +334,7 @@ fun NavBar(
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null
-                        ) { seletedTab = 1; onHomeClick() },
+                        ) { selectedTab = 1; onHomeClick() },
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
@@ -350,7 +350,7 @@ fun NavBar(
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null
-                        ) { seletedTab = 2; onEditClick() },
+                        ) { selectedTab = 2; onEditClick() },
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
