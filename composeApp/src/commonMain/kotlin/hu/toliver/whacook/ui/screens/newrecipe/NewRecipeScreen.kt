@@ -39,7 +39,6 @@ private fun NewRecipeScreenContent(
     viewModel: NewRecipeScreenViewModel
 ) {
     val ingredients = remember { mutableStateListOf<String>() }
-    val meaningfulIngredients = ingredients.map { it.trim() }.filter { it.isNotEmpty() }
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter
