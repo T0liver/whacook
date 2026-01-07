@@ -7,7 +7,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import hu.toliver.whacook.ui.components.*
+import hu.toliver.whacook.ui.screens.apikey.APIKeyScreen
 
 class HomeScreen : Screen {
     @Composable
@@ -27,7 +30,8 @@ private fun HomeScreenContent(
     @Suppress("UNUSED_PARAMETER")
     viewModel: HomeScreenViewModel
 ) {
-    var showPopup by remember { mutableStateOf(false) }
+    val navigator = LocalNavigator.currentOrThrow
+    var showPopup by remember { mutableStateOf(state.showPopUp) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -55,7 +59,11 @@ private fun HomeScreenContent(
                 headerText = "Welcome to WhaCook!",
                 bodyText = "I’m happy that you are here!\n\nIn order to use this application you have to get an API key as this app relies on a LLM and I don’t have enough money to provide if for free!",
                 buttonText = "Take me there!",
-                onDismiss = { showPopup = false }
+                onDismiss = {
+                    showPopup = false
+                    state.showPopUp = false
+                    navigator.push(APIKeyScreen())
+                }
             )
         }
     }

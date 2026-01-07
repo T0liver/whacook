@@ -14,7 +14,8 @@ class HomeScreenViewModel (
 ) : ScreenModel {
     var state by mutableStateOf(HomeState(
         isLoading = true,
-        error = null
+        error = null,
+        showPopUp = true
     ))
         private set
 
