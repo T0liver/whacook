@@ -15,6 +15,7 @@ import hu.toliver.whacook.ui.components.BodyTextSmall
 import hu.toliver.whacook.ui.components.Header
 import hu.toliver.whacook.ui.components.MenuElement
 import hu.toliver.whacook.ui.screens.about.AboutScreen
+import hu.toliver.whacook.ui.screens.apikey.APIKeyScreen
 import hu.toliver.whacook.ui.screens.feedback.FeedbackScreen
 import whacook.composeapp.generated.resources.Res
 import whacook.composeapp.generated.resources.about
@@ -56,7 +57,9 @@ fun MenuScreenContent(
                 ) {
                     Header("Settings")
                     Spacer(Modifier.height(20.dp))
-                    MenuElement("API Key", Res.drawable.key)
+                    MenuElement("API Key", Res.drawable.key) {
+                        navigator.push(APIKeyScreen())
+                    }
                     Spacer(Modifier.height(16.dp))
                     MenuElement("Feedback", Res.drawable.feedback) {
                         navigator.push(FeedbackScreen())
