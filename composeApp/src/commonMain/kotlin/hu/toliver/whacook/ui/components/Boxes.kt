@@ -389,7 +389,6 @@ fun SearchCard(
 }
 
 @Composable
-@Suppress("UNUSED_PARAMETER") // for now
 fun TextBox(
     value: String,
     onValueChange: (String) -> Unit,
@@ -400,7 +399,7 @@ fun TextBox(
     val color = LightColors
     OutlinedTextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { onValueChange(it) },
         placeholder = {
             Text(
                 text = placeholder,
@@ -408,7 +407,7 @@ fun TextBox(
             )
         },
         modifier = modifier
-            .fillMaxWidth()
+            .responsiveWidth(600.dp)
             .height(150.dp)
             .onPreviewKeyEvent {
                 if (it.key == Key.Enter && it.type == KeyEventType.KeyDown) {
