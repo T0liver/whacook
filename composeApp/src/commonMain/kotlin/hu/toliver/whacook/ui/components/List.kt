@@ -9,9 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -26,10 +26,10 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun EditableList(
     items: SnapshotStateList<String>,
-    placeholderText: String = "add",
-    buttonText: String = "Add new one"
+    placeholderText: String = "add"
 ) {
     val focusRequesters = remember { mutableStateListOf<FocusRequester>() }
+    val shouldFocusLastItem = remember { mutableStateOf(false) }
 
     if (focusRequesters.isEmpty() && items.isNotEmpty()) {
         items.forEach { _ -> focusRequesters.add(FocusRequester()) }
@@ -45,8 +45,9 @@ fun EditableList(
                 focusRequesters.add(FocusRequester())
             }
         }
-        if (items.size > 1) {
+        if (shouldFocusLastItem.value) {
             focusRequesters.last().requestFocus()
+            shouldFocusLastItem.value = false
         }
     }
 
@@ -57,7 +58,14 @@ fun EditableList(
         items.forEachIndexed { index, item ->
             OutlinedTextField(
                 value = item,
-                onValueChange = { items[index] = it },
+                onValueChange = {
+                    items[index] = it
+                    if (index == items.lastIndex && it.isNotEmpty()) {
+                        items.add("")
+                        focusRequesters.add(FocusRequester())
+                    }
+                },
+                singleLine = true,
                 placeholder = { if (index == 0) Text(placeholderText) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -65,8 +73,13 @@ fun EditableList(
                     .focusRequester(focusRequesters[index])
                     .onPreviewKeyEvent {
                         if (it.type == KeyEventType.KeyDown && it.key == Key.Enter) {
-                            items.add(index + 1, "")
-                            focusRequesters.add(index + 1, FocusRequester())
+                            if (index < items.lastIndex) {
+                                focusRequesters[index + 1].requestFocus()
+                            } else if (items[index].isNotEmpty()) {
+                                items.add("")
+                                focusRequesters.add(FocusRequester())
+                                shouldFocusLastItem.value = true
+                            }
                             true
                         } else {
                             false
@@ -75,16 +88,7 @@ fun EditableList(
             )
         }
 
-        PButton(
-            buttonText,
-            modifier = Modifier
-                .fillMaxWidth(0.5f)
-                .padding(horizontal = 16.dp)
-                .align(Alignment.CenterHorizontally),
-        ) {
-            items.add("")
-            focusRequesters.add(FocusRequester())
-        }
+
     }
 }
 
