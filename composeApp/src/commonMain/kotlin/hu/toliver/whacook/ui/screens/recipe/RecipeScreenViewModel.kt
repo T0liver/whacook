@@ -12,7 +12,7 @@ class RecipeScreenViewModel (
     var recipeData: Recipe = recipe
         private set
 
-    var rating by mutableStateOf(2)
+    var rating by mutableStateOf(0)
         private set
 
     fun onRatingChanged(newRating: Int) {
