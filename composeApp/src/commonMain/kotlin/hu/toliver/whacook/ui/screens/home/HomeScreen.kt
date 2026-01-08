@@ -9,8 +9,12 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import hu.toliver.whacook.domain.model.Duration
+import hu.toliver.whacook.domain.model.Ingredient
+import hu.toliver.whacook.domain.model.Recipe
 import hu.toliver.whacook.ui.components.*
 import hu.toliver.whacook.ui.screens.apikey.APIKeyScreen
+import hu.toliver.whacook.ui.screens.recipe.RecipeScreen
 
 class HomeScreen : Screen {
     @Composable
@@ -50,7 +54,35 @@ private fun HomeScreenContent(
                     time = "30m",
                     ingredientsCount = 6,
                     date = "2025.11.12. 12:50",
-                )
+                ) {
+                    navigator.push(RecipeScreen(Recipe(
+                        name = "Chocolate Lava Cake",
+                        timeToMake = Duration(30.0, "minutes"),
+                        ingredients = mutableListOf(
+                            Ingredient("Dark chocolate", "g", 200.0),
+                            Ingredient("Butter", "g", 100.0),
+                            Ingredient("Sugar", "g", 150.0),
+                            Ingredient("Eggs", "pcs", 3.0),
+                            Ingredient("Flour", "g", 50.0),
+                            Ingredient("Vanilla extract", "tsp", 1.0)
+                        ),
+                        steps = mutableListOf(
+                            "Preheat oven to 220°C (425°F).",
+                            "Melt chocolate and butter together.",
+                            "In a separate bowl, whisk eggs and sugar until light and fluffy.",
+                            "Combine melted chocolate mixture with egg mixture.",
+                            "Fold in flour and vanilla extract.",
+                            "Pour batter into greased ramekins and bake for 12-14 minutes."
+                        ),
+                        id = "cake1",
+                        tools = mutableListOf("Oven", "Ramekins", "Mixing bowls", "Whisk"),
+                        serving = "Serves 4",
+                        favourite = false,
+                        category = "Dessert",
+                        generationTime = "Generated on 2025.11.10. 10:00",
+                        rating = 3
+                    )))
+                }
             }
         }
 
