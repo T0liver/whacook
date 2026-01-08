@@ -15,7 +15,7 @@ val viewModelModule = module {
     factory { NewRecipeScreenViewModel() }
 
     factory { (recipe: Recipe) ->
-        RecipeScreenViewModel(recipe = recipe)
+        RecipeScreenViewModel(recipe = recipe, recipeUseCase = get())
     }
 
 }

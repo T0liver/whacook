@@ -4,24 +4,26 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import hu.toliver.whacook.domain.model.Recipe
 import hu.toliver.whacook.ui.components.*
+import org.koin.core.parameter.parametersOf
 
 class RecipeScreen(
     val recipe: Recipe
 ) : Screen {
     @Composable
     override fun Content() {
-        val viewModel = remember { RecipeScreenViewModel(recipe) }
+        val viewModel = koinScreenModel<RecipeScreenViewModel> { parametersOf(recipe) }
+        val state by viewModel.uiState.collectAsState()
         RecipeScreenContent(
-            recipe = recipe,
-            rating = viewModel.rating,
-            favourite = viewModel.favourite,
+            recipe = state,
             onRatingChanged = viewModel::onRatingChanged,
             toggleFavourite = viewModel::toggleFavourite
         )
@@ -32,8 +34,6 @@ class RecipeScreen(
 @Composable
 fun RecipeScreenContent(
     recipe: Recipe,
-    rating: Int,
-    favourite: Boolean,
     onRatingChanged: (Int) -> Unit,
     toggleFavourite: () -> Unit
 ) {
@@ -61,12 +61,12 @@ fun RecipeScreenContent(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RatingStars(
-                    rating = rating,
+                    rating = recipe.rating,
                     onRatingChanged = onRatingChanged
                 )
                 Spacer(Modifier.width(48.dp))
                 FavouriteButton(
-                    isFavourite = favourite,
+                    isFavourite = recipe.favourite,
                     onClick = toggleFavourite
                 )
             }
