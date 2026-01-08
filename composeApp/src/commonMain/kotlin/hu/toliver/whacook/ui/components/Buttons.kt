@@ -2,7 +2,6 @@ package hu.toliver.whacook.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,7 +19,9 @@ import hu.toliver.whacook.ui.theme.LightColors
 import org.jetbrains.compose.resources.painterResource
 import whacook.composeapp.generated.resources.Res
 import whacook.composeapp.generated.resources.back
+import whacook.composeapp.generated.resources.filledheart
 import whacook.composeapp.generated.resources.filledstar
+import whacook.composeapp.generated.resources.heart
 import whacook.composeapp.generated.resources.star
 
 @Composable
@@ -60,6 +61,27 @@ fun BackButton() {
 }
 
 @Composable
+fun FavouriteButton(
+    isFavourite: Boolean,
+    onClick: () -> Unit = {},
+) {
+    val iconRes = if (isFavourite) {
+        Res.drawable.filledheart
+    } else {
+        Res.drawable.heart
+    }
+    IconButton(
+        onClick = onClick
+    ) {
+        Image(
+            painter = painterResource(iconRes),
+            contentDescription = "Favourite",
+            modifier = Modifier.size(48.dp)
+        )
+    }
+}
+
+@Composable
 fun RatingStars(
     rating: Int,
     modifier: Modifier = Modifier,
@@ -74,15 +96,15 @@ fun RatingStars(
             } else {
                 Res.drawable.star
             }
-            Image(
-                painter = painterResource(starRes),
-                contentDescription = "Star $i",
-                modifier = Modifier
-                    .size(48.dp)
-                    .clickable { 
-                        onRatingChanged(i)
-                    }
-            )
+            IconButton(
+                onClick = { onRatingChanged(i) }
+            ) {
+                Image(
+                    painter = painterResource(starRes),
+                    contentDescription = "Star $i",
+                    modifier = Modifier.size(48.dp)
+                )
+            }
         }
     }
 }
