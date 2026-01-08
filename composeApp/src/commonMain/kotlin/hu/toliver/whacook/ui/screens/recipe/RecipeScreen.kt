@@ -21,7 +21,9 @@ class RecipeScreen(
         RecipeScreenContent(
             recipe = recipe,
             rating = viewModel.rating,
-            onRatingChanged = viewModel::onRatingChanged
+            favourite = viewModel.favourite,
+            onRatingChanged = viewModel::onRatingChanged,
+            toggleFavourite = viewModel::toggleFavourite
         )
     }
 
@@ -31,7 +33,9 @@ class RecipeScreen(
 fun RecipeScreenContent(
     recipe: Recipe,
     rating: Int,
+    favourite: Boolean,
     onRatingChanged: (Int) -> Unit,
+    toggleFavourite: () -> Unit
 ) {
     Column (
         modifier = Modifier.fillMaxWidth()
@@ -51,10 +55,21 @@ fun RecipeScreenContent(
                 Header(recipe.name)
             }
 
-            RatingStars(
-                rating = rating,
-                onRatingChanged = onRatingChanged
-            )
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RatingStars(
+                    rating = rating,
+                    onRatingChanged = onRatingChanged
+                )
+                Spacer(Modifier.width(48.dp))
+                FavouriteButton(
+                    isFavourite = favourite,
+                    onClick = toggleFavourite
+                )
+            }
 
             Subheader("Time to make")
             BodyText(recipe.timeToMake.toString())

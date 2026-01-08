@@ -14,8 +14,15 @@ class RecipeScreenViewModel (
 
     var rating by mutableStateOf(0)
         private set
+    
+    var favourite by mutableStateOf(false)
+        private set
 
     fun onRatingChanged(newRating: Int) {
         rating = newRating
+    }
+    
+    fun toggleFavourite() {
+        favourite = !favourite
     }
 }
