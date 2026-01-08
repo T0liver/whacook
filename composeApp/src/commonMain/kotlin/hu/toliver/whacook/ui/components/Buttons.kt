@@ -1,6 +1,10 @@
 package hu.toliver.whacook.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -16,6 +20,8 @@ import hu.toliver.whacook.ui.theme.LightColors
 import org.jetbrains.compose.resources.painterResource
 import whacook.composeapp.generated.resources.Res
 import whacook.composeapp.generated.resources.back
+import whacook.composeapp.generated.resources.filledstar
+import whacook.composeapp.generated.resources.star
 
 @Composable
 fun PButton(
@@ -50,5 +56,33 @@ fun BackButton() {
             painter = painterResource(Res.drawable.back),
             contentDescription = "Back"
         )
+    }
+}
+
+@Composable
+fun RatingStars(
+    rating: Int,
+    modifier: Modifier = Modifier,
+    onRatingChanged: (Int) -> Unit = {},
+) {
+    Row(
+        modifier = modifier,
+    ) {
+        for (i in 1..5) {
+            val starRes = if (i <= rating) {
+                Res.drawable.filledstar
+            } else {
+                Res.drawable.star
+            }
+            Image(
+                painter = painterResource(starRes),
+                contentDescription = "Star $i",
+                modifier = Modifier
+                    .size(48.dp)
+                    .clickable { 
+                        onRatingChanged(i)
+                    }
+            )
+        }
     }
 }

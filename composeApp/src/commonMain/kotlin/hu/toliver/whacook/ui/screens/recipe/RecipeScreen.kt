@@ -1,30 +1,28 @@
 package hu.toliver.whacook.ui.screens.recipe
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import hu.toliver.whacook.domain.model.Recipe
-import hu.toliver.whacook.ui.components.BackButton
-import hu.toliver.whacook.ui.components.Subheader
-import hu.toliver.whacook.ui.components.BodyText
-import hu.toliver.whacook.ui.components.BodyTextSmall
-import hu.toliver.whacook.ui.components.Header
+import hu.toliver.whacook.ui.components.*
 
 class RecipeScreen(
     val recipe: Recipe
 ) : Screen {
     @Composable
     override fun Content() {
-        val viewModel = RecipeScreenViewModel(recipe)
-        RecipeScreenContent(recipe)
+        val viewModel = remember { RecipeScreenViewModel(recipe) }
+        RecipeScreenContent(
+            recipe = recipe,
+            rating = viewModel.rating,
+            onRatingChanged = viewModel::onRatingChanged
+        )
     }
 
 }
@@ -32,18 +30,31 @@ class RecipeScreen(
 @Composable
 fun RecipeScreenContent(
     recipe: Recipe,
+    rating: Int,
+    onRatingChanged: (Int) -> Unit,
 ) {
     Column (
         modifier = Modifier.fillMaxWidth()
     ) {
-        BackButton()
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 30.dp, vertical = 8.dp)
                 .fillMaxWidth()
         ) {
-            Header(recipe.name)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                BackButton()
+                Spacer(modifier = Modifier.width(8.dp))
+                Header(recipe.name)
+            }
+
+            RatingStars(
+                rating = rating,
+                onRatingChanged = onRatingChanged
+            )
 
             Subheader("Time to make")
             BodyText(recipe.timeToMake.toString())
@@ -69,7 +80,7 @@ fun RecipeScreenContent(
             Spacer(Modifier.height(20.dp))
             BodyTextSmall(recipe.generationTime)
             
-            Spacer(Modifier.height(100.dp))
+            Spacer(Modifier.height(120.dp))
         }
     }
 }
