@@ -8,7 +8,7 @@ data class HomeState (
     companion object {
         fun getDefaultState(): HomeState {
             return HomeState(
-                isLoading = true,
+                isLoading = false,
                 error = null,
                 showPopUp = true
             )
