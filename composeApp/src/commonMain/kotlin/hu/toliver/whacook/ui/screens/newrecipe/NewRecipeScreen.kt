@@ -1,15 +1,6 @@
 package hu.toliver.whacook.ui.screens.newrecipe
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -20,11 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
-import hu.toliver.whacook.ui.components.BodyTextSmall
-import hu.toliver.whacook.ui.components.EditableList
-import hu.toliver.whacook.ui.components.Header
-import hu.toliver.whacook.ui.components.PButton
-import hu.toliver.whacook.ui.components.responsiveWidth
+import hu.toliver.whacook.ui.components.*
 
 class NewRecipeScreen : Screen {
     @Composable
