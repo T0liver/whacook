@@ -8,11 +8,16 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import hu.toliver.whacook.domain.model.Recipe
 import hu.toliver.whacook.ui.components.*
 import org.jetbrains.compose.resources.painterResource
@@ -25,12 +30,14 @@ class RecipeScreen(
 ) : Screen {
     @Composable
     override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
         val viewModel = koinScreenModel<RecipeScreenViewModel> { parametersOf(recipe) }
         val state by viewModel.uiState.collectAsState()
         RecipeScreenContent(
             recipe = state,
             onRatingChanged = viewModel::onRatingChanged,
-            toggleFavourite = viewModel::toggleFavourite
+            toggleFavourite = viewModel::toggleFavourite,
+            onDelete = { navigator.pop() }
         )
     }
 
@@ -40,10 +47,12 @@ class RecipeScreen(
 fun RecipeScreenContent(
     recipe: Recipe,
     onRatingChanged: (Int) -> Unit,
-    toggleFavourite: () -> Unit
+    toggleFavourite: () -> Unit,
+    onDelete: () -> Unit
 ) {
-    Column (
-        modifier = Modifier.fillMaxWidth()
+    var showDeleteDialog by remember { mutableStateOf(false) }
+    Box (
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
             modifier = Modifier
@@ -79,7 +88,7 @@ fun RecipeScreenContent(
                         modifier = Modifier.align(Alignment.CenterVertically)
                     )
                     IconButton(
-                        onClick = { /* TODO: Show delete popup */ },
+                        onClick = { showDeleteDialog = true },
                         modifier = Modifier.align(Alignment.CenterVertically)
                     ) {
                         Icon(painterResource(Res.drawable.trashcan), "delete")
@@ -112,6 +121,21 @@ fun RecipeScreenContent(
             BodyTextSmall(recipe.generationTime)
             
             Spacer(Modifier.height(120.dp))
+        }
+        
+        if (showDeleteDialog) {
+            PopUpOverlay(
+                headerText = "Delete Recipe",
+                bodyText = "Are you sure you want to delete this recipe? This action cannot be undone.",
+                dismiss = true,
+                buttonText = "Yes",
+                dismissText = "No",
+                onConfirm = {
+                    showDeleteDialog = false
+                    onDelete()
+                },
+                onDismiss = { showDeleteDialog = false },
+            )
         }
     }
 }
