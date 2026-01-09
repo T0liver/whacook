@@ -1,6 +1,5 @@
 package hu.toliver.whacook.ui.components
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -11,47 +10,23 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onPreviewKeyEvent
-import androidx.compose.ui.input.key.type
+import androidx.compose.ui.input.key.*
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import hu.toliver.whacook.domain.model.Duration
 import hu.toliver.whacook.ui.theme.LightColors
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import whacook.composeapp.generated.resources.Res
-import whacook.composeapp.generated.resources.down
-import whacook.composeapp.generated.resources.edit
-import whacook.composeapp.generated.resources.fryingpan
-import whacook.composeapp.generated.resources.home
-import whacook.composeapp.generated.resources.more
-import whacook.composeapp.generated.resources.squaredmenu
-import whacook.composeapp.generated.resources.trashcan
+import whacook.composeapp.generated.resources.*
 
 @Composable
 fun DurationChooser(
@@ -316,102 +291,6 @@ fun MenuElement(
     }
 }
 
-@Composable
-fun NavBar(
-    onMenuClick: () -> Unit = {},
-    onHomeClick: () -> Unit = {},
-    onEditClick: () -> Unit = {}
-) {
-    val color = LightColors
-    Box(
-        modifier = Modifier
-            .responsiveWidth(350.dp)
-            .height(80.dp)
-            .border(1.dp, Color.Black, RoundedCornerShape(50.dp))
-            .clip(RoundedCornerShape(50.dp))
-            .background(color.surface)
-    ) {
-        BoxWithConstraints(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            var selectedTab by remember { mutableStateOf(1) }
-
-            val width = maxWidth
-            val itemWidth = width / 3
-            val indicatorOffset by animateDpAsState(
-                targetValue = when (selectedTab) {
-                    0 -> 0.dp
-                    1 -> itemWidth
-                    2 -> itemWidth * 2
-                    else -> itemWidth
-                }
-            )
-
-            Box(
-                modifier = Modifier
-                    .offset(x = indicatorOffset)
-                    .width(itemWidth)
-                    .fillMaxHeight()
-                    .padding(12.dp)
-                    .background(color.secondaryButton, CircleShape)
-            )
-
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = null
-                        ) { selectedTab = 0; onMenuClick() },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(Res.drawable.squaredmenu),
-                        contentDescription = "Menu",
-                        modifier = Modifier.size(28.dp)
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = null
-                        ) { selectedTab = 1; onHomeClick() },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(Res.drawable.home),
-                        contentDescription = "Home",
-                        modifier = Modifier.size(28.dp)
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = null
-                        ) { selectedTab = 2; onEditClick() },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(Res.drawable.edit),
-                        contentDescription = "Edit",
-                        modifier = Modifier.size(28.dp)
-                    )
-                }
-            }
-        }
-    }
-}
 
 @Composable
 fun PopUp(
