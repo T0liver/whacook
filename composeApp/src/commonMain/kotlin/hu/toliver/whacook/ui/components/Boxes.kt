@@ -16,6 +16,9 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,10 +39,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import hu.toliver.whacook.domain.model.Duration
 import hu.toliver.whacook.ui.theme.LightColors
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import whacook.composeapp.generated.resources.Res
+import whacook.composeapp.generated.resources.down
 import whacook.composeapp.generated.resources.edit
 import whacook.composeapp.generated.resources.fryingpan
 import whacook.composeapp.generated.resources.home
@@ -63,6 +68,102 @@ fun Modifier.responsiveWidth(maxWidth: Dp): Modifier = this
     )
     layout(placeable.width, placeable.height) {
         placeable.placeRelative(0, 0)
+    }
+}
+
+@Composable
+fun DurationChooser(
+    duration: Duration,
+    onValueChange: (Duration) -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    val color = LightColors
+    Row(
+        modifier = modifier.responsiveWidth(350.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        OutlinedTextField(
+            value = if (duration.length == 0.0) "" else duration.length.toString().removeSuffix(".0"),
+            onValueChange = {
+                val newText = it.filter { char -> char.isDigit() || char == '.' }
+                val newLength = newText.toDoubleOrNull() ?: 0.0
+                onValueChange(duration.copy(length = newLength))
+            },
+            modifier = Modifier
+                .weight(0.4f)
+                .height(64.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = color.surface,
+                unfocusedContainerColor = color.surface,
+                focusedBorderColor = color.primaryText,
+                unfocusedBorderColor = color.secondaryStroke,
+                cursorColor = color.primaryText,
+                focusedTextColor = color.primaryText,
+                unfocusedTextColor = color.primaryText,
+            ),
+            textStyle = androidx.compose.ui.text.TextStyle(
+                fontSize = 24.sp,
+                color = color.primaryText
+            ),
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+        )
+
+        var expanded by remember { mutableStateOf(false) }
+        val units = listOf("minutes", "hours")
+
+        Box(
+            modifier = Modifier
+                .weight(0.6f)
+                .height(64.dp)
+                .border(1.dp, color.secondaryStroke, RoundedCornerShape(16.dp))
+                .clip(RoundedCornerShape(16.dp))
+                .background(color.surface)
+                .clickable { expanded = true }
+                .padding(horizontal = 16.dp),
+            contentAlignment = Alignment.CenterStart
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = duration.unit,
+                    fontSize = 20.sp,
+                    color = color.primaryText
+                )
+                Image(
+                    painter = painterResource(Res.drawable.down),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier.background(color.surface)
+            ) {
+                units.forEach { unit ->
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                text = unit,
+                                fontSize = 18.sp,
+                                color = color.primaryText
+                            )
+                        },
+                        onClick = {
+                            onValueChange(duration.copy(unit = unit))
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
     }
 }
 
