@@ -21,6 +21,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import hu.toliver.whacook.domain.model.Recipe
 import hu.toliver.whacook.ui.components.*
 import hu.toliver.whacook.ui.screens.edit.EditScreen
+import hu.toliver.whacook.ui.screens.home.HomeScreen
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
 import whacook.composeapp.generated.resources.Res
@@ -55,6 +56,7 @@ fun RecipeScreenContent(
     onEdit: () -> Unit
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
+    val navigator = LocalNavigator.currentOrThrow
     Box (
         modifier = Modifier.fillMaxSize()
     ) {
@@ -68,7 +70,9 @@ fun RecipeScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                BackButton()
+                BackButton {
+                    navigator.replaceAll(HomeScreen())
+                }
                 Spacer(modifier = Modifier.width(8.dp))
                 Header(recipe.name)
             }
