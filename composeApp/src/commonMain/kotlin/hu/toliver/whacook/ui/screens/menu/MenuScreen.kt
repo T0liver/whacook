@@ -17,10 +17,12 @@ import hu.toliver.whacook.ui.components.MenuElement
 import hu.toliver.whacook.ui.screens.about.AboutScreen
 import hu.toliver.whacook.ui.screens.apikey.APIKeyScreen
 import hu.toliver.whacook.ui.screens.feedback.FeedbackScreen
+import hu.toliver.whacook.ui.screens.recipepreferences.RecipePreferencesScreen
 import whacook.composeapp.generated.resources.Res
 import whacook.composeapp.generated.resources.about
 import whacook.composeapp.generated.resources.feedback
 import whacook.composeapp.generated.resources.key
+import whacook.composeapp.generated.resources.preferences
 
 class MenuScreen : Screen {
     @Composable
@@ -59,6 +61,10 @@ fun MenuScreenContent(
                     Spacer(Modifier.height(20.dp))
                     MenuElement("API Key", Res.drawable.key) {
                         navigator.push(APIKeyScreen())
+                    }
+                    Spacer(Modifier.height(16.dp))
+                    MenuElement("Recipe Preferences", Res.drawable.preferences) {
+                        navigator.push(RecipePreferencesScreen())
                     }
                     Spacer(Modifier.height(16.dp))
                     MenuElement("Feedback", Res.drawable.feedback) {
