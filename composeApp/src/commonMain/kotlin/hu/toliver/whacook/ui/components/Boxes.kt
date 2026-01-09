@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -260,13 +261,15 @@ fun IngredientEditCard(
                 singleLine = true
             )
 
-            Icon(
-                painter = painterResource(Res.drawable.trashcan),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(32.dp)
-                    .clickable { onDelete() }
-            )
+            IconButton(
+                onClick = { onDelete() }
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.trashcan),
+                    contentDescription = null,
+                    modifier = Modifier.size(32.dp)
+                )
+            }
         }
     }
 }
