@@ -51,26 +51,6 @@ import whacook.composeapp.generated.resources.home
 import whacook.composeapp.generated.resources.more
 import whacook.composeapp.generated.resources.squaredmenu
 
-fun Modifier.responsiveWidth(maxWidth: Dp): Modifier = this
-    .fillMaxWidth()
-    .wrapContentWidth(Alignment.CenterHorizontally)
-    .layout { measurable, constraints ->
-    val maxPx = maxWidth.roundToPx()
-    val fractionPx = if (constraints.hasBoundedWidth) (constraints.maxWidth * 0.85f).toInt() else maxPx
-    val targetWidth = fractionPx.coerceAtMost(maxPx)
-    val finalWidth = targetWidth.coerceIn(constraints.minWidth, constraints.maxWidth)
-
-    val placeable = measurable.measure(
-        constraints.copy(
-            minWidth = finalWidth,
-            maxWidth = finalWidth
-        )
-    )
-    layout(placeable.width, placeable.height) {
-        placeable.placeRelative(0, 0)
-    }
-}
-
 @Composable
 fun DurationChooser(
     duration: Duration,
