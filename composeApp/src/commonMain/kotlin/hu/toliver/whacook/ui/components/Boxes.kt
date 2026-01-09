@@ -570,7 +570,7 @@ fun RecipeCard(
 fun SearchCard(
     modifier: Modifier = Modifier,
     onSearchClick: () -> Unit = {},
-    onDescribeClick: () -> Unit = {}
+    /* onDescribeClick: () -> Unit = {}*/
 ) {
     val color = LightColors
     Card(
@@ -609,10 +609,12 @@ fun SearchCard(
                 onClick = onSearchClick
             )
 
+            /* I will comment this out for now, as the feature is not ready yet
             BodyTextUnderline(
                 text = "...or just describe your food!",
                 onClick = onDescribeClick
             )
+             */
         }
     }
 }
