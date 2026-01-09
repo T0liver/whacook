@@ -31,6 +31,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import whacook.composeapp.generated.resources.Res
 import whacook.composeapp.generated.resources.trashcan
+import hu.toliver.whacook.domain.model.Ingredient
 
 @Composable
 fun EditableList(
@@ -106,6 +107,39 @@ fun EditableList(
 fun EditableListPreview() {
     val items = remember { mutableStateListOf("first item", "second item") }
     EditableList(items = items)
+}
+
+@Composable
+fun IngredientEditableList(
+    ingredients: SnapshotStateList<Ingredient>
+) {
+    Column(
+        modifier = Modifier.responsiveWidth(800.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        ingredients.forEachIndexed { index, ingredient ->
+            IngredientEditCard(
+                name = ingredient.name,
+                onNameChange = { ingredients[index] = ingredient.copy(name = it) },
+                amount = ingredient.amount,
+                onAmountChange = { ingredients[index] = ingredient.copy(amount = it) },
+                unit = ingredient.unit,
+                onUnitChange = { ingredients[index] = ingredient.copy(unit = it) },
+                onDelete = {
+                    ingredients.removeAt(index)
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
+        PButton(
+            text = "Add ingredient",
+            onClick = {
+                ingredients.add(Ingredient(name = "", amount = 0.0, unit = ""))
+            }
+        )
+    }
 }
 
 @Composable
