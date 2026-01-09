@@ -51,10 +51,15 @@ fun PButton(
 }
 
 @Composable
-fun BackButton() {
+fun BackButton(
+    onClick: () -> Unit = { }
+) {
     val navigator = LocalNavigator.currentOrThrow
     IconButton(
-        onClick = { navigator.pop() }
+        onClick = {
+            onClick()
+            navigator.pop()
+        }
     ) {
         Icon(
             painter = painterResource(Res.drawable.back),
