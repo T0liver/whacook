@@ -20,9 +20,11 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import hu.toliver.whacook.domain.model.Recipe
 import hu.toliver.whacook.ui.components.*
+import hu.toliver.whacook.ui.screens.edit.EditScreen
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
 import whacook.composeapp.generated.resources.Res
+import whacook.composeapp.generated.resources.edit
 import whacook.composeapp.generated.resources.trashcan
 
 class RecipeScreen(
@@ -37,7 +39,8 @@ class RecipeScreen(
             recipe = state,
             onRatingChanged = viewModel::onRatingChanged,
             toggleFavourite = viewModel::toggleFavourite,
-            onDelete = { navigator.pop() }
+            onDelete = { navigator.pop() },
+            onEdit = { navigator.push(EditScreen(state)) }
         )
     }
 
@@ -48,7 +51,8 @@ fun RecipeScreenContent(
     recipe: Recipe,
     onRatingChanged: (Int) -> Unit,
     toggleFavourite: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    onEdit: () -> Unit
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
     Box (
@@ -87,6 +91,12 @@ fun RecipeScreenContent(
                         onClick = toggleFavourite,
                         modifier = Modifier.align(Alignment.CenterVertically)
                     )
+                    IconButton(
+                        onClick = onEdit,
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    ) {
+                        Icon(painterResource(Res.drawable.edit), "edit")
+                    }
                     IconButton(
                         onClick = { showDeleteDialog = true },
                         modifier = Modifier.align(Alignment.CenterVertically)

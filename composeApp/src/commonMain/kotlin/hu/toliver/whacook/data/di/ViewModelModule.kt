@@ -2,6 +2,7 @@ package hu.toliver.whacook.data.di
 
 import hu.toliver.whacook.domain.model.Recipe
 import hu.toliver.whacook.ui.screens.apikey.APIKeyViewModel
+import hu.toliver.whacook.ui.screens.edit.EditScreenViewModel
 import hu.toliver.whacook.ui.screens.home.HomeScreenViewModel
 import hu.toliver.whacook.ui.screens.menu.MenuScreenViewModel
 import hu.toliver.whacook.ui.screens.newrecipe.NewRecipeScreenViewModel
@@ -16,6 +17,10 @@ val viewModelModule = module {
 
     factory { (recipe: Recipe) ->
         RecipeScreenViewModel(recipe = recipe, recipeUseCase = get())
+    }
+
+    factory { (recipe: Recipe) ->
+        EditScreenViewModel(recipe = recipe)
     }
 
 }
