@@ -63,6 +63,7 @@ fun BackButton() {
 @Composable
 fun FavouriteButton(
     isFavourite: Boolean,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
     val iconRes = if (isFavourite) {
@@ -71,7 +72,8 @@ fun FavouriteButton(
         Res.drawable.heart
     }
     IconButton(
-        onClick = onClick
+        onClick = onClick,
+        modifier = modifier
     ) {
         Image(
             painter = painterResource(iconRes),
