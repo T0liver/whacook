@@ -12,6 +12,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -29,6 +30,8 @@ fun PButton(
     text: String,
     enabled: Boolean = true,
     modifier: Modifier = Modifier,
+    backgroundColor: Color = LightColors.primaryButton,
+    textColor: Color = LightColors.onPrimaryButton,
     onClick: () -> Unit = {},
 ) {
     val colors = LightColors
@@ -37,8 +40,8 @@ fun PButton(
         enabled = enabled,
         modifier = modifier,
         colors = ButtonDefaults.buttonColors(
-            containerColor = colors.primaryButton,
-            contentColor = colors.onPrimaryButton,
+            containerColor = backgroundColor,
+            contentColor = textColor,
         ),
         border = BorderStroke(2.dp, colors.stroke),
         shape = RoundedCornerShape(20.dp)
