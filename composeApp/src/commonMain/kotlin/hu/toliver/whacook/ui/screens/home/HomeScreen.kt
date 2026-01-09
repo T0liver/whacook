@@ -14,6 +14,7 @@ import hu.toliver.whacook.domain.model.Ingredient
 import hu.toliver.whacook.domain.model.Recipe
 import hu.toliver.whacook.ui.components.*
 import hu.toliver.whacook.ui.screens.apikey.APIKeyScreen
+import hu.toliver.whacook.ui.screens.newrecipe.NewRecipeScreen
 import hu.toliver.whacook.ui.screens.recipe.RecipeScreen
 
 class HomeScreen : Screen {
@@ -44,7 +45,9 @@ private fun HomeScreenContent(
         ) {
             Header()
             Spacer(Modifier.height(20.dp))
-            SearchCard(onSearchClick = {showPopup = true})
+            SearchCard(onSearchClick = {
+                navigator.push(NewRecipeScreen())
+            })
             Spacer(Modifier.height(16.dp))
             Subheader("Recent recipes")
             Spacer(Modifier.height(8.dp))

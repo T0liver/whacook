@@ -36,7 +36,7 @@ import hu.toliver.whacook.domain.model.Ingredient
 @Composable
 fun EditableList(
     items: SnapshotStateList<String>,
-    placeholderText: String = "add"
+    placeholderText: String = ""
 ) {
     val focusRequesters = remember { mutableStateListOf<FocusRequester>() }
     val shouldFocusLastItem = remember { mutableStateOf(false) }

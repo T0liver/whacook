@@ -24,6 +24,7 @@ import hu.toliver.whacook.ui.components.BodyTextSmall
 import hu.toliver.whacook.ui.components.EditableList
 import hu.toliver.whacook.ui.components.Header
 import hu.toliver.whacook.ui.components.PButton
+import hu.toliver.whacook.ui.components.responsiveWidth
 
 class NewRecipeScreen : Screen {
     @Composable
@@ -56,7 +57,7 @@ private fun NewRecipeScreenContent(
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .responsiveWidth(800.dp)
                     .heightIn(min = screenHeight),
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -67,7 +68,10 @@ private fun NewRecipeScreenContent(
                 ) {
                     Header("New Recipe")
                     Spacer(Modifier.height(16.dp))
-                    EditableList(ingredients)
+                    EditableList(
+                        ingredients,
+                        "Type in what you have at home..."
+                    )
                     PButton("Generate Recipe")
                 }
                 Column(
