@@ -3,6 +3,8 @@ package hu.toliver.whacook.ui.screens.recipe
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -13,7 +15,10 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import hu.toliver.whacook.domain.model.Recipe
 import hu.toliver.whacook.ui.components.*
+import org.jetbrains.compose.resources.painterResource
 import org.koin.core.parameter.parametersOf
+import whacook.composeapp.generated.resources.Res
+import whacook.composeapp.generated.resources.trashcan
 
 class RecipeScreen(
     val recipe: Recipe
@@ -54,21 +59,32 @@ fun RecipeScreenContent(
                 Spacer(modifier = Modifier.width(8.dp))
                 Header(recipe.name)
             }
-
+            
             Row (
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
+                horizontalArrangement = Arrangement.Start
             ) {
-                RatingStars(
-                    rating = recipe.rating,
-                    onRatingChanged = onRatingChanged
-                )
-                Spacer(Modifier.width(48.dp))
-                FavouriteButton(
-                    isFavourite = recipe.favourite,
-                    onClick = toggleFavourite
-                )
+                FlowRow (
+                    modifier = Modifier.responsiveWidth(600.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    RatingStars(
+                        rating = recipe.rating,
+                        onRatingChanged = onRatingChanged,
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    )
+                    FavouriteButton(
+                        isFavourite = recipe.favourite,
+                        onClick = toggleFavourite,
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    )
+                    IconButton(
+                        onClick = { /* TODO: Show delete popup */ },
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    ) {
+                        Icon(painterResource(Res.drawable.trashcan), "delete")
+                    }
+                }
             }
 
             Subheader("Time to make")
