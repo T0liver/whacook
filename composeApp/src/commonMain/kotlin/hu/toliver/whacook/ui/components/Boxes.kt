@@ -210,7 +210,10 @@ fun PopUp(
     headerText: String,
     bodyText: String,
     buttonText: String,
-    onConfirm: () -> Unit = {}
+    dismiss: Boolean = false,
+    dismissText: String = "",
+    onConfirm: () -> Unit = {},
+    onDismiss: () -> Unit = {}
 ) {
     val color = LightColors
     Card(
@@ -243,10 +246,22 @@ fun PopUp(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            PButton(
-                text = buttonText,
-                onClick = onConfirm
-            )
+            FlowRow(
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                PButton(
+                    text = buttonText,
+                    onClick = onConfirm
+                )
+                if (dismiss) {
+                    Spacer(modifier = Modifier.width(16.dp))
+                    PButton(
+                        text = dismissText,
+                        onClick = onDismiss,
+                        backgroundColor = color.secondaryButton
+                    )
+                }
+            }
         }
     }
 }
@@ -255,7 +270,9 @@ fun PopUp(
 fun PopUpOverlay(
     headerText: String,
     bodyText: String,
+    dismiss: Boolean = false,
     buttonText: String,
+    dismissText: String = "",
     onConfirm: () -> Unit = {},
     onDismiss: () -> Unit = {}
 ) {
@@ -278,9 +295,13 @@ fun PopUpOverlay(
             PopUp(
                 headerText = headerText,
                 bodyText = bodyText,
+                dismiss = dismiss,
+                dismissText = dismissText,
                 buttonText = buttonText,
                 onConfirm = {
                     onConfirm()
+                },
+                onDismiss = {
                     onDismiss()
                 }
             )
