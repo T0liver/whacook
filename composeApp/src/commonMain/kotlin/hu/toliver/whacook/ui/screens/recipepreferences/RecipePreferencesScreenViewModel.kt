@@ -14,10 +14,6 @@ class RecipePreferencesScreenViewModel : ScreenModel {
         state = state.copy(preference = value)
     }
     
-    fun removePreference() {
-        state = state.copy(preference = "")
-    }
-    
     fun savePreference() {
         // TODO: Persist the preference
         // For now, we simulate a successful save for the demo
