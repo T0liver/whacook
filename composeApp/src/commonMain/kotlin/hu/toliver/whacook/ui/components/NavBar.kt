@@ -47,6 +47,8 @@ fun NavBar(
     onHomeClick: () -> Unit = {},
     onEditClick: () -> Unit = {}
 ) {
+    if (selectedTab == NavBarTab.NONE) return
+    
     val color = LightColors
     Box(
         modifier = Modifier
