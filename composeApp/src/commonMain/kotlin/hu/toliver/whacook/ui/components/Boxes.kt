@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -292,109 +291,6 @@ fun MenuElement(
 }
 
 
-@Composable
-fun PopUp(
-    headerText: String,
-    bodyText: String,
-    buttonText: String,
-    dismiss: Boolean = false,
-    dismissText: String = "",
-    onConfirm: () -> Unit = {},
-    onDismiss: () -> Unit = {}
-) {
-    val color = LightColors
-    Card(
-        modifier = Modifier
-            .responsiveWidth(400.dp)
-            .border(3.dp, color.stroke, RoundedCornerShape(24.dp)),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = color.surface
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 0.dp
-        )
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(24.dp)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Header(headerText)
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            BodyText(
-                text = bodyText,
-                fontSize = 18.sp,
-                color = color.primaryText
-            )
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            FlowRow(
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                PButton(
-                    text = buttonText,
-                    onClick = onConfirm
-                )
-                if (dismiss) {
-                    Spacer(modifier = Modifier.width(16.dp))
-                    PButton(
-                        text = dismissText,
-                        onClick = onDismiss,
-                        backgroundColor = color.secondaryButton
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun PopUpOverlay(
-    headerText: String,
-    bodyText: String,
-    dismiss: Boolean = false,
-    buttonText: String,
-    dismissText: String = "",
-    onConfirm: () -> Unit = {},
-    onDismiss: () -> Unit = {}
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.5f))
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) { onDismiss() },
-        contentAlignment = Alignment.Center
-    ) {
-        Box(
-            modifier = Modifier.clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) {}
-        ) {
-            PopUp(
-                headerText = headerText,
-                bodyText = bodyText,
-                dismiss = dismiss,
-                dismissText = dismissText,
-                buttonText = buttonText,
-                onConfirm = {
-                    onConfirm()
-                },
-                onDismiss = {
-                    onDismiss()
-                }
-            )
-        }
-    }
-}
 
 @Composable
 fun RecipeCard(
