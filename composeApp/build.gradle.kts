@@ -11,8 +11,6 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
     alias(libs.plugins.buildkonfig)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.room)
     kotlin("plugin.serialization") version "2.2.20"
 }
 
@@ -80,10 +78,6 @@ kotlin {
             implementation(libs.voyager.screenmodel)
             implementation(libs.voyager.transitions)
             implementation(libs.voyager.koin)
-
-            implementation(libs.room.runtime)
-            implementation(libs.sqlite.bundled)
-            implementation(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -94,14 +88,6 @@ kotlin {
             implementation(libs.slf4j.simple)
         }
     }
-}
-
-room {
-    schemaDirectory("$projectDir/schemas")
-}
-
-dependencies {
-    add("kspCommonMainMetadata", libs.room.compiler)
 }
 
 android {

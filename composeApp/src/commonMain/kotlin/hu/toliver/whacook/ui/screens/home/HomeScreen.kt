@@ -1,8 +1,6 @@
 package hu.toliver.whacook.ui.screens.home
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +30,7 @@ class HomeScreen : Screen {
 
 @Composable
 private fun HomeScreenContent(
+    @Suppress("UNUSED_PARAMETER")
     state: HomeState,
     @Suppress("UNUSED_PARAMETER")
     viewModel: HomeScreenViewModel
@@ -52,21 +51,40 @@ private fun HomeScreenContent(
             Spacer(Modifier.height(16.dp))
             Subheader("Recent recipes")
             Spacer(Modifier.height(8.dp))
-
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(0.85f).fillMaxHeight(),
-                contentPadding = PaddingValues(bottom = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                items(state.recipes) { recipe ->
-                    RecipeCard(
-                        title = recipe.name,
-                        time = recipe.timeToMake.toString(),
-                        ingredientsCount = recipe.ingredients.size,
-                        date = recipe.generationTime,
-                    ) {
-                        navigator.push(RecipeScreen(recipe))
-                    }
+            Column(Modifier.fillMaxWidth(0.85f)) {
+                RecipeCard(
+                    title = "Chocolate Lava Cake",
+                    time = "30m",
+                    ingredientsCount = 6,
+                    date = "2025.11.12. 12:50",
+                ) {
+                    navigator.push(RecipeScreen(Recipe(
+                        name = "Chocolate Lava Cake",
+                        timeToMake = Duration(30.0, "minutes"),
+                        ingredients = mutableListOf(
+                            Ingredient("Dark chocolate", "g", 200.0),
+                            Ingredient("Butter", "g", 100.0),
+                            Ingredient("Sugar", "g", 150.0),
+                            Ingredient("Eggs", "pcs", 3.0),
+                            Ingredient("Flour", "g", 50.0),
+                            Ingredient("Vanilla extract", "tsp", 1.0)
+                        ),
+                        steps = mutableListOf(
+                            "Preheat oven to 220°C (425°F).",
+                            "Melt chocolate and butter together.",
+                            "In a separate bowl, whisk eggs and sugar until light and fluffy.",
+                            "Combine melted chocolate mixture with egg mixture.",
+                            "Fold in flour and vanilla extract.",
+                            "Pour batter into greased ramekins and bake for 12-14 minutes."
+                        ),
+                        id = "cake1",
+                        tools = mutableListOf("Oven", "Ramekins", "Mixing bowls", "Whisk"),
+                        serving = "Serves 4",
+                        favourite = false,
+                        category = "Dessert",
+                        generationTime = "Generated on 2025.11.10. 10:00",
+                        rating = 3
+                    )))
                 }
             }
         }
