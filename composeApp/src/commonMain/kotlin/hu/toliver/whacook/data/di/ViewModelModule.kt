@@ -11,10 +11,10 @@ import hu.toliver.whacook.ui.screens.recipepreferences.RecipePreferencesScreenVi
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    factory { APIKeyViewModel() }
+    factory { APIKeyViewModel(get()) }
     factory { HomeScreenViewModel(get(), get()) }
     factory { MenuScreenViewModel() }
-    factory { NewRecipeScreenViewModel() }
+    factory { NewRecipeScreenViewModel(get(), get()) }
     factory { RecipePreferencesScreenViewModel() }
 
     factory { (recipe: Recipe) ->

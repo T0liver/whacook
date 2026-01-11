@@ -1,5 +1,7 @@
 package hu.toliver.whacook.data.remote
 
+import hu.toliver.whacook.BuildKonfig
+import hu.toliver.whacook.data.local.PreferencesManager
 import hu.toliver.whacook.data.remote.dto.GeminiResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -22,16 +24,16 @@ import kotlinx.serialization.json.JsonPrimitive
  * Remote data source for interacting with Google's Gemini generative language API.
  *
  * Uses a provided [HttpClient] to POST a minimal request and returns the generated text.
- * The [apiKey] may be either a Google API key (starts with "AIza") or an OAuth bearer token.
- * If an API key is detected it is appended as a query parameter; otherwise the token is sent
- * in the Authorization header as a Bearer token.
+ * The API key is retrieved from [preferencesManager] and may be either a Google API key
+ * (starts with "AIza") or an OAuth bearer token. If an API key is detected it is appended
+ * as a query parameter; otherwise the token is sent in the Authorization header as a Bearer token.
  *
  * @property httpClient configured Ktor HttpClient used to perform requests
- * @property apiKey Google API key (starts with "AIza") or an OAuth bearer token
+ * @property preferencesManager manager to retrieve the stored API key
  */
 class GeminiRemoteDataSource (
     private val httpClient: HttpClient,
-    private val apiKey: String
+    private val preferencesManager: PreferencesManager
 ) {
     /**
      * Sends [prompt] to the Gemini model and returns generated text.
@@ -39,8 +41,9 @@ class GeminiRemoteDataSource (
      * The [context] parameter is reserved for future use and is not serialized in the current implementation.
      * This function:
      * 1. Builds a small JSON payload containing the prompt.
-     * 2. Chooses how to supply the [apiKey] (query param for API keys, Authorization header for bearer tokens).
-     * 3. Attempts to decode the response into [GeminiResponse]. If decoding fails it will try to extract the
+     * 2. Retrieves the API Key from preferences.
+     * 3. Chooses how to supply the key (query param for API keys, Authorization header for bearer tokens).
+     * 4. Attempts to decode the response into [GeminiResponse]. If decoding fails it will try to extract the
      *    first textual field from the JSON response. If extraction also fails the raw response string is returned.
      *
      * @param prompt the prompt text to send to the model
@@ -49,6 +52,13 @@ class GeminiRemoteDataSource (
      * @throws Exception propagated from the underlying [HttpClient] on network errors
      */
     suspend fun generate(prompt: String): String {
+        val storedKey = preferencesManager.apiKey
+        val apiKey = if (!storedKey.isNullOrEmpty()) storedKey else BuildKonfig.GEMINI_API_KEY
+
+        if (apiKey.isEmpty()) {
+            throw IllegalStateException("API Key not found. Please add it in settings.")
+        }
+
         val requestBody = buildJsonObject {
             putJsonArray("contents") {
                 add(buildJsonObject {

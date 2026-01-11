@@ -4,21 +4,32 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
+import hu.toliver.whacook.data.local.PreferencesManager
+import kotlinx.coroutines.launch
 
-class APIKeyViewModel : ScreenModel {
+class APIKeyViewModel(
+    private val preferencesManager: PreferencesManager
+) : ScreenModel {
 
     var state by mutableStateOf(APIKeyState())
         private set
+
+    init {
+        val savedKey = preferencesManager.apiKey
+        if (!savedKey.isNullOrEmpty()) {
+            state = state.copy(apiKey = savedKey)
+        }
+    }
 
     fun updateApiKey(value: String) {
         state = state.copy(apiKey = value)
     }
 
     fun saveApiKey() {
-        // TODO: Persist the API key securely
-        // For now, we simulate a successful save for the demo
-        println("Saving API Key: ${state.apiKey}")
-        state = state.copy(isSaved = true)
+        screenModelScope.launch {
+            preferencesManager.saveApiKey(state.apiKey)
+            state = state.copy(isSaved = true)
+        }
     }
 }
-

@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
-import hu.toliver.whacook.data.di.initKoin
 import hu.toliver.whacook.ui.components.NavBar
 import hu.toliver.whacook.ui.components.NavBarTab
 import hu.toliver.whacook.ui.screens.home.HomeScreen
@@ -19,7 +18,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 @Preview
 fun App() {
-    initKoin()
 
     MaterialTheme {
         Navigator(HomeScreen()) { navigator ->

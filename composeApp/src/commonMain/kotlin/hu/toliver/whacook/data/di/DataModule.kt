@@ -1,6 +1,5 @@
 package hu.toliver.whacook.data.di
 
-import hu.toliver.whacook.BuildKonfig
 import hu.toliver.whacook.data.remote.GeminiRemoteDataSource
 import hu.toliver.whacook.data.repository.GeminiRecipeGenerationRepository
 import hu.toliver.whacook.domain.usecase.RecepieGenerationUseCase
@@ -36,17 +35,17 @@ fun createHttpClient(): HttpClient = HttpClient {
 }
 
 /**
- * Create a [GeminiRemoteDataSource] using the provided [client].
- *
- * By default, this function will create a new HTTP client and obtain the API key
- * from [BuildKonfig]. Supply a different [client] for tests or to share a client
- * across other callers.
+ * Create a [GeminiRemoteDataSource] using the provided [client] and [preferencesManager].
  *
  * @param client HTTP client to use for network requests
+ * @param preferencesManager manager for accessing stored preferences (API Key)
  * @return configured [GeminiRemoteDataSource]
  */
-fun createGeminiRemoteDataSource(client: HttpClient = createHttpClient()): GeminiRemoteDataSource {
-    return GeminiRemoteDataSource(client, apiKey = BuildKonfig.GEMINI_API_KEY)
+fun createGeminiRemoteDataSource(
+    client: HttpClient = createHttpClient(),
+    preferencesManager: hu.toliver.whacook.data.local.PreferencesManager
+): GeminiRemoteDataSource {
+    return GeminiRemoteDataSource(client, preferencesManager)
 }
 
 /**
@@ -56,21 +55,15 @@ fun createGeminiRemoteDataSource(client: HttpClient = createHttpClient()): Gemin
  * @return a [GeminiRecipeGenerationRepository] instance
  */
 fun createGeminiRecipeGenerationRepository(
-    remote: GeminiRemoteDataSource = createGeminiRemoteDataSource()
+    remote: GeminiRemoteDataSource
 ): GeminiRecipeGenerationRepository = GeminiRecipeGenerationRepository(remote)
 
 /**
  * Create the recipe generation use case.
  *
- * The function name is kept as `createRecGenerationUseCase` to match the
- * existing public API in the module. The created [RecepieGenerationUseCase]
- * depends on an [hu.toliver.whacook.domain.repository.IRecipeGenerationRepository], which by default is provided by
- * [createGeminiRecipeGenerationRepository].
- *
  * @param repository repository used by the use case
  * @return a configured [RecepieGenerationUseCase]
  */
 fun createRecipeGenerationUseCase(
-    repository: hu.toliver.whacook.domain.repository.IRecipeGenerationRepository =
-        createGeminiRecipeGenerationRepository()
+    repository: hu.toliver.whacook.domain.repository.IRecipeGenerationRepository
 ): RecepieGenerationUseCase = RecepieGenerationUseCase(repository)
