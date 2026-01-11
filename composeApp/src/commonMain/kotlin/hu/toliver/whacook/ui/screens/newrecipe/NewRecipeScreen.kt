@@ -64,6 +64,7 @@ private fun NewRecipeScreenContent(
                         ingredients,
                         "Type in what you have at home..."
                     )
+                    Spacer(Modifier.height(32.dp))
                     PButton(
                         text = "Generate Recipe",
                         enabled = !state.isLoading,
