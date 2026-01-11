@@ -13,7 +13,7 @@ import hu.toliver.whacook.domain.repository.IRecipeGenerationRepository
  *
  * @property repository repository used to generate resources (e.g. via an API call)
  */
-class RecepieGenerationUseCase (
+class RecipeGenerationUseCase (
     private val repository: IRecipeGenerationRepository,
     private val preferencesManager: RecipePreferencesManager
 ) {

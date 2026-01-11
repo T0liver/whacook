@@ -2,7 +2,7 @@ package hu.toliver.whacook.data.di
 
 import hu.toliver.whacook.data.remote.GeminiRemoteDataSource
 import hu.toliver.whacook.data.repository.GeminiRecipeGenerationRepository
-import hu.toliver.whacook.domain.usecase.RecepieGenerationUseCase
+import hu.toliver.whacook.domain.usecase.RecipeGenerationUseCase
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
@@ -62,8 +62,8 @@ fun createGeminiRecipeGenerationRepository(
  * Create the recipe generation use case.
  *
  * @param repository repository used by the use case
- * @return a configured [RecepieGenerationUseCase]
+ * @return a configured [RecipeGenerationUseCase]
  */
 fun createRecipeGenerationUseCase(
     repository: hu.toliver.whacook.domain.repository.IRecipeGenerationRepository
-): RecepieGenerationUseCase = RecepieGenerationUseCase(repository)
+): RecipeGenerationUseCase = RecipeGenerationUseCase(repository)

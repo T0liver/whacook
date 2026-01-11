@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.model.ScreenModel
 import hu.toliver.whacook.domain.model.Recipe
-import hu.toliver.whacook.domain.usecase.RecepieGenerationUseCase
+import hu.toliver.whacook.domain.usecase.RecipeGenerationUseCase
 import hu.toliver.whacook.domain.usecase.RecepieUseCase
 
 class NewRecipeScreenViewModel(
-    private val recepieGenerationUseCase: RecepieGenerationUseCase,
+    private val recepieGenerationUseCase: RecipeGenerationUseCase,
     private val recipeUseCase: RecepieUseCase
 ) : ScreenModel {
     var state by mutableStateOf(NewRecipeState())

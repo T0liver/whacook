@@ -9,7 +9,7 @@ import hu.toliver.whacook.data.local.getDatabaseBuilder
 import hu.toliver.whacook.data.remote.GeminiRemoteDataSource
 import hu.toliver.whacook.data.repository.GeminiRecipeGenerationRepository
 import hu.toliver.whacook.domain.repository.IRecipeGenerationRepository
-import hu.toliver.whacook.domain.usecase.RecepieGenerationUseCase
+import hu.toliver.whacook.domain.usecase.RecipeGenerationUseCase
 import hu.toliver.whacook.domain.usecase.RecepieUseCase
 import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
@@ -18,7 +18,7 @@ val appModule = module {
     single { createHttpClient() }
     single { GeminiRemoteDataSource(get(), get()) }
     single<IRecipeGenerationRepository> { GeminiRecipeGenerationRepository(get()) }
-    single { RecepieGenerationUseCase(get(), get()) }
+    single { RecipeGenerationUseCase(get(), get()) }
     single { RecepieUseCase(get()) }
     single { APIKeyManager(get()) }
     single { RecipePreferencesManager(get()) }
