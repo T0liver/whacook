@@ -1,11 +1,13 @@
 package hu.toliver.whacook.ui.screens.recipe
 
 import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
 import hu.toliver.whacook.domain.model.Recipe
 import hu.toliver.whacook.domain.usecase.RecepieUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class RecipeScreenViewModel (
     recipe: Recipe,
@@ -29,6 +31,12 @@ class RecipeScreenViewModel (
             val newFav = !newRecipe.favourite
             recipeUseCase.refavour(newRecipe, newFav)
             newRecipe
+        }
+    }
+
+    fun deleteRecipe() {
+        screenModelScope.launch {
+            recipeUseCase.deleteFromDatabase(uiState.value)
         }
     }
 }

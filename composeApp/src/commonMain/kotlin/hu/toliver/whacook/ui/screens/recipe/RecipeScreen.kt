@@ -40,7 +40,10 @@ class RecipeScreen(
             recipe = state,
             onRatingChanged = viewModel::onRatingChanged,
             toggleFavourite = viewModel::toggleFavourite,
-            onDelete = { navigator.replaceAll(HomeScreen()) },
+            onDelete = {
+                viewModel.deleteRecipe()
+                navigator.replaceAll(HomeScreen())
+            },
             onEdit = { navigator.push(EditScreen(state)) }
         )
     }
