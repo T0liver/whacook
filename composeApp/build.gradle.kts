@@ -37,9 +37,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
 
-            implementation(libs.multiplatformSettings)
-            implementation(libs.multiplatformSettings.coroutines)
-
             implementation(libs.kotlinx.serialization.json)
 
             api(libs.koin.core)
