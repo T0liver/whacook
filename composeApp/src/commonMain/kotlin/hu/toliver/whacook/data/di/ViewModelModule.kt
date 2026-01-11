@@ -22,7 +22,7 @@ val viewModelModule = module {
     }
 
     factory { (recipe: Recipe) ->
-        EditScreenViewModel(recipe = recipe)
+        EditScreenViewModel(recipe = recipe, recipeUseCase = get())
     }
 
 }

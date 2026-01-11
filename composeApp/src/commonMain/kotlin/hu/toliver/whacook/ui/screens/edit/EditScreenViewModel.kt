@@ -2,14 +2,20 @@ package hu.toliver.whacook.ui.screens.edit
 
 import androidx.compose.runtime.mutableStateListOf
 import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
 import hu.toliver.whacook.domain.model.Duration
 import hu.toliver.whacook.domain.model.Ingredient
 import hu.toliver.whacook.domain.model.Recipe
+import hu.toliver.whacook.domain.usecase.RecepieUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class EditScreenViewModel(private val recipe: Recipe) : ScreenModel {
+class EditScreenViewModel(
+    private val recipe: Recipe,
+    private val recipeUseCase: RecepieUseCase
+) : ScreenModel {
 
     private val _ingredients = mutableStateListOf<Ingredient>().apply {
         addAll(recipe.ingredients.map { it.copy() })
@@ -42,7 +48,7 @@ class EditScreenViewModel(private val recipe: Recipe) : ScreenModel {
         _uiState.update { it.copy(timeToMake = newDuration) }
     }
 
-    fun save() {
+    fun save(onFinished: () -> Unit) {
         val state = _uiState.value
         recipe.name = state.name
         recipe.serving = state.serving
@@ -56,5 +62,10 @@ class EditScreenViewModel(private val recipe: Recipe) : ScreenModel {
 
         recipe.tools.clear()
         recipe.tools.addAll(state.tools)
+
+        screenModelScope.launch {
+            recipeUseCase.saveToDatabase(recipe)
+            onFinished()
+        }
     }
 }

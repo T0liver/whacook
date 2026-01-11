@@ -92,8 +92,9 @@ data class EditScreen(val recipe: Recipe) : Screen {
             PButton(
                 text = "Save",
                 onClick = {
-                    viewModel.save()
-                    navigator.pop()
+                    viewModel.save {
+                        navigator.pop()
+                    }
                 },
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
