@@ -43,7 +43,7 @@ fun createHttpClient(): HttpClient = HttpClient {
  */
 fun createGeminiRemoteDataSource(
     client: HttpClient = createHttpClient(),
-    preferencesManager: hu.toliver.whacook.data.local.PreferencesManager
+    preferencesManager: hu.toliver.whacook.data.local.APIKeyManager
 ): GeminiRemoteDataSource {
     return GeminiRemoteDataSource(client, preferencesManager)
 }

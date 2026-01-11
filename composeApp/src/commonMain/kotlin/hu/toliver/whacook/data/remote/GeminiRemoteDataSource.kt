@@ -1,6 +1,6 @@
 package hu.toliver.whacook.data.remote
 
-import hu.toliver.whacook.data.local.PreferencesManager
+import hu.toliver.whacook.data.local.APIKeyManager
 import hu.toliver.whacook.data.remote.dto.GeminiResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -32,7 +32,7 @@ import kotlinx.serialization.json.JsonPrimitive
  */
 class GeminiRemoteDataSource (
     private val httpClient: HttpClient,
-    private val preferencesManager: PreferencesManager
+    private val preferencesManager: APIKeyManager
 ) {
     /**
      * Sends [prompt] to the Gemini model and returns generated text.

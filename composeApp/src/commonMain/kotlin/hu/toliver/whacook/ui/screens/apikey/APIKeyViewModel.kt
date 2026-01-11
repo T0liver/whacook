@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import hu.toliver.whacook.data.local.PreferencesManager
+import hu.toliver.whacook.data.local.APIKeyManager
 import kotlinx.coroutines.launch
 
 class APIKeyViewModel(
-    private val preferencesManager: PreferencesManager
+    private val preferencesManager: APIKeyManager
 ) : ScreenModel {
 
     var state by mutableStateOf(APIKeyState())

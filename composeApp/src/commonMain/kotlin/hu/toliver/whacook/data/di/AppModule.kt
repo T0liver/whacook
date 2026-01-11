@@ -1,6 +1,6 @@
 package hu.toliver.whacook.data.di
 
-import hu.toliver.whacook.data.local.PreferencesManager
+import hu.toliver.whacook.data.local.APIKeyManager
 import hu.toliver.whacook.data.remote.GeminiRemoteDataSource
 import hu.toliver.whacook.data.repository.GeminiRecipeGenerationRepository
 import hu.toliver.whacook.domain.repository.IRecipeGenerationRepository
@@ -14,5 +14,5 @@ val appModule = module {
     single<IRecipeGenerationRepository> { GeminiRecipeGenerationRepository(get()) }
     single { RecepieGenerationUseCase(get()) }
     single { RecepieUseCase() }
-    single { PreferencesManager(get()) }
+    single { APIKeyManager(get()) }
 }

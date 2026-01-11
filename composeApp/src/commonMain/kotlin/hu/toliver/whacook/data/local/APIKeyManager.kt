@@ -2,7 +2,7 @@ package hu.toliver.whacook.data.local
 
 import com.russhwolf.settings.Settings
 
-class PreferencesManager(private val settings: Settings) {
+class APIKeyManager(private val settings: Settings) {
     
     companion object {
         const val GEMINI_API_KEY = "gemini_api_key"
