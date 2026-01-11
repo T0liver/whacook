@@ -52,7 +52,11 @@ data class EditScreen(val recipe: Recipe) : Screen {
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                BackButton()
+                BackButton {
+                    viewModel.save {
+                        navigator.pop()
+                    }
+                }
                 Spacer(modifier = Modifier.width(8.dp))
                 Header("Edit Recipe")
             }
