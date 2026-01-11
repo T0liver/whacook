@@ -1,6 +1,5 @@
 package hu.toliver.whacook.data.remote
 
-import hu.toliver.whacook.BuildKonfig
 import hu.toliver.whacook.data.local.PreferencesManager
 import hu.toliver.whacook.data.remote.dto.GeminiResponse
 import io.ktor.client.HttpClient
@@ -53,9 +52,8 @@ class GeminiRemoteDataSource (
      */
     suspend fun generate(prompt: String): String {
         val storedKey = preferencesManager.apiKey
-        val apiKey = if (!storedKey.isNullOrEmpty()) storedKey else BuildKonfig.GEMINI_API_KEY
 
-        if (apiKey.isEmpty()) {
+        if (storedKey.isNullOrEmpty()) {
             throw IllegalStateException("API Key not found. Please add it in settings.")
         }
 
@@ -73,15 +71,15 @@ class GeminiRemoteDataSource (
         val baseUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
         val call = when {
-            apiKey.startsWith("AIza") -> {
-                httpClient.post("${baseUrl}?key=$apiKey") {
+            storedKey.startsWith("AIza") -> {
+                httpClient.post("${baseUrl}?key=$storedKey") {
                     contentType(ContentType.Application.Json)
                     setBody(requestBody)
                 }
             }
             else -> {
                 httpClient.post(baseUrl) {
-                    header(HttpHeaders.Authorization, "Bearer $apiKey")
+                    header(HttpHeaders.Authorization, "Bearer $storedKey")
                     contentType(ContentType.Application.Json)
                     setBody(requestBody)
                 }
