@@ -70,7 +70,7 @@ class GeminiRemoteDataSource (
             }
         }
 
-        val baseUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+        val baseUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
         val call = when {
             apiKey.startsWith("AIza") -> {
