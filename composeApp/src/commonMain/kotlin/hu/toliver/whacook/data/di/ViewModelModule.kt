@@ -15,7 +15,7 @@ val viewModelModule = module {
     factory { HomeScreenViewModel(get()) }
     factory { MenuScreenViewModel() }
     factory { NewRecipeScreenViewModel(get(), get()) }
-    factory { RecipePreferencesScreenViewModel() }
+    factory { RecipePreferencesScreenViewModel(get()) }
 
     factory { (recipe: Recipe) ->
         RecipeScreenViewModel(recipe = recipe, recipeUseCase = get())

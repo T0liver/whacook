@@ -4,6 +4,7 @@ import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import hu.toliver.whacook.data.local.APIKeyManager
 import hu.toliver.whacook.data.local.AppDatabase
 import hu.toliver.whacook.data.local.MIGRATION_1_2
+import hu.toliver.whacook.data.local.RecipePreferencesManager
 import hu.toliver.whacook.data.local.getDatabaseBuilder
 import hu.toliver.whacook.data.remote.GeminiRemoteDataSource
 import hu.toliver.whacook.data.repository.GeminiRecipeGenerationRepository
@@ -20,6 +21,7 @@ val appModule = module {
     single { RecepieGenerationUseCase(get()) }
     single { RecepieUseCase(get()) }
     single { APIKeyManager(get()) }
+    single { RecipePreferencesManager(get()) }
 
     single<AppDatabase> {
         getDatabaseBuilder()
