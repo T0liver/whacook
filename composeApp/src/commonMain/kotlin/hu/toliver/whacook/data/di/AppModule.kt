@@ -28,4 +28,5 @@ val appModule = module {
     }
 
     single { get<AppDatabase>().recipeDao() }
+    single { get<AppDatabase>().settingDao() }
 }
