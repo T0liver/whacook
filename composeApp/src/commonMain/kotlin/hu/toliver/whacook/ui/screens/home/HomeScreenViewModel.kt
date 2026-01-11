@@ -4,13 +4,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
 import hu.toliver.whacook.domain.usecase.RecepieGenerationUseCase
 import hu.toliver.whacook.domain.usecase.RecepieUseCase
 import hu.toliver.whacook.domain.model.Recipe
+import hu.toliver.whacook.domain.repository.IRecipeRepository
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class HomeScreenViewModel (
     private val recipeUseCase: RecepieUseCase,
-    private val recepieGenerationUseCase: RecepieGenerationUseCase
+    private val recepieGenerationUseCase: RecepieGenerationUseCase,
+    private val recipeRepository: IRecipeRepository
 ) : ScreenModel {
     var state by mutableStateOf(HomeState(
         isLoading = true,
@@ -18,6 +23,14 @@ class HomeScreenViewModel (
         showPopUp = false
     ))
         private set
+
+    init {
+        recipeRepository.getRecipes()
+            .onEach { recipes ->
+                 state = state.copy(recipes = recipes, isLoading = false)
+            }
+            .launchIn(screenModelScope)
+    }
 
     /**
      * Generate a recipe from the given ingredient list using the injected

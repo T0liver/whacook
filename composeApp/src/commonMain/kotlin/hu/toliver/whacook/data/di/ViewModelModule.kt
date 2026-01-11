@@ -12,13 +12,13 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     factory { APIKeyViewModel(get()) }
-    factory { HomeScreenViewModel(get(), get()) }
+    factory { HomeScreenViewModel(get(), get(), get()) }
     factory { MenuScreenViewModel() }
-    factory { NewRecipeScreenViewModel(get(), get()) }
+    factory { NewRecipeScreenViewModel(get(), get(), get()) }
     factory { RecipePreferencesScreenViewModel() }
 
     factory { (recipe: Recipe) ->
-        RecipeScreenViewModel(recipe = recipe, recipeUseCase = get())
+        RecipeScreenViewModel(recipe = recipe, recipeUseCase = get(), recipeRepository = get())
     }
 
     factory { (recipe: Recipe) ->
