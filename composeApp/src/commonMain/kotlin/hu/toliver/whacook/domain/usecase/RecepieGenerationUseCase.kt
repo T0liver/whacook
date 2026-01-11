@@ -43,6 +43,7 @@ class RecepieGenerationUseCase (
      * @return a JSON string describing the generated recipe
      */
     suspend fun generateRecipe(ingredients: List<String>): String {
+        if (ingredients.isEmpty()) throw IllegalArgumentException("Ingredient list cannot be empty")
         val sysPrompt = """
             You are a cooking assistant that creates structured recipes in JSON format.
 

@@ -9,6 +9,7 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -46,8 +47,9 @@ fun MessageSnackbar(
 
     LaunchedEffect(message) {
         if (!message.isNullOrBlank()) {
+            val duration = if (durationMs > 3500) SnackbarDuration.Long else SnackbarDuration.Short
+            hostState.showSnackbar(message = message, duration = duration)
             onShown?.invoke()
-            hostState.showSnackbar(message)
         }
     }
 
