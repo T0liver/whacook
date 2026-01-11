@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -53,9 +54,10 @@ private fun HomeScreenContent(
                     Box(Modifier
                         .fillMaxWidth(0.85f)
                         .padding(30.dp)
-                        .align(Alignment.CenterHorizontally)
+                        .align(Alignment.CenterHorizontally),
+                        contentAlignment = Alignment.Center
                     ) {
-                        BodyText("No recipes found. Create a new recipe to get started!")
+                        BodyText("No recipes found. Create a new recipe to get started!", color = Color.Gray)
                         return@Column
                     }
                 }
