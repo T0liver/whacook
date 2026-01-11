@@ -1,17 +1,17 @@
 package hu.toliver.whacook.data.local
 
-import com.russhwolf.settings.Settings
+import hu.toliver.whacook.data.local.dao.SettingDao
+import hu.toliver.whacook.data.local.entity.SettingEntity
 
-class APIKeyManager(private val settings: Settings) {
-    
+class APIKeyManager(private val settingDao: SettingDao) {
+
     companion object {
         const val GEMINI_API_KEY = "gemini_api_key"
     }
 
-    val apiKey: String?
-        get() = settings.getStringOrNull(GEMINI_API_KEY)
+    suspend fun getApiKey(): String? = settingDao.getSetting(GEMINI_API_KEY)
 
-    fun saveApiKey(apiKey: String) {
-        settings.putString(GEMINI_API_KEY, apiKey)
+    suspend fun saveApiKey(apiKey: String) {
+        settingDao.insertSetting(SettingEntity(GEMINI_API_KEY, apiKey))
     }
 }

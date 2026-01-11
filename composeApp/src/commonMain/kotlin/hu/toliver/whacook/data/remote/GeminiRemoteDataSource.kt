@@ -51,7 +51,7 @@ class GeminiRemoteDataSource (
      * @throws Exception propagated from the underlying [HttpClient] on network errors
      */
     suspend fun generate(prompt: String): String {
-        val storedKey = preferencesManager.apiKey
+        val storedKey = preferencesManager.getApiKey()
 
         if (storedKey.isNullOrEmpty()) {
             throw IllegalStateException("API Key not found. Please add it in settings.")

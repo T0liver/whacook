@@ -16,9 +16,11 @@ class APIKeyViewModel(
         private set
 
     init {
-        val savedKey = preferencesManager.apiKey
-        if (!savedKey.isNullOrEmpty()) {
-            state = state.copy(apiKey = savedKey)
+        screenModelScope.launch {
+            val savedKey = preferencesManager.getApiKey()
+            if (!savedKey.isNullOrEmpty()) {
+                state = state.copy(apiKey = savedKey)
+            }
         }
     }
 
