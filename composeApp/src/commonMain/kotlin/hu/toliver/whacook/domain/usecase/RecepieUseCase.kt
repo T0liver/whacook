@@ -1,8 +1,12 @@
 package hu.toliver.whacook.domain.usecase
 
+import hu.toliver.whacook.data.local.dao.RecipeDao
+import hu.toliver.whacook.data.mapper.toDomain
+import hu.toliver.whacook.data.mapper.toEntity
 import hu.toliver.whacook.domain.model.Duration
 import hu.toliver.whacook.domain.model.Recipe
-
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
 
 /**
@@ -13,7 +17,7 @@ import kotlinx.serialization.json.Json
  *
  * Typical usage:
  * ```
- * val recipeUseCase = RecipeUseCase()
+ * val recipeUseCase = RecipeUseCase(recipeDao)
  * val recipe = recipeUseCase() // Creates an empty recipe
  * recipeUseCase.rename(recipe, "Chocolate Cake")
  * recipeUseCase.rate(recipe, 5)
@@ -21,7 +25,9 @@ import kotlinx.serialization.json.Json
  * val restoredRecipe = recipeUseCase.load(json)
  * ```
  */
-class RecepieUseCase {
+class RecepieUseCase(
+    private val recipeDao: RecipeDao
+) {
     /**
      * Creates a new empty recipe instance.
      *
@@ -129,6 +135,20 @@ class RecepieUseCase {
         val json = Json.encodeToString(recipe)
         println(json)
         return json
+    }
+
+    suspend fun saveToDatabase(recipe: Recipe) {
+        recipeDao.insertRecipe(recipe.toEntity())
+    }
+
+    fun getAllFromDatabase(): Flow<List<Recipe>> {
+        return recipeDao.getAllRecipes().map { list ->
+            list.map { it.toDomain() }
+        }
+    }
+
+    suspend fun deleteFromDatabase(recipe: Recipe) {
+        recipeDao.deleteRecipe(recipe.toEntity())
     }
 
     /**
