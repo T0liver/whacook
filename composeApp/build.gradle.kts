@@ -1,7 +1,5 @@
-import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -9,7 +7,6 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
-    alias(libs.plugins.buildkonfig)
     kotlin("plugin.serialization") version "2.2.20"
 }
 
@@ -109,26 +106,5 @@ compose.desktop {
             packageName = "hu.toliver.whacook"
             packageVersion = "1.0.0"
         }
-    }
-}
-
-buildkonfig {
-    packageName = "hu.toliver.whacook"
-
-    val properties = Properties().apply {
-        load(project.rootProject.file("local.properties").reader())
-    }
-    val geminiApiKey: String = properties.getProperty("GEMINI_API_KEY")
-
-    require(geminiApiKey.isNotEmpty()) {
-        "Register your api key from developer and place it in local.properties as `GEMINI_API_KEY`"
-    }
-
-    defaultConfigs {
-        buildConfigField(
-            FieldSpec.Type.STRING,
-            "GEMINI_API_KEY",
-            geminiApiKey
-        )
     }
 }
