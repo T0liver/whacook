@@ -18,7 +18,7 @@ val appModule = module {
     single { createHttpClient() }
     single { GeminiRemoteDataSource(get(), get()) }
     single<IRecipeGenerationRepository> { GeminiRecipeGenerationRepository(get()) }
-    single { RecepieGenerationUseCase(get()) }
+    single { RecepieGenerationUseCase(get(), get()) }
     single { RecepieUseCase(get()) }
     single { APIKeyManager(get()) }
     single { RecipePreferencesManager(get()) }

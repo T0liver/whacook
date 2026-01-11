@@ -1,5 +1,6 @@
 package hu.toliver.whacook.domain.usecase
 
+import hu.toliver.whacook.data.local.RecipePreferencesManager
 import hu.toliver.whacook.domain.repository.IRecipeGenerationRepository
 
 /**
@@ -13,13 +14,14 @@ import hu.toliver.whacook.domain.repository.IRecipeGenerationRepository
  * @property repository repository used to generate resources (e.g. via an API call)
  */
 class RecepieGenerationUseCase (
-    private val repository: IRecipeGenerationRepository
+    private val repository: IRecipeGenerationRepository,
+    private val preferencesManager: RecipePreferencesManager
 ) {
     /**
      * Invoke the repository to generate a resource from an arbitrary prompt.
      *
      * This is a convenience wrapper so the use case can be called like a
-     * function: `recepieGenerationUseCase("some prompt")`.
+     * function: `recipeGenerationUseCase("some prompt")`.
      *
      * @param prompt the text prompt to send to the repository
      * @return the raw string response produced by the repository
@@ -42,8 +44,38 @@ class RecepieGenerationUseCase (
      * @param ingredients the list of ingredient names available to use in the recipe
      * @return a JSON string describing the generated recipe
      */
+    @Suppress("DefaultLocale")
     suspend fun generateRecipe(ingredients: List<String>): String {
         if (ingredients.isEmpty()) throw IllegalArgumentException("Ingredient list cannot be empty")
+
+        val userPreference = preferencesManager.getPreferences()
+
+        val currentTime = System.currentTimeMillis()
+        val formattedTime = currentTime.let {
+            val totalSeconds = it / 1000
+            val seconds = totalSeconds % 60
+            val totalMinutes = totalSeconds / 60
+            val minutes = totalMinutes % 60
+            val totalHours = totalMinutes / 60
+            val hours = totalHours % 24
+            val days = totalHours / 24
+
+            val year = 1970 + days / 365
+            val month = 1 + (days % 365) / 30
+            val day = 1 + (days % 365) % 30
+
+            String.format("%04d-%02d-%02d-%02d-%02d-%02d", year, month, day, hours, minutes, seconds)
+        }
+
+        val preferenceBlock = if (!userPreference.isNullOrBlank()) {
+            """
+            User Preferences:
+
+            The recipe must strictly adhere to the following constraints: $userPreference
+
+            """.trimMargin()
+        } else ""
+
         val sysPrompt = """
             You are a cooking assistant that creates structured recipes in JSON format.
 
@@ -74,7 +106,7 @@ class RecepieGenerationUseCase (
                 "length": number - estimated time length,
                 "unit": "string - minutes or hours"
               },
-              "generationTime": "YYYY-MM-DD-HH-MM-SS - current timestamp",
+              "generationTime": "$formattedTime",
               "rating": 0,
               "favourite": false
             }
@@ -89,14 +121,14 @@ class RecepieGenerationUseCase (
 
             Set "rating": 0 and "favourite": false by default.
 
-            "generationTime" should reflect the current date and time.
-
             The ingredients are:
         """.trimIndent()
         val userPrompt = ingredients.joinToString(",\n")
 
         val stringBuilder = StringBuilder()
         stringBuilder.append(sysPrompt)
+        stringBuilder.append("\n")
+        stringBuilder.append(preferenceBlock)
         stringBuilder.append("\n")
         stringBuilder.append(userPrompt)
 
