@@ -26,6 +26,7 @@ class NewRecipeScreenViewModel(
         try {
             val json = recepieGenerationUseCase.generateRecipe(validIngredients)
             val recipe = recipeUseCase.load(json)
+            recipeUseCase.saveToDatabase(recipe)
             state = state.copy(isLoading = false, error = null)
             return recipe
         } catch (e: Exception) {
