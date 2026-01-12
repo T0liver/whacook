@@ -297,7 +297,8 @@ fun RecipeCard(
     title: String,
     time: String,
     ingredientsCount: Int,
-    date: String,
+    rating: Int,
+    favourite: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
@@ -333,10 +334,19 @@ fun RecipeCard(
                 "Num of ingredients: $ingredientsCount things",
                 color = color.primaryText
             )
-            BodyTextSmall(
-                date,
-                color = color.secondaryText
-            )
+            FlowRow (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround,
+            ) {
+                RatingStars(
+                    rating = rating,
+                    iconSize = 16.dp,
+                )
+                FavouriteButton(
+                    isFavourite = favourite,
+                    iconSize = 16.dp,
+                )
+            }
         }
     }
 }

@@ -70,7 +70,8 @@ private fun HomeScreenContent(
                         title = recipe.name,
                         time = "${recipe.timeToMake.length.toInt()} ${recipe.timeToMake.unit}",
                         ingredientsCount = recipe.ingredients.size,
-                        date = recipe.generationTime,
+                        rating = recipe.rating,
+                        favourite = recipe.favourite
                     ) {
                         navigator.push(RecipeScreen(recipe))
                     }
