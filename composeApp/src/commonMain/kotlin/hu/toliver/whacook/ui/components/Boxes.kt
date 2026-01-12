@@ -145,7 +145,7 @@ fun IngredientEditCard(
 
     Column(
         modifier = modifier
-            .responsiveWidth(600.dp)
+            .responsiveWidth(600.dp, 1.0f)
             .border(1.dp, color.secondaryStroke, RoundedCornerShape(16.dp))
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)

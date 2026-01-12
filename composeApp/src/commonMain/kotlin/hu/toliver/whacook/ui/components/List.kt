@@ -114,7 +114,7 @@ fun IngredientEditableList(
     ingredients: SnapshotStateList<Ingredient>
 ) {
     Column(
-        modifier = Modifier.responsiveWidth(800.dp),
+        modifier = Modifier.responsiveWidth(800.dp, 1.0f),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -172,7 +172,7 @@ fun TextBoxEditableList(
     }
 
     Column(
-        modifier = Modifier.responsiveWidth(800.dp),
+        modifier = Modifier.responsiveWidth(800.dp, 1.0f),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items.forEachIndexed { index, item ->
