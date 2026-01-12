@@ -9,7 +9,7 @@ import hu.toliver.whacook.domain.usecase.RecipeGenerationUseCase
 import hu.toliver.whacook.domain.usecase.RecepieUseCase
 
 class NewRecipeScreenViewModel(
-    private val recepieGenerationUseCase: RecipeGenerationUseCase,
+    private val recipeGenerationUseCase: RecipeGenerationUseCase,
     private val recipeUseCase: RecepieUseCase
 ) : ScreenModel {
     var state by mutableStateOf(NewRecipeState())
@@ -24,7 +24,7 @@ class NewRecipeScreenViewModel(
 
         state = state.copy(isLoading = true, error = null)
         try {
-            val json = recepieGenerationUseCase.generateRecipe(validIngredients)
+            val json = recipeGenerationUseCase.generateRecipe(validIngredients)
             val recipe = recipeUseCase.load(json)
             recipeUseCase.saveToDatabase(recipe)
             state = state.copy(isLoading = false, error = null)
