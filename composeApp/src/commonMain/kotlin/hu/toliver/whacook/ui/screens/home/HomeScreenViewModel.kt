@@ -34,7 +34,12 @@ class HomeScreenViewModel (
     }
 
     fun sortList(sortType: SortType) {
-        state = state.copy(sortType = sortType)
+        val newOrder = if (state.sortType == sortType) {
+            if (state.sortOrder == SortOrder.ASCENDING) SortOrder.DESCENDING else SortOrder.ASCENDING
+        } else {
+            SortOrder.DESCENDING
+        }
+        state = state.copy(sortType = sortType, sortOrder = newOrder)
         updateState()
     }
 
@@ -49,8 +54,8 @@ class HomeScreenViewModel (
             result = result.filter { it.favourite }
         }
         result = when(state.sortType) {
-            SortType.DATE -> result.reversed()
-            SortType.RATING -> result.sortedByDescending { it.rating }
+            SortType.DATE -> if (state.sortOrder == SortOrder.DESCENDING) result.reversed() else result
+            SortType.RATING -> if (state.sortOrder == SortOrder.DESCENDING) result.sortedByDescending { it.rating } else result.sortedBy { it.rating }
         }
 
         state = state.copy(recipes = result)
