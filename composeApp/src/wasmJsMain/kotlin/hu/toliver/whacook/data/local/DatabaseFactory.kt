@@ -1,6 +1,5 @@
 package hu.toliver.whacook.data.local
 
-import app.cash.sqldelight.async.coroutines.await
 import app.cash.sqldelight.driver.worker.WebWorkerDriver
 import hu.toliver.whacook.db.WebDatabase
 import kotlinx.coroutines.Deferred
