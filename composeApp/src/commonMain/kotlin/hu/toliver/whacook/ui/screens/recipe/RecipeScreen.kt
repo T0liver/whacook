@@ -61,7 +61,7 @@ fun RecipeScreenContent(
     var showDeleteDialog by remember { mutableStateOf(false) }
     val navigator = LocalNavigator.currentOrThrow
     Box (
-        modifier = Modifier.responsiveWidth(800.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier
@@ -113,31 +113,36 @@ fun RecipeScreenContent(
                 }
             }
 
-            Subheader("Time to make")
-            BodyText(recipe.timeToMake.toString())
+            Column(
+                Modifier.responsiveWidth(800.dp)
+            ) {
 
-            Subheader("Ingredients")
-            for (ingredient in recipe.ingredients) {
-                BodyText("- $ingredient")
+                Subheader("Time to make")
+                BodyText(recipe.timeToMake.toString())
+
+                Subheader("Ingredients")
+                for (ingredient in recipe.ingredients) {
+                    BodyText("- $ingredient")
+                }
+
+                Subheader("Steps")
+                for ((index, step) in recipe.steps.withIndex()) {
+                    BodyText("${index + 1}. $step")
+                }
+
+                Subheader("Tools")
+                for (tool in recipe.tools) {
+                    BodyText("- $tool")
+                }
+
+                Subheader("Serving")
+                BodyText(recipe.serving)
+
+                Spacer(Modifier.height(20.dp))
+                BodyTextSmall(recipe.generationTime)
+
+                Spacer(Modifier.height(120.dp))
             }
-
-            Subheader("Steps")
-            for ((index, step) in recipe.steps.withIndex()) {
-                BodyText("${index + 1}. $step")
-            }
-
-            Subheader("Tools")
-            for (tool in recipe.tools) {
-                BodyText("- $tool")
-            }
-
-            Subheader("Serving")
-            BodyText(recipe.serving)
-
-            Spacer(Modifier.height(20.dp))
-            BodyTextSmall(recipe.generationTime)
-            
-            Spacer(Modifier.height(120.dp))
         }
         
         if (showDeleteDialog) {
