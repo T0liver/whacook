@@ -10,6 +10,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import org.w3c.dom.Worker
 
+@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)
+
 object WebDatabaseFactory {
 
     @OptIn(DelicateCoroutinesApi::class)

@@ -1,7 +1,8 @@
 package hu.toliver.whacook.data.repository
 
+import app.cash.sqldelight.async.coroutines.awaitAsList
+import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
 import app.cash.sqldelight.coroutines.asFlow
-import app.cash.sqldelight.coroutines.mapToList
 import hu.toliver.whacook.data.local.WebDatabaseFactory
 import hu.toliver.whacook.data.local.entity.RecipeEntity
 import hu.toliver.whacook.data.local.entity.SettingEntity
@@ -12,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
 
@@ -25,7 +27,8 @@ class DatabaseRepositoryImpl : DatabaseRepository {
             emitAll(
                 queries.getAllRecipes()
                     .asFlow()
-                    .mapToList(Dispatchers.Default)
+                    .map { it.awaitAsList() }
+                    .flowOn(Dispatchers.Default)
                     .map { list -> list.map { it.toEntity() } }
             )
         } catch (e: Exception) {
@@ -36,7 +39,7 @@ class DatabaseRepositoryImpl : DatabaseRepository {
 
     override suspend fun getRecipeById(id: String): RecipeEntity? {
         return try {
-            getQueries().getRecipeById(id).executeAsOneOrNull()?.toEntity()
+            getQueries().getRecipeById(id).awaitAsOneOrNull()?.toEntity()
         } catch (e: Exception) {
             println("[DatabaseRepositoryImpl] Error in getRecipeById $id: ${e.message}")
             null
@@ -65,7 +68,8 @@ class DatabaseRepositoryImpl : DatabaseRepository {
             emitAll(
                 queries.getAllSettings()
                     .asFlow()
-                    .mapToList(Dispatchers.Default)
+                    .map { it.awaitAsList() }
+                    .flowOn(Dispatchers.Default)
                     .map { list -> list.map { it.toEntity() } }
             )
         } catch (e: Exception) {
@@ -76,7 +80,7 @@ class DatabaseRepositoryImpl : DatabaseRepository {
 
     override suspend fun getSettingByKey(key: String): SettingEntity? {
         return try {
-            getQueries().getSetting(key).executeAsOneOrNull()?.toEntity()
+            getQueries().getSetting(key).awaitAsOneOrNull()?.toEntity()
         } catch (e: Exception) {
             println("[DatabaseRepositoryImpl] Error in getSettingByKey $key: ${e.message}")
             null
