@@ -23,7 +23,13 @@ means What to Cook but → *Wha~~t to~~COOK*
 
 ## Motivation and background
 
-We've all been there: staring at a fridge full of random ingredients, wondering what to make for dinner. **WhaCOOK** solves this problem by using the power of AI (Google Gemini) to suggest recipes based specifically on the ingredients you already have at home. No more food waste, and no more endless scrolling through recipe sites.
+This fall, I took a course in Kotlin-based development that motivated me to build an application using Kotlin Multiplatform. Although the course only covered the Kotlin language itself, I was determined to create a full Kotlin Multiplatform application.
+
+Previously, I had taken a course in Flutter-based development and built an application with it. However, I wanted to learn Kotlin Multiplatform as well, inspired by its goal of being an improved version of Java.
+
+I started thinking about an application that could help me in my daily life. As a student living far from my parents, I have to cook for myself, and it's often challenging to decide what to make. This led to the idea: an application to help me figure out what to cook each day. The name came naturally: Wha(t to)Cook.
+
+I wanted to build a multiplatform application for all mobile devices. Since I use Linux, targeting iOS directly wasn't feasible. However, by creating a highly responsive application with a web target, I could include iPhone users and make it easily accessible to everyone. And that's what I did — making WhaCOOK available for every user.
 
 ## Features
 
@@ -38,7 +44,7 @@ We've all been there: staring at a fridge full of random ingredients, wondering 
 
 ## Demo video
 
-*(Add link to demo video here when available)*
+https://github.com/user-attachments/assets/701a445d-397a-4cc4-a6af-fe8e03482174
 
 ## How to run
 
