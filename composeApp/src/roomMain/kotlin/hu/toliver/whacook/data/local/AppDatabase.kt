@@ -5,10 +5,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import hu.toliver.whacook.data.local.dao.RecipeDao
 import hu.toliver.whacook.data.local.dao.SettingDao
-import hu.toliver.whacook.data.local.entity.RecipeEntity
-import hu.toliver.whacook.data.local.entity.SettingEntity
+import hu.toliver.whacook.data.local.entity.RoomRecipeEntity
+import hu.toliver.whacook.data.local.entity.RoomSettingEntity
 
-@Database(entities = [RecipeEntity::class, SettingEntity::class], version = 2)
+@Database(entities = [RoomRecipeEntity::class, RoomSettingEntity::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun recipeDao(): RecipeDao

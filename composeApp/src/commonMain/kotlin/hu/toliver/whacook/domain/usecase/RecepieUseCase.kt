@@ -138,17 +138,17 @@ class RecepieUseCase(
     }
 
     suspend fun saveToDatabase(recipe: Recipe) {
-        recipeDao.insertRecipe(recipe.toEntity())
+        repository.insertRecipe(recipe.toEntity())
     }
 
     fun getAllFromDatabase(): Flow<List<Recipe>> {
-        return recipeDao.getAllRecipes().map { list ->
+        return repository.getAllRecipes().map { list ->
             list.map { it.toDomain() }
         }
     }
 
     suspend fun deleteFromDatabase(recipe: Recipe) {
-        recipeDao.deleteRecipe(recipe.toEntity())
+        repository.deleteRecipeById(recipe.id)
     }
 
     /**
