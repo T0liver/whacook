@@ -1,6 +1,13 @@
 package hu.toliver.whacook.util
 
-import kotlin.js.Date
+external class Date {
+    fun getFullYear(): Int
+    fun getMonth(): Int
+    fun getDate(): Int
+    fun getHours(): Int
+    fun getMinutes(): Int
+    fun getSeconds(): Int
+}
 
 actual fun getFormattedDateTime(): String {
     val date = Date()
