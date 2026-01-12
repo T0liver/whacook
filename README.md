@@ -50,6 +50,10 @@ https://github.com/user-attachments/assets/701a445d-397a-4cc4-a6af-fe8e03482174
 
 ### Prerequisites
 
+For building and running the application on your device you will need [AndroidStudio](https://developer.android.com/studio) or [IntelliJ IDEA](https://www.jetbrains.com/idea/) , [JDK](https://www.oracle.com/java/technologies/downloads/?er=221886), [KMP plugin](https://kotlinlang.org/docs/multiplatform-plugin-releases.html) and [Kotlin plugin](https://kotlinlang.org/docs/releases.html#update-to-a-new-release).
+
+Before starting see [set up environment guide](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html#set-up-the-environment).
+
 To use the recipe generation feature, you will need a **Google Gemini API Key**. You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey).
 
 The app will ask for this key at the first time you open the application, and you can modify it any time under the Menu / API Key menu point.
@@ -62,7 +66,7 @@ To run the application on an Android device or emulator:
 ./gradlew installDebug
 ```
 
-Or run the `androidApp` configuration directly from Android Studio.
+Or run the `androidApp` configuration directly from IntelliJ or Android Studio.
 
 ### Build and Run Desktop (JVM) Application
 
