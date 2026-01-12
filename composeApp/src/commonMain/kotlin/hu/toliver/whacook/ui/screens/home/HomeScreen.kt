@@ -58,6 +58,33 @@ private fun HomeScreenContent(
                 Subheader("Recent recipes")
             }
             Spacer(Modifier.height(8.dp))
+            FlowRow (
+                Modifier
+                    .responsiveWidth(600.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+            ) {
+                BodyTextSmall("Sort recipes by:")
+                BodyTextUnderline(
+                    "Date",
+                    color = if (state.sortType == SortType.DATE) Color.Black else Color(0xFF999999)
+                ) {
+                    viewModel.sortList(SortType.DATE)
+                }
+                BodyTextUnderline(
+                    "Rating",
+                    color = if (state.sortType == SortType.RATING) Color.Black else Color(0xFF999999)
+                ) {
+                    viewModel.sortList(SortType.RATING)
+                }
+                BodyTextUnderline(
+                    "Favourite",
+                    color = if (state.isFavouriteOnly) Color.Black else Color(0xFF999999)
+                ) {
+                    viewModel.toggleFavourite()
+                }
+
+            }
+            Spacer(Modifier.height(8.dp))
             Column(Modifier.fillMaxWidth(0.85f)) {
                 if (state.recipes.isEmpty()) {
                     Box(Modifier
@@ -70,7 +97,7 @@ private fun HomeScreenContent(
                         return@Column
                     }
                 }
-                state.recipes.reversed().forEach { recipe ->
+                state.recipes.forEach { recipe ->
                     RecipeCard(
                         title = recipe.name,
                         time = "${recipe.timeToMake.length.toInt()} ${recipe.timeToMake.unit}",

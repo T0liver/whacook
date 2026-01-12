@@ -2,11 +2,18 @@ package hu.toliver.whacook.ui.screens.home
 
 import hu.toliver.whacook.domain.model.Recipe
 
+enum class SortType {
+    DATE,
+    RATING
+}
+
 data class HomeState (
     val isLoading: Boolean,
     val error: String?,
     var showPopUp: Boolean,
-    val recipes: List<Recipe>
+    val recipes: List<Recipe>,
+    val sortType: SortType,
+    val isFavouriteOnly: Boolean
 ) {
     companion object {
         fun getDefaultState(): HomeState {
@@ -14,7 +21,9 @@ data class HomeState (
                 isLoading = false,
                 error = null,
                 showPopUp = true,
-                recipes = emptyList()
+                recipes = emptyList(),
+                sortType = SortType.DATE,
+                isFavouriteOnly = false
             )
         }
     }
