@@ -1,50 +1,49 @@
 package hu.toliver.whacook.data.local.entity
-)
-    rating = rating
-    generationTime = generationTime,
-    timeToMake = timeToMake,
-    category = category,
-    favourite = favourite,
-    serving = serving,
-    tools = tools,
-    steps = steps,
-    ingredients = ingredients,
-    name = name,
-    id = id,
-fun RecipeEntity.toRoom() = RoomRecipeEntity(
 
-)
-    rating = rating
-    generationTime = generationTime,
-    timeToMake = timeToMake,
-    category = category,
-    favourite = favourite,
-    serving = serving,
-    tools = tools,
-    steps = steps,
-    ingredients = ingredients,
-    name = name,
-    id = id,
-fun RoomRecipeEntity.toCommon() = RecipeEntity(
-
-)
-    val rating: Int
-    val generationTime: String,
-    val timeToMake: Duration,
-    val category: String,
-    val favourite: Boolean,
-    val serving: String,
-    val tools: List<String>,
-    val steps: List<String>,
-    val ingredients: List<Ingredient>,
-    val name: String,
-    @PrimaryKey val id: String,
-data class RoomRecipeEntity(
-@Entity(tableName = "recipes")
-
-import hu.toliver.whacook.domain.model.Ingredient
-import hu.toliver.whacook.domain.model.Duration
-import androidx.room.PrimaryKey
 import androidx.room.Entity
+import androidx.room.PrimaryKey
+import hu.toliver.whacook.domain.model.Duration
+import hu.toliver.whacook.domain.model.Ingredient
 
+@Entity(tableName = "recipes")
+data class RoomRecipeEntity(
+    @PrimaryKey val id: String,
+    val name: String,
+    val ingredients: List<Ingredient>,
+    val steps: List<String>,
+    val tools: List<String>,
+    val serving: String,
+    val favourite: Boolean,
+    val category: String,
+    val timeToMake: Duration,
+    val generationTime: String,
+    val rating: Int
+)
 
+fun RoomRecipeEntity.toCommon() = RecipeEntity(
+    id = id,
+    name = name,
+    ingredients = ingredients,
+    steps = steps,
+    tools = tools,
+    serving = serving,
+    favourite = favourite,
+    category = category,
+    timeToMake = timeToMake,
+    generationTime = generationTime,
+    rating = rating
+)
+
+fun RecipeEntity.toRoom() = RoomRecipeEntity(
+    id = id,
+    name = name,
+    ingredients = ingredients,
+    steps = steps,
+    tools = tools,
+    serving = serving,
+    favourite = favourite,
+    category = category,
+    timeToMake = timeToMake,
+    generationTime = generationTime,
+    rating = rating
+)

@@ -7,6 +7,7 @@ import hu.toliver.whacook.data.local.entity.toCommon
 import hu.toliver.whacook.data.local.entity.toRoom
 import hu.toliver.whacook.domain.repository.DatabaseRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
 class RoomDatabaseRepository(
@@ -16,37 +17,68 @@ class RoomDatabaseRepository(
     override fun getAllRecipes(): Flow<List<RecipeEntity>> {
         return db.recipeDao().getAllRecipes().map { list ->
             list.map { it.toCommon() }
+        }.catch { e ->
+            println("[RoomDatabaseRepository] Error fetching recipes: ${e.message}")
+            emit(emptyList())
         }
     }
 
     override suspend fun getRecipeById(id: String): RecipeEntity? {
-        return db.recipeDao().getRecipeById(id)?.toCommon()
+        return try {
+            db.recipeDao().getRecipeById(id)?.toCommon()
+        } catch (e: Exception) {
+            println("[RoomDatabaseRepository] Error fetching recipe by id $id: ${e.message}")
+            null
+        }
     }
 
     override suspend fun insertRecipe(recipe: RecipeEntity) {
-        db.recipeDao().insertRecipe(recipe.toRoom())
+        try {
+            db.recipeDao().insertRecipe(recipe.toRoom())
+        } catch (e: Exception) {
+            println("[RoomDatabaseRepository] Error inserting recipe: ${e.message}")
+        }
     }
 
     override suspend fun deleteRecipeById(id: String) {
-        db.recipeDao().deleteRecipeById(id)
+        try {
+            db.recipeDao().deleteRecipeById(id)
+        } catch (e: Exception) {
+            println("[RoomDatabaseRepository] Error deleting recipe $id: ${e.message}")
+        }
     }
 
     override fun getAllSettings(): Flow<List<SettingEntity>> {
         return db.settingDao().getAllSettings().map { list ->
             list.map { it.toCommon() }
+        }.catch { e ->
+            println("[RoomDatabaseRepository] Error fetching settings: ${e.message}")
+            emit(emptyList())
         }
     }
 
     override suspend fun getSettingByKey(key: String): SettingEntity? {
-        return db.settingDao().getSetting(key)?.toCommon()
+        return try {
+            db.settingDao().getSetting(key)?.toCommon()
+        } catch (e: Exception) {
+            println("[RoomDatabaseRepository] Error fetching setting $key: ${e.message}")
+            null
+        }
     }
 
     override suspend fun insertSetting(setting: SettingEntity) {
-        db.settingDao().insertSetting(setting.toRoom())
+        try {
+            db.settingDao().insertSetting(setting.toRoom())
+        } catch (e: Exception) {
+            println("[RoomDatabaseRepository] Error inserting setting: ${e.message}")
+        }
     }
 
     override suspend fun deleteSettingByKey(key: String) {
-        db.settingDao().deleteSetting(key)
+        try {
+            db.settingDao().deleteSetting(key)
+        } catch (e: Exception) {
+            println("[RoomDatabaseRepository] Error deleting setting $key: ${e.message}")
+        }
     }
 }
-

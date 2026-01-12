@@ -1,12 +1,13 @@
 package hu.toliver.whacook.domain.usecase
 
-import hu.toliver.whacook.data.local.dao.RecipeDao
 import hu.toliver.whacook.data.mapper.toDomain
 import hu.toliver.whacook.data.mapper.toEntity
 import hu.toliver.whacook.domain.model.Duration
 import hu.toliver.whacook.domain.model.Recipe
+import hu.toliver.whacook.domain.repository.DatabaseRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 /**
@@ -17,7 +18,7 @@ import kotlinx.serialization.json.Json
  *
  * Typical usage:
  * ```
- * val recipeUseCase = RecipeUseCase(recipeDao)
+ * val recipeUseCase = RecipeUseCase(repository)
  * val recipe = recipeUseCase() // Creates an empty recipe
  * recipeUseCase.rename(recipe, "Chocolate Cake")
  * recipeUseCase.rate(recipe, 5)
@@ -26,7 +27,7 @@ import kotlinx.serialization.json.Json
  * ```
  */
 class RecepieUseCase(
-    private val recipeDao: RecipeDao
+    private val repository: DatabaseRepository
 ) {
     /**
      * Creates a new empty recipe instance.
