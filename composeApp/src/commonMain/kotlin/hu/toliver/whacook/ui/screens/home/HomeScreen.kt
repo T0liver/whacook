@@ -1,6 +1,8 @@
 package hu.toliver.whacook.ui.screens.home
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,7 +41,9 @@ private fun HomeScreenContent(
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(state = rememberScrollState())
         ) {
             Header()
             Spacer(Modifier.height(20.dp))
@@ -73,6 +77,7 @@ private fun HomeScreenContent(
                     Spacer(Modifier.height(8.dp))
                 }
             }
+            Spacer(Modifier.height(120.dp))
         }
 
         if (showPopup) {
