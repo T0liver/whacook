@@ -1,7 +1,6 @@
 package hu.toliver.whacook.data.di
 
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import hu.toliver.whacook.data.local.AppDatabase
 import hu.toliver.whacook.data.local.MIGRATION_1_2
 import hu.toliver.whacook.data.local.getDatabaseBuilder
 import hu.toliver.whacook.data.repository.RoomDatabaseRepository
