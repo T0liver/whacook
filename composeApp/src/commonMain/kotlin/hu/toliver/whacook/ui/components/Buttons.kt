@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -72,6 +73,7 @@ fun BackButton(
 fun FavouriteButton(
     isFavourite: Boolean,
     modifier: Modifier = Modifier,
+    iconSize: Dp = 48.dp,
     onClick: () -> Unit = {},
 ) {
     val iconRes = if (isFavourite) {
@@ -86,7 +88,7 @@ fun FavouriteButton(
         Image(
             painter = painterResource(iconRes),
             contentDescription = "Favourite",
-            modifier = Modifier.size(48.dp)
+            modifier = Modifier.size(iconSize)
         )
     }
 }
@@ -95,6 +97,7 @@ fun FavouriteButton(
 fun RatingStars(
     rating: Int,
     modifier: Modifier = Modifier,
+    iconSize: Dp = 48.dp,
     onRatingChanged: (Int) -> Unit = {},
 ) {
     Row(
@@ -112,7 +115,7 @@ fun RatingStars(
                 Image(
                     painter = painterResource(starRes),
                     contentDescription = "Star $i",
-                    modifier = Modifier.size(48.dp)
+                    modifier = Modifier.size(iconSize)
                 )
             }
         }
