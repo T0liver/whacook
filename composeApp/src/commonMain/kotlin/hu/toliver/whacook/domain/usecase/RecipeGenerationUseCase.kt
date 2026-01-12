@@ -1,7 +1,10 @@
 package hu.toliver.whacook.domain.usecase
 
+import androidx.annotation.RequiresApi
 import hu.toliver.whacook.data.local.RecipePreferencesManager
 import hu.toliver.whacook.domain.repository.IRecipeGenerationRepository
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  * Use case responsible for generating recipe text resources using a repository.
@@ -44,28 +47,14 @@ class RecipeGenerationUseCase (
      * @param ingredients the list of ingredient names available to use in the recipe
      * @return a JSON string describing the generated recipe
      */
+    @RequiresApi(26)
     @Suppress("DefaultLocale")
     suspend fun generateRecipe(ingredients: List<String>): String {
         if (ingredients.isEmpty()) throw IllegalArgumentException("Ingredient list cannot be empty")
 
         val userPreference = preferencesManager.getPreferences()
 
-        val currentTime = System.currentTimeMillis()
-        val formattedTime = currentTime.let {
-            val totalSeconds = it / 1000
-            val seconds = totalSeconds % 60
-            val totalMinutes = totalSeconds / 60
-            val minutes = totalMinutes % 60
-            val totalHours = totalMinutes / 60
-            val hours = totalHours % 24
-            val days = totalHours / 24
-
-            val year = 1970 + days / 365
-            val month = 1 + (days % 365) / 30
-            val day = 1 + (days % 365) % 30
-
-            String.format("%04d-%02d-%02d-%02d-%02d-%02d", year, month, day, hours, minutes, seconds)
-        }
+        val formattedTime = getFormattedTime()
 
         val preferenceBlock = if (!userPreference.isNullOrBlank()) {
             """
@@ -120,6 +109,8 @@ class RecipeGenerationUseCase (
             The recipe should be possible to cook with the provided ingredients.
 
             Set "rating": 0 and "favourite": false by default.
+            
+            Do not change the "generationTime" field at all.
 
             The ingredients are:
         """.trimIndent()
@@ -134,5 +125,28 @@ class RecipeGenerationUseCase (
 
         val prompt = stringBuilder.toString()
         return repository.generateResource(prompt)
+    }
+
+    /**
+     * Returns the current local date and time as a formatted string.
+     *
+     * Required API level: 26
+     * Annotation: @RequiresApi(26)
+     *
+     * Format produced: "yyyy-MM-dd-HH:mm:ss"
+     * - Example: "2026-01-12-14:05:30"
+     *
+     * Behavior:
+     * - Uses java.time.LocalDateTime.now() to obtain the current device local date and time.
+     * - Formats the datetime using java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss").
+     * - Uses the system default time-zone and locale.
+     *
+     */
+    @RequiresApi(26)
+    fun getFormattedTime(): String {
+        val now = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss")
+        val formattedTime = now.format(formatter)
+        return formattedTime
     }
 }
