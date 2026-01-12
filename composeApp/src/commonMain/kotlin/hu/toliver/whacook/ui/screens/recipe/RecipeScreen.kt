@@ -61,7 +61,7 @@ fun RecipeScreenContent(
     var showDeleteDialog by remember { mutableStateOf(false) }
     val navigator = LocalNavigator.currentOrThrow
     Box (
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.responsiveWidth(800.dp)
     ) {
         Column(
             modifier = Modifier
