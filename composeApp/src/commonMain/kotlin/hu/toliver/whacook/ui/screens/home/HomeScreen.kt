@@ -50,7 +50,13 @@ private fun HomeScreenContent(
                 navigator.push(NewRecipeScreen())
             })
             Spacer(Modifier.height(16.dp))
-            Subheader("Recent recipes")
+            Row (
+                Modifier
+                    .responsiveWidth(600.dp),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Subheader("Recent recipes")
+            }
             Spacer(Modifier.height(8.dp))
             Column(Modifier.fillMaxWidth(0.85f)) {
                 if (state.recipes.isEmpty()) {
