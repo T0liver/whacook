@@ -13,7 +13,7 @@ data class HomeState (
             return HomeState(
                 isLoading = false,
                 error = null,
-                showPopUp = false,
+                showPopUp = true,
                 recipes = emptyList()
             )
         }

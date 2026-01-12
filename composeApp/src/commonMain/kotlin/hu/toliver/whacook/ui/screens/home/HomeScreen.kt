@@ -36,7 +36,6 @@ private fun HomeScreenContent(
     viewModel: HomeScreenViewModel
 ) {
     val navigator = LocalNavigator.currentOrThrow
-    var showPopup by remember { mutableStateOf(state.showPopUp) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -81,14 +80,13 @@ private fun HomeScreenContent(
             Spacer(Modifier.height(120.dp))
         }
 
-        if (showPopup) {
+        if (state.showPopUp) {
             PopUpOverlay(
                 headerText = "Welcome to WhaCook!",
                 bodyText = "I’m happy that you are here!\n\nIn order to use this application you have to get an API key as this app relies on a LLM and I don’t have enough money to provide if for free!",
                 buttonText = "Take me there!",
-                onDismiss = {
-                    showPopup = false
-                    state.showPopUp = false
+                onConfirm = {
+                    viewModel.dismissPopUp()
                     navigator.push(APIKeyScreen())
                 }
             )
