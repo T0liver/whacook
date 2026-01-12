@@ -1,10 +1,8 @@
 package hu.toliver.whacook.domain.usecase
 
-import androidx.annotation.RequiresApi
 import hu.toliver.whacook.data.local.RecipePreferencesManager
 import hu.toliver.whacook.domain.repository.IRecipeGenerationRepository
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import hu.toliver.whacook.util.getFormattedDateTime
 
 /**
  * Use case responsible for generating recipe text resources using a repository.
@@ -47,7 +45,6 @@ class RecipeGenerationUseCase (
      * @param ingredients the list of ingredient names available to use in the recipe
      * @return a JSON string describing the generated recipe
      */
-    @RequiresApi(26)
     @Suppress("DefaultLocale")
     suspend fun generateRecipe(ingredients: List<String>): String {
         if (ingredients.isEmpty()) throw IllegalArgumentException("Ingredient list cannot be empty")
@@ -130,23 +127,10 @@ class RecipeGenerationUseCase (
     /**
      * Returns the current local date and time as a formatted string.
      *
-     * Required API level: 26
-     * Annotation: @RequiresApi(26)
-     *
      * Format produced: "yyyy-MM-dd-HH:mm:ss"
      * - Example: "2026-01-12-14:05:30"
-     *
-     * Behavior:
-     * - Uses java.time.LocalDateTime.now() to obtain the current device local date and time.
-     * - Formats the datetime using java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss").
-     * - Uses the system default time-zone and locale.
-     *
      */
-    @RequiresApi(26)
     fun getFormattedTime(): String {
-        val now = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss")
-        val formattedTime = now.format(formatter)
-        return formattedTime
+        return getFormattedDateTime()
     }
 }
