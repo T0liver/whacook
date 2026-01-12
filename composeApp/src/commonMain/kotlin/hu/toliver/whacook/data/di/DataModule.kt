@@ -65,5 +65,6 @@ fun createGeminiRecipeGenerationRepository(
  * @return a configured [RecipeGenerationUseCase]
  */
 fun createRecipeGenerationUseCase(
-    repository: hu.toliver.whacook.domain.repository.IRecipeGenerationRepository
-): RecipeGenerationUseCase = RecipeGenerationUseCase(repository)
+    repository: hu.toliver.whacook.domain.repository.IRecipeGenerationRepository,
+    preferencesManager: hu.toliver.whacook.data.local.RecipePreferencesManager
+): RecipeGenerationUseCase = RecipeGenerationUseCase(repository, preferencesManager)

@@ -12,5 +12,6 @@ import hu.toliver.whacook.domain.usecase.RecipeGenerationUseCase
  * @return an instance of [RecipeGenerationUseCase]
  */
 fun provideRecepieGenerationUseCase(
-    repository: hu.toliver.whacook.domain.repository.IRecipeGenerationRepository
-): RecipeGenerationUseCase = createRecipeGenerationUseCase(repository)
+    repository: hu.toliver.whacook.domain.repository.IRecipeGenerationRepository,
+    preferencesManager: hu.toliver.whacook.data.local.RecipePreferencesManager
+): RecipeGenerationUseCase = createRecipeGenerationUseCase(repository, preferencesManager)
