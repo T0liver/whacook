@@ -7,7 +7,6 @@ import hu.toliver.whacook.domain.model.Recipe
 import hu.toliver.whacook.domain.repository.DatabaseRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 /**
@@ -26,7 +25,7 @@ import kotlinx.serialization.json.Json
  * val restoredRecipe = recipeUseCase.load(json)
  * ```
  */
-class RecepieUseCase(
+class RecipeUseCase(
     private val repository: DatabaseRepository
 ) {
     /**
@@ -63,91 +62,32 @@ class RecepieUseCase(
     }
 
     /**
-     * Updates the favourite status of the given recipe.
+     * Persists the given [Recipe] in the underlying database.
      *
-     * @param recipe The recipe to modify.
-     * @param favourite The new favourite status (true or false).
+     * @param recipe the domain [Recipe] to save, which will be mapped to its entity form.
      */
-    fun refavour(recipe: Recipe, favourite: Boolean) {
-        recipe.favourite = favourite
-    }
-
-    /**
-     * Updates the name of the given recipe.
-     *
-     * @param recipe The recipe to rename.
-     * @param name The new name for the recipe.
-     */
-    fun rename(recipe: Recipe, name: String) {
-        recipe.name = name
-    }
-
-    /**
-     * Changes the category of the given recipe.
-     *
-     * @param recipe The recipe to modify.
-     * @param category The new category to assign.
-     */
-    fun recategorize(recipe: Recipe, category: String) {
-        recipe.category = category
-    }
-
-    /**
-     * Updates the preparation time for the recipe.
-     *
-     * @param recipe The recipe to modify.
-     * @param length The duration value.
-     * @param unit The time unit (e.g., "minutes", "hours").
-     */
-    fun retime(recipe: Recipe, length: Double, unit: String) {
-        recipe.timeToMake = Duration(length, unit)
-    }
-
-    /**
-     * Assigns a rating to the recipe on a scale from 0 to 5.
-     *
-     * @param recipe The recipe to rate.
-     * @param rating The rating value, must be within the range 0–5.
-     *
-     * @throws IllegalArgumentException If the rating is outside the valid range.
-     */
-    fun rate(recipe: Recipe, rating: Int) {
-        require(rating in 0..5) { "Rating must be between 0 and 5" }
-        recipe.rating = rating
-    }
-
-    /**
-     * Updates the serving information for the recipe.
-     *
-     * @param recipe The recipe to modify.
-     * @param serving The serving description (e.g., "2 people", "4 portions").
-     */
-    fun reserve(recipe: Recipe, serving: String) {
-        recipe.serving = serving
-    }
-
-    /**
-     * Serializes the given recipe into a JSON-formatted string.
-     *
-     * @param recipe The recipe to serialize.
-     * @return A JSON string representing the recipe.
-     */
-    fun save(recipe: Recipe): String {
-        val json = Json.encodeToString(recipe)
-        println(json)
-        return json
-    }
-
     suspend fun saveToDatabase(recipe: Recipe) {
         repository.insertRecipe(recipe.toEntity())
     }
 
+    /**
+     * Returns a [Flow] of all recipes stored in the database as domain models.
+     *
+     * The repository entities are mapped to [Recipe] objects before being emitted.
+     *
+     * @return a [Flow] emitting lists of [Recipe] instances.
+     */
     fun getAllFromDatabase(): Flow<List<Recipe>> {
         return repository.getAllRecipes().map { list ->
             list.map { it.toDomain() }
         }
     }
 
+    /**
+     * Deletes the given [Recipe] from the database based on its `id`.
+     *
+     * @param recipe the [Recipe] whose persisted entry should be removed.
+     */
     suspend fun deleteFromDatabase(recipe: Recipe) {
         repository.deleteRecipeById(recipe.id)
     }

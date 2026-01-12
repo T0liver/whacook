@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import hu.toliver.whacook.domain.usecase.RecepieUseCase
+import hu.toliver.whacook.domain.usecase.RecipeUseCase
 import kotlinx.coroutines.launch
 
 class HomeScreenViewModel (
-    private val recipeUseCase: RecepieUseCase,
+    private val recipeUseCase: RecipeUseCase,
 ) : ScreenModel {
     var state by mutableStateOf(HomeState.getDefaultState())
         private set

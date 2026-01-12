@@ -6,7 +6,7 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import hu.toliver.whacook.domain.model.Duration
 import hu.toliver.whacook.domain.model.Ingredient
 import hu.toliver.whacook.domain.model.Recipe
-import hu.toliver.whacook.domain.usecase.RecepieUseCase
+import hu.toliver.whacook.domain.usecase.RecipeUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class EditScreenViewModel(
     private val recipe: Recipe,
-    private val recipeUseCase: RecepieUseCase
+    private val recipeUseCase: RecipeUseCase
 ) : ScreenModel {
 
     private val _ingredients = mutableStateListOf<Ingredient>().apply {
