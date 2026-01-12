@@ -38,12 +38,19 @@ kotlin {
 
 
     sourceSets {
+        val roomMain by creating {
+            dependsOn(commonMain.get())
+            dependencies {
+                implementation(libs.androidx.room.runtime)
+                implementation(libs.androidx.sqlite.bundled)
+            }
+        }
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.koin.android)
-            implementation(libs.androidx.room.runtime)
-            implementation(libs.androidx.sqlite.bundled)
         }
+        androidMain.get().dependsOn(roomMain)
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -79,9 +86,8 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
             implementation(libs.slf4j.simple)
-            implementation(libs.androidx.room.runtime)
-            implementation(libs.androidx.sqlite.bundled)
         }
+        jvmMain.get().dependsOn(roomMain)
 
         wasmJsMain.dependencies {
             implementation(libs.sqldelight.web.driver)
