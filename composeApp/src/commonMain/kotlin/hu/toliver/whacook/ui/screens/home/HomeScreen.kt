@@ -61,7 +61,7 @@ private fun HomeScreenContent(
                         return@Column
                     }
                 }
-                state.recipes.forEach { recipe ->
+                state.recipes.reversed().forEach { recipe ->
                     RecipeCard(
                         title = recipe.name,
                         time = "${recipe.timeToMake.length.toInt()} ${recipe.timeToMake.unit}",
