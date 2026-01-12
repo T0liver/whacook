@@ -35,9 +35,7 @@ class HomeScreen : Screen {
 
 @Composable
 private fun HomeScreenContent(
-    @Suppress("UNUSED_PARAMETER")
     state: HomeState,
-    @Suppress("UNUSED_PARAMETER")
     viewModel: HomeScreenViewModel
 ) {
     val navigator = LocalNavigator.currentOrThrow
