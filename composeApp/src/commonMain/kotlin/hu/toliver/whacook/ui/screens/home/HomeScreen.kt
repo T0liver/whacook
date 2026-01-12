@@ -3,6 +3,7 @@ package hu.toliver.whacook.ui.screens.home
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +17,10 @@ import hu.toliver.whacook.ui.components.*
 import hu.toliver.whacook.ui.screens.apikey.APIKeyScreen
 import hu.toliver.whacook.ui.screens.newrecipe.NewRecipeScreen
 import hu.toliver.whacook.ui.screens.recipe.RecipeScreen
+import org.jetbrains.compose.resources.painterResource
+import whacook.composeapp.generated.resources.Res
+import whacook.composeapp.generated.resources.sortdown
+import whacook.composeapp.generated.resources.sortup
 
 class HomeScreen : Screen {
     @Composable
@@ -64,17 +69,39 @@ private fun HomeScreenContent(
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
                 BodyTextSmall("Sort recipes by:")
-                BodyTextUnderline(
-                    "Date",
-                    color = if (state.sortType == SortType.DATE) Color.Black else Color(0xFF999999)
+                Row (
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    viewModel.sortList(SortType.DATE)
+                    BodyTextUnderline(
+                        "Date",
+                        color = if (state.sortType == SortType.DATE) Color.Black else Color(0xFF999999)
+                    ) {
+                        viewModel.sortList(SortType.DATE)
+                    }
+                    if (state.sortType == SortType.DATE) {
+                        Icon(
+                            painter = painterResource(if (state.sortOrder == SortOrder.ASCENDING) Res.drawable.sortup else Res.drawable.sortdown),
+                            contentDescription = "Date sort order",
+                            Modifier.size(14.dp)
+                        )
+                    }
                 }
-                BodyTextUnderline(
-                    "Rating",
-                    color = if (state.sortType == SortType.RATING) Color.Black else Color(0xFF999999)
+                Row (
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    viewModel.sortList(SortType.RATING)
+                    BodyTextUnderline(
+                        "Rating",
+                        color = if (state.sortType == SortType.RATING) Color.Black else Color(0xFF999999)
+                    ) {
+                        viewModel.sortList(SortType.RATING)
+                    }
+                    if (state.sortType == SortType.RATING) {
+                        Icon(
+                            painter = painterResource(if (state.sortOrder == SortOrder.ASCENDING) Res.drawable.sortup else Res.drawable.sortdown),
+                            contentDescription = "Rating sort order",
+                            Modifier.size(14.dp)
+                        )
+                    }
                 }
                 BodyTextUnderline(
                     "Favourite",
