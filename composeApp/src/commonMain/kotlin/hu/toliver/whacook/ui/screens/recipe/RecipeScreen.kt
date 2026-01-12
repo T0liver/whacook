@@ -33,18 +33,11 @@ class RecipeScreen(
 ) : Screen {
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
         val viewModel = koinScreenModel<RecipeScreenViewModel> { parametersOf(recipe) }
         val state by viewModel.uiState.collectAsState()
         RecipeScreenContent(
             recipe = state,
-            onRatingChanged = viewModel::onRatingChanged,
-            toggleFavourite = viewModel::toggleFavourite,
-            onDelete = {
-                viewModel.deleteRecipe()
-                navigator.replaceAll(HomeScreen())
-            },
-            onEdit = { navigator.push(EditScreen(state)) }
+            viewModel = viewModel,
         )
     }
 
@@ -53,10 +46,7 @@ class RecipeScreen(
 @Composable
 fun RecipeScreenContent(
     recipe: Recipe,
-    onRatingChanged: (Int) -> Unit,
-    toggleFavourite: () -> Unit,
-    onDelete: () -> Unit,
-    onEdit: () -> Unit
+    viewModel: RecipeScreenViewModel,
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
     val navigator = LocalNavigator.currentOrThrow
@@ -74,6 +64,7 @@ fun RecipeScreenContent(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 BackButton {
+                    viewModel.saveRecipe()
                     navigator.replaceAll(HomeScreen())
                 }
                 Spacer(modifier = Modifier.width(8.dp))
@@ -90,16 +81,16 @@ fun RecipeScreenContent(
                 ) {
                     RatingStars(
                         rating = recipe.rating,
-                        onRatingChanged = onRatingChanged,
+                        onRatingChanged = { viewModel.onRatingChanged(it) },
                         modifier = Modifier.align(Alignment.CenterVertically)
                     )
                     FavouriteButton(
                         isFavourite = recipe.favourite,
-                        onClick = toggleFavourite,
+                        onClick = { viewModel.toggleFavourite() },
                         modifier = Modifier.align(Alignment.CenterVertically)
                     )
                     IconButton(
-                        onClick = onEdit,
+                        onClick = { navigator.push(EditScreen(recipe)) },
                         modifier = Modifier.align(Alignment.CenterVertically)
                     ) {
                         Icon(painterResource(Res.drawable.edit), "edit")
@@ -154,7 +145,8 @@ fun RecipeScreenContent(
                 dismissText = "No",
                 onConfirm = {
                     showDeleteDialog = false
-                    onDelete()
+                    viewModel.deleteRecipe()
+                    navigator.replaceAll(HomeScreen())
                 },
                 onDismiss = { showDeleteDialog = false },
             )

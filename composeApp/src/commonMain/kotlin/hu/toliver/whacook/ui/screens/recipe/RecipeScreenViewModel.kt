@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class RecipeScreenViewModel (
-    recipe: Recipe,
+    val recipe: Recipe,
     private val recipeUseCase: RecepieUseCase
 ) : ScreenModel {
     
@@ -18,19 +18,19 @@ class RecipeScreenViewModel (
     val uiState = _uiState.asStateFlow()
 
     fun onRatingChanged(newRating: Int) {
-        _uiState.update { currentRecipe ->
-            val newRecipe = currentRecipe.copy()
-            recipeUseCase.rate(newRecipe, newRating)
-            newRecipe
-        }
+        _uiState.update { it.copy(rating = newRating) }
     }
     
     fun toggleFavourite() {
-        _uiState.update { currentRecipe ->
-            val newRecipe = currentRecipe.copy()
-            val newFav = !newRecipe.favourite
-            recipeUseCase.refavour(newRecipe, newFav)
-            newRecipe
+        _uiState.update { it.copy(favourite = !it.favourite) }
+    }
+
+    fun saveRecipe() {
+        val state = _uiState.value
+        recipe.rating = state.rating
+        recipe.favourite = state.favourite
+        screenModelScope.launch {
+            recipeUseCase.saveToDatabase(recipe)
         }
     }
 
