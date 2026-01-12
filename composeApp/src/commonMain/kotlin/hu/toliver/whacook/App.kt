@@ -21,7 +21,10 @@ fun App() {
 
     MaterialTheme {
         Navigator(HomeScreen()) { navigator ->
-            Box(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.safeDrawing))
+            {
                 CurrentScreen()
                 Spacer(Modifier.height(100.dp))
 
