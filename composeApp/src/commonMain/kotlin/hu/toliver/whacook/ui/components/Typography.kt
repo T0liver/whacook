@@ -87,12 +87,18 @@ fun BodyTextSmall(
 fun BodyTextUnderline(
     text: String,
     style: TextStyle = MaterialTheme.typography.bodyMedium,
+    fontStyle: FontStyle = FontStyle.Italic,
+    fontSize: TextUnit = 14.sp,
+    color : Color = Color(0xFF999999),
     onClick: () -> Unit = {},
 ){
     Text(
         text = text,
         style = style,
+        fontSize = fontSize,
+        fontStyle = fontStyle,
         textDecoration = TextDecoration.Underline,
+        color = color,
         modifier = Modifier
             .clickable(onClick = onClick)
     )
