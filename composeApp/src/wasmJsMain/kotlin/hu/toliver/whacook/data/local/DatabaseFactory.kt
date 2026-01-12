@@ -5,12 +5,14 @@ import app.cash.sqldelight.driver.worker.WebWorkerDriver
 import hu.toliver.whacook.db.Recipes
 import hu.toliver.whacook.db.WebDatabase
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import org.w3c.dom.Worker
 
 object WebDatabaseFactory {
 
+    @OptIn(DelicateCoroutinesApi::class)
     private val databaseDeferred: Deferred<WebDatabase> = GlobalScope.async {
         // Initialize WebWorkerDriver with the worker script path.
         // Ensure "sqlite.worker.js" is available in your build output (e.g. via copy-webpack-plugin).
