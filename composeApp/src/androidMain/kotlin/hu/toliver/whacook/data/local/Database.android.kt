@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-lateinit var applicationContext: Context
+lateinit var databaseApplicationContext: Context
 
 actual fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
-    val dbFile = applicationContext.getDatabasePath("recipe_database.db")
+    val dbFile = databaseApplicationContext.getDatabasePath("recipe_database.db")
     return Room.databaseBuilder<AppDatabase>(
-        context = applicationContext,
+        context = databaseApplicationContext,
         name = dbFile.absolutePath
     )
 }
