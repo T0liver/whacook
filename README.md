@@ -1,103 +1,93 @@
 # WhaCOOK
 
-*(means What to Cook but -> Wha~~t to~~COOK)*
+![whacook logo](src/whacook.png)
 
-AI based recepie generator based on what you have at home.
+means What to Cook but → *Wha~~t to~~COOK*
+
+## Table of contents
+
+- [WhaCOOK](#whacook)
+  - [Table of contents](#table-of-contents)
+  - [Motivation and background](#motivation-and-background)
+  - [Features](#features)
+  - [Demo video](#demo-video)
+  - [How to run](#how-to-run)
+    - [Prerequisites](#prerequisites)
+    - [Build and Run Android Application](#build-and-run-android-application)
+    - [Build and Run Desktop (JVM) Application](#build-and-run-desktop-jvm-application)
+    - [Build and Run Web Application](#build-and-run-web-application)
+  - [Built using](#built-using)
+  - [Licence](#licence)
 
 ---
 
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM).
+## Motivation and background
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-    - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-    - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-      For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-      the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-      Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-      folder is the appropriate location.
+We've all been there: staring at a fridge full of random ingredients, wondering what to make for dinner. **WhaCOOK** solves this problem by using the power of AI (Google Gemini) to suggest recipes based specifically on the ingredients you already have at home. No more food waste, and no more endless scrolling through recipe sites.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+## Features
+
+- **Ingredient Management**: Add and manage the ingredients you currently have in your kitchen.
+- **AI Recipe Generation**: Generate creative and delicious recipes using Google Gemini AI, tailored to your available ingredients.
+- **Recipe Details**: View detailed instructions, cooking time, and required ingredients.
+- **Rating & Favourie Recipes**: You can rate recipes individaully and mark them as favourite.
+- **Sort and Filter Recipes**: You can sort the recipes by rating and filter them by favourite or rating.
+- **Edit Recipes**: You can edit the generated recipes any time if you found a wrong recipe.
+- **Multiplatform**: Seamlessly runs on Android, Desktop (JVM), and Web (Wasm) with a unified shared codebase.
+- **Local Storage**: Saves your ingredients and preferences locally on your device.
+
+## Demo video
+
+*(Add link to demo video here when available)*
+
+## How to run
+
+### Prerequisites
+
+To use the recipe generation feature, you will need a **Google Gemini API Key**. You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey).
+
+The app will ask for this key at the first time you open the application and you can modify it any time under the Menu / API Key menu point.
 
 ### Build and Run Android Application
 
-Before building the application you have to enter your Gemini API key to the following file in the following way:
+To run the application on an Android device or emulator:
 
-1. Create a new file in `composeApp/src/commonMain/kotlin/hu/toliver/whacook/` named `APIKey.kt`
-2. Paste the following code here:
-
-```kotlin
-p ackage hu.toliver.whacook
-
-class APIKey {
-    operator fun invoke(): String {
-        return "YOUR_API_KEY_HERE"
-    }
-}
+```bash
+./gradlew installDebug
 ```
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+Or run the `androidApp` configuration directly from Android Studio.
 
 ### Build and Run Desktop (JVM) Application
 
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
+To run the application on your desktop:
 
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:run
-  ```
+```bash
+./gradlew :composeApp:run
+```
 
 ### Build and Run Web Application
 
-To build and run the development version of the web app, use the run configuration from the run widget
-in your IDE's toolbar or run it directly from the terminal:
+To run the application in your browser (using WebAssembly):
 
-- for the Wasm target (faster, modern browsers):
-    - on macOS/Linux
-      ```shell
-      ./gradlew :composeApp:wasmJsBrowserDevelopmentRun
-      ```
-    - on Windows
-      ```shell
-      .\gradlew.bat :composeApp:wasmJsBrowserDevelopmentRun
-      ```
-- for the JS target (slower, supports older browsers):
-    - on macOS/Linux
-      ```shell
-      ./gradlew :composeApp:jsBrowserDevelopmentRun
-      ```
-    - on Windows
-      ```shell
-      .\gradlew.bat :composeApp:jsBrowserDevelopmentRun
-      ```
+```bash
+./gradlew :composeApp:wasmJsBrowserDevelopmentRun
+```
 
-### Build and Run iOS Application
+Then open the link shown in the terminal (usually `http://localhost:8080`).
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+## Built using
 
----
+This project is a **Kotlin Multiplatform** application leveraging modern technologies:
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+- **[Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html)**: For sharing logic across Android, Desktop, and Web.
+- **[Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)**: For a unified UI framework.
+- **[Voyager](https://voyager.adriel.cafe/)**: For multiplatform navigation.
+- **[Koin](https://insert-koin.io/)**: For dependency injection.
+- **[Ktor](https://ktor.io/)**: For networking and API calls.
+- **[Room](https://developer.android.com/kotlin/multiplatform/room)** & **[SQLDelight](https://cashapp.github.io/sqldelight/)**: For local data persistence. Room is for Android and JVM targets and SQLDelight for web target as Room does not support web targets.
+- **[Google Gemini API](https://ai.google.dev/)**: For AI-powered recipe generation.
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack
-channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [YouTrack](https://youtrack.jetbrains.com/newIssue?project=CMP).
+## Licence
+
+This project is licensed under the [MIT License](./LICENSE).
