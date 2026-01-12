@@ -30,7 +30,7 @@ We've all been there: staring at a fridge full of random ingredients, wondering 
 - **Ingredient Management**: Add and manage the ingredients you currently have in your kitchen.
 - **AI Recipe Generation**: Generate creative and delicious recipes using Google Gemini AI, tailored to your available ingredients.
 - **Recipe Details**: View detailed instructions, cooking time, and required ingredients.
-- **Rating & Favourie Recipes**: You can rate recipes individaully and mark them as favourite.
+- **Rating & Favourite Recipes**: You can rate recipes individually and mark them as favourite.
 - **Sort and Filter Recipes**: You can sort the recipes by rating and filter them by favourite or rating.
 - **Edit Recipes**: You can edit the generated recipes any time if you found a wrong recipe.
 - **Multiplatform**: Seamlessly runs on Android, Desktop (JVM), and Web (Wasm) with a unified shared codebase.
@@ -46,7 +46,7 @@ We've all been there: staring at a fridge full of random ingredients, wondering 
 
 To use the recipe generation feature, you will need a **Google Gemini API Key**. You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey).
 
-The app will ask for this key at the first time you open the application and you can modify it any time under the Menu / API Key menu point.
+The app will ask for this key at the first time you open the application, and you can modify it any time under the Menu / API Key menu point.
 
 ### Build and Run Android Application
 
