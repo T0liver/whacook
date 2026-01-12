@@ -38,6 +38,9 @@ kotlin {
 
 
     sourceSets {
+        val webMain by creating {
+            dependsOn(commonMain.get())
+        }
         val roomMain by creating {
             dependsOn(commonMain.get())
             dependencies {
@@ -49,6 +52,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.koin.android)
+            implementation(libs.ktor.client.cio)
         }
         androidMain.get().dependsOn(roomMain)
         commonMain.dependencies {
@@ -70,7 +74,6 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.ktor.client.cio)
 
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.screenmodel)
@@ -86,6 +89,7 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
             implementation(libs.slf4j.simple)
+            implementation(libs.ktor.client.cio)
         }
         jvmMain.get().dependsOn(roomMain)
 
@@ -95,6 +99,7 @@ kotlin {
             implementation(npm("@cashapp/sqldelight-sqljs-worker", "2.2.1"))
             implementation(devNpm("copy-webpack-plugin", "9.1.0"))
         }
+        wasmJsMain.get().dependsOn(webMain)
     }
 }
 
@@ -140,10 +145,8 @@ compose.desktop {
 }
 
 sqldelight {
-    databases {
-        create("WebDatabase") {
-            packageName.set("hu.toliver.whacook.db")
-            generateAsync.set(true)
-        }
+    databases.create("WebDatabase") {
+        packageName.set("hu.toliver.whacook.db")
+        generateAsync.set(true)
     }
 }
