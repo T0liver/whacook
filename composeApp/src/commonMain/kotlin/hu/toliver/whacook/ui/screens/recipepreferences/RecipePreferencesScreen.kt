@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import hu.toliver.whacook.ui.components.BackButton
 import hu.toliver.whacook.ui.components.BodyText
 import hu.toliver.whacook.ui.components.Header
@@ -29,8 +31,7 @@ class RecipePreferencesScreen : Screen {
         val viewModel = koinScreenModel<RecipePreferencesScreenViewModel>()
         RecipePreferencesScreenContent(
             state = viewModel.state,
-            onPreferenceChange = viewModel::updatePreference,
-            onSaveClick = viewModel::savePreference,
+            viewModel = viewModel
         )
     }
 
@@ -39,9 +40,9 @@ class RecipePreferencesScreen : Screen {
 @Composable
 private fun RecipePreferencesScreenContent(
     state: RecipePreferencesState,
-    onPreferenceChange: (String) -> Unit,
-    onSaveClick: () -> Unit
+    viewModel: RecipePreferencesScreenViewModel
 ) {
+    val navigator = LocalNavigator.currentOrThrow
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -70,14 +71,17 @@ private fun RecipePreferencesScreenContent(
         TextBox(
             value = state.preference,
             placeholder = "write your preferences here!",
-            onValueChange = onPreferenceChange
+            onValueChange = { viewModel.updatePreference(it) },
         )
 
         Spacer(modifier = Modifier.height(32.dp))
 
         PButton(
             text = "Save",
-            onClick = onSaveClick,
+            onClick = {
+                viewModel.savePreference()
+                navigator.pop()
+            },
             modifier = Modifier.fillMaxWidth(0.5f)
         )
     }

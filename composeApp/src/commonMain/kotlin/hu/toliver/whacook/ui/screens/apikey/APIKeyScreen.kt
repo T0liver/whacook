@@ -7,6 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import hu.toliver.whacook.ui.components.BackButton
 import hu.toliver.whacook.ui.components.BodyText
 import hu.toliver.whacook.ui.components.Header
@@ -19,8 +21,7 @@ class APIKeyScreen : Screen {
         val viewModel = koinScreenModel<APIKeyViewModel>()
         APIKeyScreenContent(
             state = viewModel.state,
-            onApiKeyChange = viewModel::updateApiKey,
-            onSaveClick = viewModel::saveApiKey
+            viewModel = viewModel
         )
     }
 }
@@ -28,9 +29,9 @@ class APIKeyScreen : Screen {
 @Composable
 fun APIKeyScreenContent(
     state: APIKeyState,
-    onApiKeyChange: (String) -> Unit,
-    onSaveClick: () -> Unit
+    viewModel: APIKeyViewModel
 ) {
+    val navigator = LocalNavigator.currentOrThrow
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,14 +58,17 @@ fun APIKeyScreenContent(
         TextBox(
             value = state.apiKey,
             placeholder = "paste API key here!",
-            onValueChange = onApiKeyChange
+            onValueChange = { viewModel.updateApiKey(it) }
         )
 
         Spacer(modifier = Modifier.height(32.dp))
 
         PButton(
             text = "Save",
-            onClick = onSaveClick,
+            onClick = {
+                viewModel.saveApiKey()
+                navigator.pop()
+            },
             modifier = Modifier.fillMaxWidth(0.5f)
         )
     }
